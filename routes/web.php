@@ -8,6 +8,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/login', [LoginController::class, 'index']);
+Route::get('/login', [LoginController::class, 'LoginPage']);
 Route::get('/dashboard', [DashboardController::class, 'index']);
 Route::get('/listitem/{id}/{nama}', [ListItemController::class, 'tampilkan']);
