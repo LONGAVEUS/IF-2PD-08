@@ -3,10 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class DashboardController extends Controller
 {
-    public function index(){
+    // Dashboard utama
+    public function index()
+    {
         return view('dashboard');
+    }
+
+    // Data User (Mahasiswa + Dosen)
+    public function dataUsers()
+    {
+        $users = User::all(); // ambil semua user
+
+        return view('data_users', compact('users'));
     }
 }
