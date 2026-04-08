@@ -10,7 +10,7 @@ class DashboardController extends Controller
     // Dashboard utama
     public function index()
     {
-        return view('dashboard');
+        return view('dashboard_admin');
     }
 
     // Data User (Mahasiswa + Dosen)
