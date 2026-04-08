@@ -20,13 +20,13 @@ class DosenController extends Controller
     public function tampilkan()
     {
         $data = $this->getData();
-        return view('dashboard_dosen', compact('data'));
+        return view('dosen.dashboard_dosen', compact('data'));
     }
 
     public function inputNilai()
     {
         $data = $this->getData();
-        return view('input_nilai', compact('data'));
+        return view('dosen.input_nilai', compact('data'));
     }
     
     public function dataUsers()
@@ -37,6 +37,6 @@ class DosenController extends Controller
         ['id' => 3, 'nama' => 'Natalia Romanoff', 'email' => 'natalia@gmail.com', 'role' => 'Admin'],
     ];
 
-    return view('data_users', compact('data'));
+    return view('dosen.data_users', compact('data'));
 }
 }

@@ -10,7 +10,7 @@ class DashboardController extends Controller
     // Dashboard utama
     public function index()
     {
-        return view('dashboard_admin');
+        return view('admin.dashboard_admin');
     }
 
     // Data User (Mahasiswa + Dosen)
@@ -18,6 +18,6 @@ class DashboardController extends Controller
     {
         $users = User::all(); // ambil semua user
 
-        return view('data_users', compact('users'));
+        return view('dosen.data_users', compact('users'));
     }
 }

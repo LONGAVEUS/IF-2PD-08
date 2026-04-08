@@ -16,11 +16,11 @@ Route::get('/dashboard', [DashboardController::class, 'index']);
 
 // Dosen
 Route::get('/dashboard_dosen', [DosenController::class, 'tampilkan']);
-Route::get('/input-nilai', [DosenController::class, 'inputNilai']);
-Route::post('/input-nilai', [NilaiController::class, 'simpan'])->name('nilai.simpan');
+Route::get('/input_nilai', [DosenController::class, 'inputNilai']);
+Route::post('/input_nilai', [NilaiController::class, 'simpan'])->name('nilai.simpan');
 
 // Data Users
-Route::get('/data-users', [DashboardController::class, 'dataUsers']);
+Route::get('/data_users', [DashboardController::class, 'dataUsers']);
 
 // Admin
 Route::view('/dashboard_admin', 'admin.dashboard');
