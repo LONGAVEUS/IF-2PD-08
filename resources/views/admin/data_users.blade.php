@@ -6,7 +6,6 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <title>Dashboard Akademik</title>
 </head>
-
 <body class="bg-slate-100 min-h-screen p-6">
 
 @php
@@ -30,17 +29,17 @@ $matkul = [
     <!-- CARD -->
     <div class="grid md:grid-cols-3 gap-6">
 
-        <div onclick="showSection('mhs')" 
+        <div onclick="showSection('mhs')"
             class="cursor-pointer bg-blue-100 border border-blue-300 p-6 rounded-xl shadow hover:bg-blue-200 hover:scale-105 transition">
             <h2 class="text-blue-700 font-semibold">Mahasiswa</h2>
         </div>
 
-        <div onclick="showSection('dsn')" 
+        <div onclick="showSection('dsn')"
             class="cursor-pointer bg-emerald-100 border border-emerald-300 p-6 rounded-xl shadow hover:bg-emerald-200 hover:scale-105 transition">
             <h2 class="text-emerald-700 font-semibold">Dosen</h2>
         </div>
 
-        <div onclick="showSection('mk')" 
+        <div onclick="showSection('mk')"
             class="cursor-pointer bg-indigo-100 border border-indigo-300 p-6 rounded-xl shadow hover:bg-indigo-200 hover:scale-105 transition">
             <h2 class="text-indigo-700 font-semibold">Mata Kuliah</h2>
         </div>

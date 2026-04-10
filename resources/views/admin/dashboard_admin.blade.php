@@ -6,6 +6,7 @@
 </head>
 
 <body class="bg-gray-100 p-6">
+     @extends('layouts.admin_layout')
 
 <!-- HEADER -->
 <div class="mb-6">

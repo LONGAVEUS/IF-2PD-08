@@ -18,6 +18,6 @@ class DashboardController extends Controller
     {
         $users = User::all(); // ambil semua user
 
-        return view('dosen.data_users', compact('users'));
+        return view('admin.data_users', compact('users'));
     }
 }
