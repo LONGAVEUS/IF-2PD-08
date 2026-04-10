@@ -27,5 +27,5 @@ Route::post('/input_nilai', [NilaiController::class, 'simpan'])->name('nilai.sim
 Route::get('/data_users', [DashboardController::class, 'dataUsers']);
 
 // Admin
-Route::view('/dashboard_admin', 'admin.dashboard');
+Route::view('/dashboard_admin', 'admin.dashboard_admin');
 Route::view('/admin_krs', 'admin.pengaturan_krs');

@@ -14,29 +14,25 @@
     <p class="text-gray-500">Sistem Pengelolaan KRS & KHS</p>
 </div>
 
-<!-- STATISTIK -->
-<div class="grid grid-cols-4 gap-4 mb-6">
+<div class="bg-gradient-to-r from-blue-500 to-indigo-500 text-white p-6 rounded-xl shadow mb-6">
 
-    <div class="bg-white p-5 rounded-xl shadow">
-        <p class="text-gray-500">Mahasiswa</p>
-        <h2 class="text-3xl font-bold text-blue-600">120</h2>
-    </div>
+    <div class="flex items-center justify-between">
 
-    <div class="bg-white p-5 rounded-xl shadow">
-        <p class="text-gray-500">Dosen</p>
-        <h2 class="text-3xl font-bold text-green-600">20</h2>
-    </div>
+        <!-- TEXT -->
+        <div>
+            <h2 class="text-2xl font-bold mb-2">
+                Halo Admin 👋
+            </h2>
 
-    <div class="bg-white p-5 rounded-xl shadow">
-        <p class="text-gray-500">Mata Kuliah</p>
-        <h2 class="text-3xl font-bold text-purple-600">50</h2>
-    </div>
+            <p class="text-sm text-blue-100">
+                Pantau progres KRS, dosen, dan mata kuliah dalam satu tampilan.
+            </p>
+        </div>
 
-    <div class="bg-white p-5 rounded-xl shadow">
-        <p class="text-gray-500">Status KRS</p>
-        <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm">
-            Aktif
-        </span>
+        <!-- IMAGE -->
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+             class="w-24">
+
     </div>
 
 </div>
