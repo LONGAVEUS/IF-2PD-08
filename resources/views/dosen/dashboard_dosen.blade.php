@@ -29,72 +29,95 @@
                 </span>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div class="rounded-2xl p-6 bg-gradient-to-br from-blue-500 to-blue-600 text-white shadow-lg shadow-blue-500/30">
-                    <p class="text-sm opacity-80">Total Mahasiswa</p>
-                    <p class="text-4xl font-bold mt-2">
-                        {{ count($data) }}
-                    </p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+
+                <div class="bg-white border border-indigo-100 rounded-2xl p-5 shadow-sm">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center mb-3">
+                        <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/>
+                        </svg>
+                    </div>
+                    <p class="text-2xl font-semibold text-gray-900">{{ $jumlahMatkul }}</p>
+                    <p class="text-xs text-gray-500 mt-1">Mata kuliah diampu</p>
+                    <span class="mt-2 inline-block text-xs bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded-full">semester ini</span>
                 </div>
 
-                <div class="rounded-2xl p-6 bg-gradient-to-br from-emerald-500 to-emerald-600 text-white shadow-lg shadow-emerald-500/30">
-                    <p class="text-sm opacity-80">Rata-rata Nilai</p>
-                    <p class="text-4xl font-bold mt-2">
-                        {{ number_format(collect($data)->avg('nilai'), 1) }}
-                    </p>
+                <div class="bg-white border border-blue-100 rounded-2xl p-5 shadow-sm">
+                    <div class="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center mb-3">
+                        <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/>
+                        </svg>
+                    </div>
+                    <p class="text-2xl font-semibold text-gray-900">{{ count($data) }}</p>
+                    <p class="text-xs text-gray-500 mt-1">Total mahasiswa</p>
+                    <span class="mt-2 inline-block text-xs bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full">semua kelas</span>
                 </div>
 
-                <div class="rounded-2xl p-6 bg-gradient-to-br from-violet-500 to-violet-600 text-white shadow-lg shadow-violet-500/30">
-                    <p class="text-sm opacity-80">Mahasiswa Lulus</p>
-                    <p class="text-4xl font-bold mt-2">
-                        {{ collect($data)->where('nilai', '>=', 60)->count() }}
-                        <span class="text-lg opacity-80">
-                            / {{ count($data) }}
-                        </span>
-                    </p>
+                <div class="bg-white border border-green-100 rounded-2xl p-5 shadow-sm">
+                    <div class="w-8 h-8 rounded-lg bg-green-50 flex items-center justify-center mb-3">
+                        <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                        </svg>
+                    </div>
+                    <p class="text-2xl font-semibold text-gray-900">{{ number_format(collect($data)->avg('nilai'), 1) }}</p>
+                    <p class="text-xs text-gray-500 mt-1">Rata-rata nilai</p>
+                    <span class="mt-2 inline-block text-xs bg-green-50 text-green-600 px-2 py-0.5 rounded-full">matkul selesai</span>
                 </div>
+
+                <div class="bg-white border border-red-100 rounded-2xl p-5 shadow-sm">
+                    <div class="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center mb-3">
+                        <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                        </svg>
+                    </div>
+                    <p class="text-2xl font-semibold text-red-600">{{ $nilaiPending }}</p>
+                    <p class="text-xs text-gray-500 mt-1">Nilai belum diinput</p>
+                    <span class="mt-2 inline-block text-xs bg-red-50 text-red-500 px-2 py-0.5 rounded-full">segera selesaikan</span>
+                </div>
+
             </div>
 
-            <div class="overflow-x-auto rounded-2xl border-2 border-indigo-50 bg-white shadow-lg shadow-indigo-500/5">
-                <table class="min-w-full text-sm rounded-xl overflow-hidden text-left">
-                    <thead class="bg-indigo-50/50">
-                        <tr>
-                            <th class="px-5 py-4 text-xs font-semibold tracking-wider uppercase text-indigo-800 border-b-2 border-indigo-100">ID</th>
-                            <th class="px-5 py-4 text-xs font-semibold tracking-wider uppercase text-indigo-800 border-b-2 border-indigo-100">Nama</th>
-                            <th class="px-5 py-4 text-xs font-semibold tracking-wider uppercase text-indigo-800 border-b-2 border-indigo-100">Mata Kuliah</th>
-                            <th class="px-5 py-4 text-xs font-semibold tracking-wider uppercase text-indigo-800 border-b-2 border-indigo-100">Nilai</th>
-                            <th class="px-5 py-4 text-xs font-semibold tracking-wider uppercase text-indigo-800 border-b-2 border-indigo-100">Status</th>
-                        </tr>
-                    </thead>
+            <div class="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden">
+                <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+                    <div>
+                        <p class="text-sm font-semibold text-gray-800">Mata kuliah semester ini</p>
+                        <p class="text-xs text-gray-400 mt-0.5">Genap 2024 · {{ count($mataKuliah) }} mata kuliah</p>
+                    </div>
+                    <a href="/input_nilai"
+   class="text-xs font-semibold bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
+    + Input nilai
+</a>
+                </div>
 
-                    <tbody class="divide-y divide-indigo-50">
-                        @foreach($data as $dataku)
-                        <tr class="hover:bg-indigo-50/30 transition">
-                            <td class="px-5 py-4 align-middle">
-                                <span class="text-xs font-semibold text-white bg-indigo-500 rounded-md px-2.5 py-1 tracking-wide">{{ $dataku['id'] }}</span>
-                            </td>
-                            <td class="px-5 py-4 align-middle font-semibold text-gray-800">{{ $dataku['nama'] }}</td>
-                            <td class="px-5 py-4 align-middle text-gray-600">{{ $dataku['matkul'] }}</td>
-                            <td class="px-5 py-4 align-middle font-bold text-indigo-700">{{ $dataku['nilai'] }}</td>
-                            <td class="px-5 py-4 align-middle">
-                                @if($dataku['nilai'] >= 80)
-                                    <span class="px-3 py-1.5 text-xs font-semibold bg-teal-100 text-teal-700 rounded-full inline-block">
-                                        Lulus
-                                    </span>
-                                @elseif($dataku['nilai'] >= 60)
-                                    <span class="px-3 py-1.5 text-xs font-semibold bg-yellow-100 text-yellow-700 rounded-full inline-block">
-                                        Cukup
-                                    </span>
-                                @else
-                                    <span class="px-3 py-1.5 text-xs font-semibold bg-rose-100 text-rose-700 rounded-full inline-block">
-                                        Tidak Lulus
-                                    </span>
-                                @endif
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                <div class="divide-y divide-gray-50">
+                    @foreach($mataKuliah as $index => $mk)
+                    <div class="flex items-center gap-4 px-6 py-4 {{ !$mk['sudah_input'] ? 'border-l-2 border-red-300' : '' }}">
+
+                        <div class="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-semibold flex-shrink-0
+                            {{ !$mk['sudah_input'] ? 'bg-red-50 text-red-500' : 'bg-indigo-50 text-indigo-600' }}">
+                            {{ $index + 1 }}
+                        </div>
+
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm font-semibold text-gray-800">{{ $mk['nama'] }}</p>
+                            <p class="text-xs text-gray-400 mt-0.5">
+                                {{ $mk['kode'] }} · {{ $mk['kelas'] }} · {{ $mk['jumlah_mahasiswa'] }} mahasiswa · {{ $mk['sks'] }} SKS
+                            </p>
+                        </div>
+
+                        <div class="flex flex-col items-end gap-1.5">
+                            @if($mk['sudah_input'])
+                                <span class="text-xs bg-green-50 text-green-700 px-2.5 py-0.5 rounded-full font-medium">Sudah input</span>
+                                <p class="text-xs font-semibold text-indigo-600">Rata-rata: {{ $mk['rata_rata'] }}</p>
+                            @else
+                                <span class="text-xs bg-yellow-50 text-yellow-700 px-2.5 py-0.5 rounded-full font-medium">Belum input</span>
+                                <p class="text-xs text-red-400">Deadline: {{ $mk['deadline'] }}</p>
+                            @endif
+                        </div>
+
+                    </div>
+                    @endforeach
+                </div>
             </div>
 
         </div>

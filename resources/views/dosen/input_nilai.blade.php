@@ -22,38 +22,41 @@
         </div>
         <div>
             <h1 class="text-2xl font-bold text-indigo-900 tracking-tight">Form Input Nilai Mahasiswa</h1>
-            <p class="text-sm text-gray-500 mt-1">Sistem Informasi Akademik</p>
+            <p class="text-sm text-gray-500 mt-1">Sistem Pengisian KRS dan Hasil Akhir (KHS)</p>
         </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <div class="bg-white border-2 border-indigo-50 rounded-xl p-4 focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/20 transition shadow-sm">
+    <div class="flex flex-wrap gap-3 mb-6">
+        <div class="bg-white border-2 border-indigo-50 rounded-xl p-4 flex-1 min-w-[200px] focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/20 transition shadow-sm">
             <p class="text-xs font-bold tracking-wider uppercase text-indigo-600 mb-2">Mata Kuliah</p>
             <select id="matkul" class="w-full bg-transparent border-none text-gray-900 font-medium text-sm p-0 cursor-pointer focus:ring-0 outline-none" onchange="updateTable()">
-                <option value="IF301">IF301 - Pemrograman Web</option>
+                <option value="IF301">IF301 - Rekayasa Perangkat Lunak</option>
                 <option value="IF302">IF302 - Basis Data</option>
                 <option value="IF303">IF303 - Jaringan Komputer</option>
                 <option value="IF304">IF304 - Algoritma & Pemrograman</option>
             </select>
         </div>
-        <div class="bg-white border-2 border-indigo-50 rounded-xl p-4 focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/20 transition shadow-sm">
+        <div class="bg-white border-2 border-indigo-50 rounded-xl p-4 flex-1 min-w-[130px] focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/20 transition shadow-sm">
             <p class="text-xs font-bold tracking-wider uppercase text-indigo-600 mb-2">Kelas</p>
             <select id="kelas" class="w-full bg-transparent border-none text-gray-900 font-medium text-sm p-0 cursor-pointer focus:ring-0 outline-none">
+                <option value="IF2D Pagi" selected>IF2D Pagi</option>
                 <option value="IF-3A">IF-3A</option>
-                <option value="IF-3B" selected>IF-3B</option>
+                <option value="IF-3B">IF-3B</option>
                 <option value="IF-3C">IF-3C</option>
                 <option value="IF-4A">IF-4A</option>
-                <option value="IF-4B">IF-4B</option>
             </select>
         </div>
-        <div class="bg-white border-2 border-indigo-50 rounded-xl p-4 focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/20 transition shadow-sm">
+        <div class="bg-white border-2 border-indigo-50 rounded-xl p-4 flex-1 min-w-[140px] focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/20 transition shadow-sm">
+            <p class="text-xs font-bold tracking-wider uppercase text-indigo-600 mb-2">Mulai Pengisian</p>
+            <input id="mulai" type="text" value="20 Juli 2025" class="w-full bg-transparent border-none text-gray-900 font-medium text-sm p-0 focus:ring-0 outline-none" />
+        </div>
+        <div class="bg-white border-2 border-indigo-50 rounded-xl p-4 flex-1 min-w-[140px] focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/20 transition shadow-sm">
+            <p class="text-xs font-bold tracking-wider uppercase text-indigo-600 mb-2">Batas Pengisian</p>
+            <input id="batas" type="text" value="30 Juli 2025" class="w-full bg-transparent border-none text-gray-900 font-medium text-sm p-0 focus:ring-0 outline-none" />
+        </div>
+        <div class="bg-white border-2 border-indigo-50 rounded-xl p-4 flex-1 min-w-[150px] focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/20 transition shadow-sm">
             <p class="text-xs font-bold tracking-wider uppercase text-indigo-600 mb-2">Semester</p>
-            <select id="semester" class="w-full bg-transparent border-none text-gray-900 font-medium text-sm p-0 cursor-pointer focus:ring-0 outline-none">
-                <option value="Ganjil 2023">Ganjil 2023</option>
-                <option value="Genap 2024" selected>Genap 2024</option>
-                <option value="Ganjil 2024">Ganjil 2024</option>
-                <option value="Genap 2025">Genap 2025</option>
-            </select>
+            <input id="semester" type="text" value="Genap 2025/2026" class="w-full bg-transparent border-none text-gray-900 font-medium text-sm p-0 focus:ring-0 outline-none" />
         </div>
     </div>
 
@@ -61,15 +64,16 @@
         <table class="w-full text-left border-collapse min-w-max">
             <thead class="bg-indigo-50/50">
                 <tr>
+                    <th class="text-xs font-semibold uppercase tracking-wider text-indigo-800 px-5 py-4 border-b-2 border-indigo-100 w-16">No</th>
                     <th class="text-xs font-semibold uppercase tracking-wider text-indigo-800 px-5 py-4 border-b-2 border-indigo-100">NIM</th>
                     <th class="text-xs font-semibold uppercase tracking-wider text-indigo-800 px-5 py-4 border-b-2 border-indigo-100">Nama Mahasiswa</th>
                     <th class="text-xs font-semibold uppercase tracking-wider text-indigo-800 px-5 py-4 border-b-2 border-indigo-100">Nilai Angka</th>
                     <th class="text-xs font-semibold uppercase tracking-wider text-indigo-800 px-5 py-4 border-b-2 border-indigo-100">Nilai Huruf</th>
-                    <th class="text-xs font-semibold uppercase tracking-wider text-indigo-800 px-5 py-4 border-b-2 border-indigo-100">Status</th>
+                    <th class="text-xs font-semibold uppercase tracking-wider text-indigo-800 px-5 py-4 border-b-2 border-indigo-100">Keterangan</th>
                 </tr>
             </thead>
             <tbody id="tableBody" class="divide-y divide-indigo-50">
-                </tbody>
+            </tbody>
         </table>
     </div>
 
@@ -98,44 +102,39 @@
         return "E";
     }
 
-    function isLulus(h) { return ["A", "B", "C", "D"].includes(h); }
-
     function updateTable() {
         const tbody = document.getElementById("tableBody");
         const saved = {};
 
         tbody.querySelectorAll("tr").forEach(tr => {
-            const inp = tr.querySelector("input");
+            const inp = tr.querySelector("input[type='number']");
             if (inp) saved[tr.dataset.nim] = inp.value;
         });
 
         tbody.innerHTML = "";
 
-        mahasiswa.forEach(m => {
+        mahasiswa.forEach((m, index) => {
             const val = saved[m.nim] || "";
             const huruf = toHuruf(val);
-            const lulus = isLulus(huruf);
             const tr = document.createElement("tr");
 
             tr.dataset.nim = m.nim;
             tr.className = "hover:bg-indigo-50/30 transition";
 
-            const badgeLulusClass = "px-3 py-1.5 text-xs font-semibold bg-teal-100 text-teal-700 rounded-full inline-block";
-            const badgeTidakLulusClass = "px-3 py-1.5 text-xs font-semibold bg-rose-100 text-rose-700 rounded-full inline-block";
-
             tr.innerHTML = `
+                <td class="px-5 py-4 align-middle text-sm text-gray-400 font-medium">${index + 1}</td>
                 <td class="px-5 py-4 align-middle">
-                    <span class="text-xs font-semibold text-white bg-indigo-500 rounded-md px-2.5 py-1 tracking-wide">${m.nim}</span>
+                    <span class="text-sm font-medium text-gray-500">${m.nim}</span>
                 </td>
                 <td class="px-5 py-4 align-middle font-semibold text-gray-800">${m.nama}</td>
                 <td class="px-5 py-4 align-middle">
                     <input type="number" min="0" max="100" value="${val}" placeholder="0-100" oninput="recalc(this, '${m.nim}')" class="w-24 bg-indigo-50 text-gray-900 border-2 border-indigo-100 rounded-lg px-2 py-1.5 text-center text-sm font-medium focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/20 transition" />
                 </td>
                 <td class="px-5 py-4 align-middle">
-                    <span class="text-sm font-bold text-indigo-700 bg-indigo-50 border-2 border-indigo-100 rounded-lg py-1.5 px-3 min-w-[42px] text-center inline-block" id="huruf-${m.nim}">${huruf}</span>
+                    <span class="text-sm font-bold text-indigo-700" id="huruf-${m.nim}">${huruf}</span>
                 </td>
                 <td class="px-5 py-4 align-middle">
-                    <span class="${lulus ? badgeLulusClass : badgeTidakLulusClass}" id="status-${m.nim}">${lulus ? 'Lulus' : 'Tidak Lulus'}</span>
+                    <input type="text" placeholder="Isi keterangan disini" class="w-full bg-indigo-50 text-gray-700 border-2 border-indigo-100 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/20 transition" />
                 </td>
             `;
             tbody.appendChild(tr);
@@ -144,16 +143,7 @@
 
     function recalc(input, nim) {
         const huruf = toHuruf(input.value);
-        const lulus = isLulus(huruf);
-
         document.getElementById("huruf-" + nim).textContent = huruf;
-
-        const s = document.getElementById("status-" + nim);
-        s.textContent = lulus ? "Lulus" : "Tidak Lulus";
-
-        s.className = lulus
-            ? "px-3 py-1.5 text-xs font-semibold bg-teal-100 text-teal-700 rounded-full inline-block"
-            : "px-3 py-1.5 text-xs font-semibold bg-rose-100 text-rose-700 rounded-full inline-block";
     }
 
     function simpan() {
