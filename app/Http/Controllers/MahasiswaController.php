@@ -12,7 +12,6 @@ class MahasiswaController extends Controller
 
     public function dataKrs() {
         return view('mahasiswa.isi_krs');
-
     }
 
     public function LihatKhs() {

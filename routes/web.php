@@ -5,6 +5,7 @@ use App\Http\Controllers\DosenController;
 use App\Http\Controllers\NilaiController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\KrsMahasiswaController;
 use Illuminate\Support\Facades\Route;
 
 // 1. Redirect Utama
@@ -25,7 +26,7 @@ Route::middleware('auth')->group(function () {
 
     // Mahasiswa
     Route::get('/dashboard_mahasiswa', [MahasiswaController::class, 'MahasiswaPage'])->name('dashboard_mahasiswa');
-    Route::get('/isi_krs', [MahasiswaController::class, 'dataKrs'])->name('isi_krs');
+    Route::get('/isi_krs', [KrsMahasiswaController::class, 'isiKrs'])->name('isi_krs');
     Route::get('/lihat_khs', [MahasiswaController::class, 'LihatKhs'])->name('lihat_khs');
 
     // Dosen
@@ -40,5 +41,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin_khs', [DashboardController::class, 'pengaturanKhs'])->name('admin_khs');
 
 });
+
+// rute khusus untuk fitur KRS mahasiswa
+Route::prefix('mahasiswa')->middleware('auth')->group(function () {
+    Route::get('/krs', [KrsMahasiswaController::class, 'isiKrs'])->name('mahasiswa.krs');
+    Route::post('/krs/tambah', [KrsMahasiswaController::class, 'tambahMataKuliah'])->name('mahasiswa.krs.tambah');
+    Route::delete('/krs/{id}/hapus', [KrsMahasiswaController::class, 'hapusMataKuliah'])->name('mahasiswa.krs.hapus');
+    Route::post('/krs/{id}/simpan', [KrsMahasiswaController::class, 'simpanKrs'])->name('mahasiswa.krs.simpan');
+});
+
 
 
