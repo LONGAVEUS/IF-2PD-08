@@ -3,24 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 class DosenController extends Controller
 {
-    public function getData()
-    {
-        $dataNilai = [
+    private function getData() {
+        return [
             ['id' => 1, 'nama' => 'Peter Parker', 'matkul' => 'Pemrograman Web', 'nilai' => 98],
             ['id' => 2, 'nama' => 'Tony Stark', 'matkul' => 'Pemrograman Web', 'nilai' => 95],
             ['id' => 3, 'nama' => 'Natalia Romanoff', 'matkul' => 'Pemrograman Web', 'nilai' => 78],
         ];
-
-        return $dataNilai;
     }
 
-    public function tampilkan()
-    {
-        $data = $this->getData();
+    public function tampilkan() {
+        if (Auth::user()->role !== 'dosen') { abort(403); }
 
+        $data = $this->getData();
         $mataKuliah = [
             [
                 'nama'             => 'Pemrograman Web',
@@ -50,20 +47,9 @@ class DosenController extends Controller
         return view('dosen.dashboard_dosen', compact('data', 'mataKuliah', 'jumlahMatkul', 'nilaiPending'));
     }
 
-    public function inputNilai()
-    {
+    public function inputNilai() {
+        if (Auth::user()->role !== 'dosen') { abort(403); }
         $data = $this->getData();
         return view('dosen.input_nilai', compact('data'));
-    }
-
-    public function dataUsers()
-    {
-        $data = [
-            ['id' => 1, 'nama' => 'Peter Parker', 'email' => 'peter@gmail.com', 'role' => 'Mahasiswa'],
-            ['id' => 2, 'nama' => 'Tony Stark', 'email' => 'tony@gmail.com', 'role' => 'Dosen'],
-            ['id' => 3, 'nama' => 'Natalia Romanoff', 'email' => 'natalia@gmail.com', 'role' => 'Admin'],
-        ];
-
-        return view('dosen.data_users', compact('data'));
     }
 }

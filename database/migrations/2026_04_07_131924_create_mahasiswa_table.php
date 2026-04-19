@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('mahasiswa', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->string('Nim')->unique();
-            $table->string('Nama_Mahasiswa');
-            $table->string('Program_Studi');
+            $table->string('nim')->primary();
+            $table->foreignId('user_id')->unique()->constrained('users')->onDelete('cascade');
+            $table->string('prodi');
+            $table->integer('semester_ke')->default(1); // Tambahkan ini
+            $table->year('angkatan'); // Tambahkan ini
             $table->timestamps();
         });
     }

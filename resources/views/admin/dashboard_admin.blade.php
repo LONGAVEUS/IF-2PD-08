@@ -1,145 +1,81 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Dashboard Admin</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <title>Document</title>
 </head>
+<body>
+    @extends('layouts.admin_layout')
 
-<body class="bg-gray-100 p-6">
-     @extends('layouts.admin_layout')
+@section('title', 'Dashboard Admin')
 
-<!-- HEADER -->
+@section('content')
 <div class="mb-6">
-    <h1 class="text-3xl font-bold">Dashboard Admin</h1>
+    <h1 class="text-3xl font-bold text-gray-800">Dashboard Admin</h1>
     <p class="text-gray-500">Sistem Pengelolaan KRS & KHS</p>
 </div>
 
-<div class="bg-gradient-to-r from-blue-500 to-indigo-500 text-white p-6 rounded-xl shadow mb-6">
-
+<div class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-6 rounded-2xl shadow-lg mb-8">
     <div class="flex items-center justify-between">
-
-        <!-- TEXT -->
         <div>
-            <h2 class="text-2xl font-bold mb-2">
-                Halo Admin 👋
-            </h2>
-
-            <p class="text-sm text-blue-100">
-                Pantau progres KRS, dosen, dan mata kuliah dalam satu tampilan.
-            </p>
+            <h2 class="text-2xl font-bold mb-2">Halo Admin, {{ Auth::user()->name }} 👋</h2>
+            <p class="text-blue-100 text-sm">Pantau progres KRS dan nilai mahasiswa dalam satu tampilan terpusat.</p>
         </div>
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="w-20 hidden md:block">
+    </div>
+</div>
 
-        <!-- IMAGE -->
-        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-             class="w-24">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+        <h3 class="font-bold text-gray-700 mb-4">Status Pengisian KRS</h3>
+        <div class="space-y-3 text-sm">
+            <div class="flex justify-between"><span>Total Mahasiswa</span><span class="font-bold">120</span></div>
+            <div class="flex justify-between text-green-600"><span>Sudah Mengisi</span><span class="font-bold">80</span></div>
+            <div class="flex justify-between text-red-500"><span>Belum Mengisi</span><span class="font-bold">40</span></div>
+        </div>
+    </div>
+
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+        <h3 class="font-bold text-gray-700 mb-4">Aksi Cepat</h3>
+        <div class="grid grid-cols-1 gap-2">
+            <a href="{{ route('admin_krs') }}" class="bg-blue-600 text-white text-center py-2.5 rounded-xl hover:bg-blue-700 transition font-semibold">Pengaturan KRS</a>
+            <a href="{{ route('admin_khs') }}" class="bg-amber-600 text-white text-center py-2.5 rounded-xl hover:bg-amber-700 transition font-semibold">Pengaturan KHS</a>
+        </div>
+    </div>
+
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+        <h3 class="font-bold text-gray-700 mb-4">Periode Akademik</h3>
+        <div class="text-sm text-gray-600 space-y-2">
+            <p>📅 <b>Mulai:</b> 1 September 2026</p>
+            <p>🏁 <b>Berakhir:</b> 10 September 2026</p>
+            <p>📌 <b>Semester:</b> Ganjil 2026/2027</p>
+        </div>
     </div>
 
 </div>
 
-<!-- MAIN GRID -->
-<div class="grid grid-cols-3 gap-6">
-
-    <!-- STATUS KRS -->
-    <div class="bg-white p-5 rounded-xl shadow col-span-1">
-        <h2 class="font-semibold mb-4">Status Pengisian KRS</h2>
-
-        <div class="space-y-2 text-sm text-gray-700">
-            <p>Total Mahasiswa: <b>120</b></p>
-            <p>Sudah Mengisi: <b class="text-green-600">80</b></p>
-            <p>Belum Mengisi: <b class="text-red-600">40</b></p>
+<div class="mt-8 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+    <h3 class="font-bold text-gray-700 mb-6">Ringkasan Sistem</h3>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="bg-blue-50 p-4 rounded-xl text-center">
+            <p class="text-blue-600 font-bold text-2xl">120</p>
+            <p class="text-blue-400 text-xs uppercase font-bold">Mahasiswa</p>
         </div>
-
-        <div class="mt-4 bg-yellow-100 text-yellow-800 p-3 rounded-lg text-sm">
-            ⚠️ 40 mahasiswa belum mengisi KRS
+        <div class="bg-green-50 p-4 rounded-xl text-center">
+            <p class="text-green-600 font-bold text-2xl">20</p>
+            <p class="text-green-400 text-xs uppercase font-bold">Dosen</p>
         </div>
-    </div>
-
-    <!-- QUICK ACTION -->
-    <div class="bg-white p-5 rounded-xl shadow col-span-1">
-        <h2 class="font-semibold mb-4">Quick Action</h2>
-
-        <div class="space-y-2">
-            <a href="/admin/krs"
-               class="block bg-blue-600 text-white text-center py-2 rounded-lg hover:bg-blue-700">
-                Pengaturan KRS
-            </a>
-
-            <a href="/admin/krs"
-               class="block bg-yellow-600 text-white text-center py-2 rounded-lg hover:bg-yellow-700">
-                Pengaturan KHS
-            </a>
-
-            <button class="block w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700">
-                Lihat laporan
-            </button>
+        <div class="bg-amber-50 p-4 rounded-xl text-center">
+            <p class="text-amber-600 font-bold text-2xl">50</p>
+            <p class="text-amber-400 text-xs uppercase font-bold">Mata Kuliah</p>
         </div>
     </div>
-
-    <!-- INFO PERIODE -->
-    <div class="bg-white p-5 rounded-xl shadow col-span-1">
-        <h2 class="font-semibold mb-4">Periode KRS</h2>
-
-        <ul class="text-sm text-gray-600 space-y-1">
-            <li>📅 Mulai: 1 September</li>
-            <li>📅 Berakhir: 10 September</li>
-            <li>📌 Semester: Genap 2024/2025</li>
-        </ul>
-    </div>
-
 </div>
+@endsection
 
-<div class="bg-white p-5 rounded-xl shadow mt-6">
-
-    <h2 class="font-semibold mb-4">Ringkasan Sistem</h2>
-
-    <div class="grid grid-cols-3 gap-4 text-sm">
-
-        <!-- Mahasiswa -->
-        <div class="bg-gray-50 p-4 rounded-lg">
-            <p class="text-gray-500">Mahasiswa</p>
-            <p class="font-bold text-lg">120</p>
-            <p class="text-green-600 text-xs">115 Aktif</p>
-        </div>
-
-        <!-- Dosen -->
-        <div class="bg-gray-50 p-4 rounded-lg">
-            <p class="text-gray-500">Dosen</p>
-            <p class="font-bold text-lg">20</p>
-            <p class="text-gray-600 text-xs">15 Dosen Wali</p>
-        </div>
-
-        <!-- Mata Kuliah -->
-        <div class="bg-gray-50 p-4 rounded-lg">
-            <p class="text-gray-500">Mata Kuliah</p>
-            <p class="font-bold text-lg">50</p>
-            <p class="text-gray-600 text-xs">Total SKS: 120</p>
-        </div>
-
-    </div>
-
-    <!-- KRS Status -->
-    <<div class="grid grid-cols-3 gap-4 mt-4 text-sm">
-
-    <!-- MAHASISWA -->
-    <div class="bg-blue-50 p-4 rounded-lg">
-        <p class="font-medium">Status KRS</p>
-        <p>✔ 80 mahasiswa sudah mengisi</p>
-        <p>⚠️ 40 mahasiswa belum mengisi</p>
-    </div>
-
-    <!-- DOSEN -->
-    <div class="bg-green-50 p-4 rounded-lg">
-        <p class="font-medium">Input Nilai Dosen</p>
-        <p>✔ 40 mata kuliah sudah dinilai</p>
-        <p>⚠️ 10 mata kuliah belum dinilai</p>
-    </div>
-
-    <!-- MATA KULIAH -->
-    <div class="bg-yellow-50 p-4 rounded-lg">
-        <p class="font-medium">Kesiapan Mata Kuliah</p>
-        <p>✔ 45 matkul sudah ada dosen</p>
-        <p>⚠️ 5 matkul belum ada dosen</p>
-    </div>
-
-</div>
+</body>
+</html>

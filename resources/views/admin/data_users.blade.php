@@ -1,12 +1,16 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <title>Dashboard Akademik</title>
+    <title>Document</title>
 </head>
-<body class="bg-slate-100 min-h-screen p-6">
+<body>
+        @extends('layouts.admin_layout')
+
+@section('content')
 
 @php
 $mahasiswa = [
@@ -24,10 +28,9 @@ $matkul = [
 
 <div class="max-w-6xl mx-auto space-y-6">
 
-    <h1 class="text-2xl font-bold">Dashboard Akademik</h1>
+    <h1 class="text-2xl font-bold text-gray-800">Dashboard Akademik</h1>
 
-    <!-- CARD -->
-    <div class="grid md:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
         <div onclick="showSection('mhs')"
             class="cursor-pointer bg-blue-100 border border-blue-300 p-6 rounded-xl shadow hover:bg-blue-200 hover:scale-105 transition">
@@ -46,98 +49,88 @@ $matkul = [
 
     </div>
 
-    <!-- CONTENT -->
-    <div id="content" class="hidden bg-white p-6 rounded-xl shadow">
+    <div id="content" class="hidden bg-white p-6 rounded-xl shadow border border-gray-100">
 
-        <!-- MAHASISWA -->
         <div id="mhs" class="hidden">
             <div class="flex justify-between mb-4">
-                <h2 class="font-semibold">Data Mahasiswa</h2>
-                <button onclick="openModal('mhs')" class="bg-blue-600 text-white px-3 py-1 rounded">
+                <h2 class="font-semibold text-gray-700">Data Mahasiswa</h2>
+                <button onclick="openModal('mhs')" class="bg-blue-600 text-white px-3 py-1 rounded text-sm">
                     + Tambah Akun
                 </button>
             </div>
 
             @foreach($mahasiswa as $m)
-            <div class="flex justify-between border-b py-3">
+            <div class="flex justify-between border-b py-3 last:border-0">
                 <div>
-                    <p class="font-medium">{{ $m->nama }}</p>
+                    <p class="font-medium text-gray-900">{{ $m->nama }}</p>
                     <p class="text-sm text-slate-500">
                         {{ $m->nim }} | {{ $m->email }} | {{ $m->prodi }}
                     </p>
-                    <p class="text-xs text-slate-400">Password: ********</p>
                 </div>
                 <div class="flex gap-3 text-sm">
-                    <button class="text-blue-600">Edit</button>
-                    <button class="text-red-600">Hapus</button>
+                    <button class="text-blue-600 font-medium">Edit</button>
+                    <button class="text-red-600 font-medium">Hapus</button>
                 </div>
             </div>
             @endforeach
         </div>
 
-        <!-- DOSEN -->
         <div id="dsn" class="hidden">
             <div class="flex justify-between mb-4">
-                <h2 class="font-semibold">Data Dosen</h2>
-                <button onclick="openModal('dsn')" class="bg-green-600 text-white px-3 py-1 rounded">
+                <h2 class="font-semibold text-gray-700">Data Dosen</h2>
+                <button onclick="openModal('dsn')" class="bg-green-600 text-white px-3 py-1 rounded text-sm">
                     + Tambah Akun
                 </button>
             </div>
 
             @foreach($dosen as $d)
-            <div class="flex justify-between border-b py-3">
+            <div class="flex justify-between border-b py-3 last:border-0">
                 <div>
-                    <p class="font-medium">{{ $d->nama }}</p>
+                    <p class="font-medium text-gray-900">{{ $d->nama }}</p>
                     <p class="text-sm text-slate-500">
                         {{ $d->nidn }} | {{ $d->email }} | {{ $d->jurusan }}
                     </p>
-                    <p class="text-xs text-slate-400">Password: ********</p>
                 </div>
                 <div class="flex gap-3 text-sm">
-                    <button class="text-blue-600">Edit</button>
-                    <button class="text-red-600">Hapus</button>
+                    <button class="text-blue-600 font-medium">Edit</button>
+                    <button class="text-red-600 font-medium">Hapus</button>
                 </div>
             </div>
             @endforeach
         </div>
 
-        <!-- MATKUL -->
         <div id="mk" class="hidden">
             <div class="flex justify-between mb-4">
-                <h2 class="font-semibold">Data Mata Kuliah</h2>
-                <button onclick="openModal('mk')" class="bg-indigo-600 text-white px-3 py-1 rounded">
+                <h2 class="font-semibold text-gray-700">Data Mata Kuliah</h2>
+                <button onclick="openModal('mk')" class="bg-indigo-600 text-white px-3 py-1 rounded text-sm">
                     + Tambah Data
                 </button>
             </div>
 
             @foreach($matkul as $mk)
-            <div class="flex justify-between border-b py-3">
+            <div class="flex justify-between border-b py-3 last:border-0">
                 <div>
-                    <p class="font-medium">{{ $mk->nama }}</p>
+                    <p class="font-medium text-gray-900">{{ $mk->nama }}</p>
                     <p class="text-sm text-slate-500">
                         {{ $mk->kode }} | {{ $mk->sks }} SKS
                     </p>
                 </div>
                 <div class="flex gap-3 text-sm">
-                    <button class="text-blue-600">Edit</button>
-                    <button class="text-red-600">Hapus</button>
+                    <button class="text-blue-600 font-medium">Edit</button>
+                    <button class="text-red-600 font-medium">Hapus</button>
                 </div>
             </div>
             @endforeach
         </div>
-
     </div>
-
 </div>
 
-<!-- MODAL -->
-<div id="modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-    <div class="bg-white p-6 rounded-xl w-96">
-        <h2 class="font-semibold mb-4">Tambah Data</h2>
-
+{{-- Modal & Script tetap sama sesuai kode aslimu --}}
+<div id="modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[60]">
+    <div class="bg-white p-6 rounded-xl w-96 shadow-2xl">
+        <h2 class="font-semibold mb-4 text-gray-800">Tambah Data</h2>
         <div id="formContent"></div>
-
-        <button onclick="closeModal()" class="mt-4 text-red-600">Tutup</button>
+        <button onclick="closeModal()" class="mt-4 text-sm text-red-600 hover:underline">Tutup</button>
     </div>
 </div>
 
@@ -150,45 +143,13 @@ function showSection(section) {
 
 function openModal(type) {
     let form = '';
-
     if(type === 'mhs'){
-        form = `
-            <input class="border p-2 w-full mb-2" placeholder="Nama">
-            <input class="border p-2 w-full mb-2" placeholder="NIM">
-            <input class="border p-2 w-full mb-2" placeholder="Email">
-            <input class="border p-2 w-full mb-2" placeholder="Prodi">
-
-            <button class="bg-blue-600 text-white w-full py-2 rounded mt-2">
-                Simpan
-            </button>
-        `;
+        form = `<input class="border p-2 w-full mb-2 rounded" placeholder="Nama"><input class="border p-2 w-full mb-2 rounded" placeholder="NIM"><button class="bg-blue-600 text-white w-full py-2 rounded mt-2">Simpan</button>`;
+    } else if(type === 'dsn'){
+        form = `<input class="border p-2 w-full mb-2 rounded" placeholder="Nama"><input class="border p-2 w-full mb-2 rounded" placeholder="NIDN"><button class="bg-green-600 text-white w-full py-2 rounded mt-2">Simpan</button>`;
+    } else if(type === 'mk'){
+        form = `<input class="border p-2 w-full mb-2 rounded" placeholder="Nama Matkul"><input class="border p-2 w-full mb-2 rounded" placeholder="Kode"><button class="bg-indigo-600 text-white w-full py-2 rounded mt-2">Simpan</button>`;
     }
-
-    if(type === 'dsn'){
-        form = `
-            <input class="border p-2 w-full mb-2" placeholder="Nama">
-            <input class="border p-2 w-full mb-2" placeholder="NIDN">
-            <input class="border p-2 w-full mb-2" placeholder="Email">
-            <input class="border p-2 w-full mb-2" placeholder="Jurusan">
-
-            <button class="bg-green-600 text-white w-full py-2 rounded mt-2">
-                Simpan
-            </button>
-        `;
-    }
-
-    if(type === 'mk'){
-        form = `
-            <input class="border p-2 w-full mb-2" placeholder="Nama Matkul">
-            <input class="border p-2 w-full mb-2" placeholder="Kode">
-            <input class="border p-2 w-full mb-2" placeholder="SKS">
-
-            <button class="bg-indigo-600 text-white w-full py-2 rounded mt-2">
-                Simpan
-            </button>
-        `;
-    }
-
     document.getElementById('formContent').innerHTML = form;
     document.getElementById('modal').classList.remove('hidden');
 }
@@ -197,6 +158,8 @@ function closeModal(){
     document.getElementById('modal').classList.add('hidden');
 }
 </script>
+@endsection
+
 
 </body>
 </html>

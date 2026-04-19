@@ -11,7 +11,6 @@
 
 @section('content')
     <div class="max-w-6xl mx-auto">
-
         <div class="bg-white/80 backdrop-blur rounded-3xl shadow-xl border border-indigo-100 p-8">
 
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
@@ -20,7 +19,7 @@
                         Dashboard Dosen
                     </h1>
                     <p class="text-gray-500 mt-1">
-                        Selamat datang di sistem penilaian mahasiswa
+                        Selamat datang, <span class="font-semibold text-indigo-600">{{ Auth::user()->name }}</span>
                     </p>
                 </div>
 
