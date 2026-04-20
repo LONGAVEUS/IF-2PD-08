@@ -16,8 +16,8 @@ class KrsMahasiswaController extends Controller
         $user = Auth::user();
 
         // Ambil KRS aktif milik mahasiswa di semester ini
-        $krs = Krs::where('mahasiswa_id', $user->id)
-                  ->where('semester', $user->semester)
+        $krs = Krs::where('mahasiswa_nim', $user->nim)
+                  ->where('semester_id', $user->semester_id)
                   ->first();
 
         // Mata kuliah yang sudah dipilih di KRS ini
