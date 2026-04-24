@@ -23,9 +23,6 @@
                     </p>
                 </div>
 
-                <span class="inline-flex items-center gap-2 text-sm font-semibold bg-indigo-100 text-indigo-700 px-5 py-2 rounded-full shadow">
-                    📘 Semester Genap 2024
-                </span>
             </div>
 
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
@@ -80,7 +77,7 @@
                 <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
                     <div>
                         <p class="text-sm font-semibold text-gray-800">Mata kuliah semester ini</p>
-                        <p class="text-xs text-gray-400 mt-0.5">Genap 2024 · {{ count($mataKuliah) }} mata kuliah</p>
+                        <p class="text-xs text-gray-400 mt-0.5">Semester 1 · {{ count($mataKuliah) }} mata kuliah</p>
                     </div>
                     <a href="{{ route('input_nilai') }}"
                         class="text-xs font-semibold bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">

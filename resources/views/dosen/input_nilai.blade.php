@@ -31,7 +31,7 @@
             <p class="text-xs font-bold tracking-wider uppercase text-indigo-600 mb-2">Mata Kuliah</p>
             <select id="matkul"
                     class="w-full bg-transparent border-none text-gray-900 font-medium text-sm p-0 cursor-pointer focus:ring-0 outline-none"
-                    onchange="location = this.value;"> {{-- Gunakan redirect saat pilihan berubah --}}
+                    onchange="location = this.value;">
 
                 <option value="">-- Pilih Mata Kuliah --</option>
 
@@ -54,17 +54,18 @@
                 <option value="IF-4A">IF-4A</option>
             </select>
         </div>
-        <div class="bg-white border-2 border-indigo-50 rounded-xl p-4 flex-1 min-w-[140px] focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/20 transition shadow-sm">
-            <p class="text-xs font-bold tracking-wider uppercase text-indigo-600 mb-2">Mulai Pengisian</p>
-            <input id="mulai" type="text" value="20 Juli 2025" class="w-full bg-transparent border-none text-gray-900 font-medium text-sm p-0 focus:ring-0 outline-none" />
-        </div>
-        <div class="bg-white border-2 border-indigo-50 rounded-xl p-4 flex-1 min-w-[140px] focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/20 transition shadow-sm">
-            <p class="text-xs font-bold tracking-wider uppercase text-indigo-600 mb-2">Batas Pengisian</p>
-            <input id="batas" type="text" value="30 Juli 2025" class="w-full bg-transparent border-none text-gray-900 font-medium text-sm p-0 focus:ring-0 outline-none" />
-        </div>
         <div class="bg-white border-2 border-indigo-50 rounded-xl p-4 flex-1 min-w-[150px] focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/20 transition shadow-sm">
             <p class="text-xs font-bold tracking-wider uppercase text-indigo-600 mb-2">Semester</p>
-            <input id="semester" type="text" value="Genap 2025/2026" class="w-full bg-transparent border-none text-gray-900 font-medium text-sm p-0 focus:ring-0 outline-none" />
+            <select id="semester" class="w-full bg-transparent border-none text-gray-900 font-medium text-sm p-0 cursor-pointer focus:ring-0 outline-none">
+                <option value="1">Semester 1</option>
+                <option value="2">Semester 2</option>
+                <option value="3">Semester 3</option>
+                <option value="4">Semester 4</option>
+                <option value="5">Semester 5</option>
+                <option value="6">Semester 6</option>
+                <option value="7">Semester 7</option>
+                <option value="8">Semester 8</option>
+            </select>
         </div>
     </div>
 
@@ -159,7 +160,7 @@
         const matkulText = matkul.options[matkul.selectedIndex].text;
         const kelas = document.getElementById("kelas").value;
         const semester = document.getElementById("semester").value;
-        alert("Nilai berhasil disimpan!\n" + matkulText + " | " + kelas + " | " + semester);
+        alert("Nilai berhasil disimpan!\n" + matkulText + " | " + kelas + " | Semester " + semester);
     }
 
     updateTable();
