@@ -13,15 +13,14 @@ return new class extends Migration
     {
         Schema::create('nilai', function (Blueprint $table) {
             $table->id('id_nilai');
-            $table->foreignId('detail_krs_id')->unique()->constrained('detail_krs', 'id_detail_krs')->onDelete('cascade');
+            $table->unsignedBigInteger('krs_id');
             $table->enum('nilai_huruf', ['A', 'B+', 'B', 'C+', 'C', 'D', 'E'])->nullable();
+            $table->float('bobot')->nullable();
+            $table->foreign('krs_id')->references('id_krs')->on('krs')->onDelete('cascade');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('nilai');

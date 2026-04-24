@@ -4,52 +4,66 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\MataKuliah;
+use App\Models\Krs;
+
 class DosenController extends Controller
 {
-    private function getData() {
-        return [
-            ['id' => 1, 'nama' => 'Peter Parker', 'matkul' => 'Pemrograman Web', 'nilai' => 98],
-            ['id' => 2, 'nama' => 'Tony Stark', 'matkul' => 'Pemrograman Web', 'nilai' => 95],
-            ['id' => 3, 'nama' => 'Natalia Romanoff', 'matkul' => 'Pemrograman Web', 'nilai' => 78],
-        ];
+    public function tampilkan()
+    {
+        $dosen = Auth::user()->dosen;
+
+        if (!$dosen) {
+            return "Data profil dosen tidak ditemukan.";
+        }
+
+        $mataKuliah = MataKuliah::where('dosen_nidn', $dosen->nidn)
+            ->with(['krs.nilai'])
+            ->get()
+            ->map(function($mk) {
+                $totalMhs = $mk->krs->count();
+                $mhsPunyaNilai = $mk->krs->whereNotNull('nilai')->count();
+
+                $mk->sudah_input = ($totalMhs > 0 && $totalMhs === $mhsPunyaNilai);
+                $mk->rata_rata = $mk->krs->avg('nilai.bobot') ?? 0;
+
+                return $mk;
+            });
+
+        $jumlahMatkul = $mataKuliah->count();
+        $nilaiPending = $mataKuliah->where('sudah_input', false)->count();
+
+
+        $totalMahasiswa = $mataKuliah->sum(fn($mk) => $mk->krs->count());
+        $rataRataSemua = $mataKuliah->avg('rata_rata') ?? 0;
+
+
+
+        return view('dosen.dashboard_dosen', compact(
+            'mataKuliah',
+            'jumlahMatkul',
+            'nilaiPending',
+            'totalMahasiswa',
+            'rataRataSemua'
+        ));
     }
 
-    public function tampilkan() {
-        if (Auth::user()->role !== 'dosen') { abort(403); }
+   public function inputNilai($kode_mk = null)
+    {
+        $dosen = Auth::user()->dosen;
 
-        $data = $this->getData();
-        $mataKuliah = [
-            [
-                'nama'             => 'Pemrograman Web',
-                'kode'             => 'IF301',
-                'kelas'            => 'IF-3B',
-                'jumlah_mahasiswa' => 32,
-                'sks'              => 3,
-                'sudah_input'      => true,
-                'rata_rata'        => '86.2',
-                'deadline'         => null,
-            ],
-            [
-                'nama'             => 'Basis Data Lanjut',
-                'kode'             => 'IF302',
-                'kelas'            => 'IF-3A',
-                'jumlah_mahasiswa' => 30,
-                'sks'              => 3,
-                'sudah_input'      => false,
-                'rata_rata'        => null,
-                'deadline'         => '15 Apr',
-            ],
-        ];
+        $daftarMatkul = MataKuliah::where('dosen_nidn', $dosen->nidn)->get();
 
-        $jumlahMatkul = count($mataKuliah);
-        $nilaiPending = collect($mataKuliah)->where('sudah_input', false)->count();
+        $mahasiswaTerdaftar = null;
+        $matkulTerpilih = null;
 
-        return view('dosen.dashboard_dosen', compact('data', 'mataKuliah', 'jumlahMatkul', 'nilaiPending'));
-    }
+        if ($kode_mk) {
+            $mahasiswaTerdaftar = Krs::with(['mahasiswa.user', 'nilai'])
+                ->where('mk_kode', $kode_mk)
+                ->get();
+            $matkulTerpilih = MataKuliah::where('kode_mk', $kode_mk)->first();
+        }
 
-    public function inputNilai() {
-        if (Auth::user()->role !== 'dosen') { abort(403); }
-        $data = $this->getData();
-        return view('dosen.input_nilai', compact('data'));
+        return view('dosen.input_nilai', compact('daftarMatkul', 'mahasiswaTerdaftar', 'matkulTerpilih'));
     }
 }

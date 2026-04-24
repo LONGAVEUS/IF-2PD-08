@@ -47,7 +47,7 @@
                             <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/>
                         </svg>
                     </div>
-                    <p class="text-2xl font-semibold text-gray-900">{{ count($data) }}</p>
+                    <p class="text-2xl font-semibold text-gray-900">{{ $totalMahasiswa }}</p>
                     <p class="text-xs text-gray-500 mt-1">Total mahasiswa</p>
                     <span class="mt-2 inline-block text-xs bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full">semua kelas</span>
                 </div>
@@ -58,7 +58,7 @@
                             <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
                         </svg>
                     </div>
-                    <p class="text-2xl font-semibold text-gray-900">{{ number_format(collect($data)->avg('nilai'), 1) }}</p>
+                    <p class="text-2xl font-semibold text-gray-900">{{ number_format($rataRataSemua, 1) }}</p>
                     <p class="text-xs text-gray-500 mt-1">Rata-rata nilai</p>
                     <span class="mt-2 inline-block text-xs bg-green-50 text-green-600 px-2 py-0.5 rounded-full">matkul selesai</span>
                 </div>
@@ -82,35 +82,42 @@
                         <p class="text-sm font-semibold text-gray-800">Mata kuliah semester ini</p>
                         <p class="text-xs text-gray-400 mt-0.5">Genap 2024 · {{ count($mataKuliah) }} mata kuliah</p>
                     </div>
-                    <a href="/input_nilai"
-   class="text-xs font-semibold bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
-    + Input nilai
-</a>
+                    <a href="{{ route('input_nilai') }}"
+                        class="text-xs font-semibold bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
+                            + Input nilai
+                        </a>
                 </div>
 
                 <div class="divide-y divide-gray-50">
                     @foreach($mataKuliah as $index => $mk)
-                    <div class="flex items-center gap-4 px-6 py-4 {{ !$mk['sudah_input'] ? 'border-l-2 border-red-300' : '' }}">
+                        <div class="flex items-center gap-4 px-6 py-4">
+                            <div class="w-7 h-7 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center text-xs font-semibold">
+                                {{ $index + 1 }}
+                            </div>
 
-                        <div class="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-semibold flex-shrink-0
-                            {{ !$mk['sudah_input'] ? 'bg-red-50 text-red-500' : 'bg-indigo-50 text-indigo-600' }}">
-                            {{ $index + 1 }}
-                        </div>
-
-                        <div class="flex-1 min-w-0">
-                            <p class="text-sm font-semibold text-gray-800">{{ $mk['nama'] }}</p>
-                            <p class="text-xs text-gray-400 mt-0.5">
-                                {{ $mk['kode'] }} · {{ $mk['kelas'] }} · {{ $mk['jumlah_mahasiswa'] }} mahasiswa · {{ $mk['sks'] }} SKS
-                            </p>
-                        </div>
+                            <div class="flex-1 min-w-0">
+                                {{-- Gunakan -> untuk data dari Database --}}
+                                <p class="text-sm font-semibold text-gray-800">{{ $mk->nama_mk }}</p>
+                                <p class="text-xs text-gray-400 mt-0.5">
+                                    {{ $mk->kode_mk }} · {{ $mk->sks }} SKS
+                                </p>
+                            </div>
 
                         <div class="flex flex-col items-end gap-1.5">
-                            @if($mk['sudah_input'])
-                                <span class="text-xs bg-green-50 text-green-700 px-2.5 py-0.5 rounded-full font-medium">Sudah input</span>
-                                <p class="text-xs font-semibold text-indigo-600">Rata-rata: {{ $mk['rata_rata'] }}</p>
+                            @if($mk->sudah_input)
+                                <span class="text-xs bg-green-50 text-green-700 px-2.5 py-0.5 rounded-full font-medium">
+                                    Sudah input
+                                </span>
+                                <p class="text-xs font-semibold text-indigo-600">
+                                    Rata-rata Bobot: {{ number_format($mk->rata_rata, 1) }}
+                                </p>
                             @else
-                                <span class="text-xs bg-yellow-50 text-yellow-700 px-2.5 py-0.5 rounded-full font-medium">Belum input</span>
-                                <p class="text-xs text-red-400">Deadline: {{ $mk['deadline'] }}</p>
+                                <span class="text-xs bg-yellow-50 text-yellow-700 px-2.5 py-0.5 rounded-full font-medium">
+                                    Belum input
+                                </span>
+                                <p class="text-xs text-red-400">
+                                    Deadline: {{ $mk->deadline ?? 'Segera' }}
+                                </p>
                             @endif
                         </div>
 

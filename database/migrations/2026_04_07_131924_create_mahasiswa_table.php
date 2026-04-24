@@ -15,8 +15,7 @@ return new class extends Migration
             $table->string('nim')->primary();
             $table->foreignId('user_id')->unique()->constrained('users')->onDelete('cascade');
             $table->string('prodi');
-            $table->integer('semester_ke')->default(1); // Tambahkan ini
-            $table->year('angkatan'); // Tambahkan ini
+            $table->integer('semester_ke')->default(1); 
             $table->timestamps();
         });
     }

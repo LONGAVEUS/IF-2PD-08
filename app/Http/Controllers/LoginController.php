@@ -30,11 +30,17 @@ class LoginController extends Controller
 
             switch ($user->role) {
                 case 'admin':
-                    return redirect()->intended('/dashboard_admin');
+
+                    return redirect()->intended(route('dashboard_admin'));
+
                 case 'dosen':
-                    return redirect()->intended('/dashboard_dosen');
+
+                    return redirect()->intended(route('dashboard_dosen'));
+
                 case 'mahasiswa':
-                    return redirect()->intended('/dashboard_mahasiswa');
+
+                    return redirect()->intended(route('dashboard_mahasiswa'));
+
                 default:
                     return redirect('/');
             }

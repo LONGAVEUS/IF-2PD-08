@@ -29,11 +29,19 @@
     <div class="flex flex-wrap gap-3 mb-6">
         <div class="bg-white border-2 border-indigo-50 rounded-xl p-4 flex-1 min-w-[200px] focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/20 transition shadow-sm">
             <p class="text-xs font-bold tracking-wider uppercase text-indigo-600 mb-2">Mata Kuliah</p>
-            <select id="matkul" class="w-full bg-transparent border-none text-gray-900 font-medium text-sm p-0 cursor-pointer focus:ring-0 outline-none" onchange="updateTable()">
-                <option value="IF301">IF301 - Rekayasa Perangkat Lunak</option>
-                <option value="IF302">IF302 - Basis Data</option>
-                <option value="IF303">IF303 - Jaringan Komputer</option>
-                <option value="IF304">IF304 - Algoritma & Pemrograman</option>
+            <select id="matkul"
+                    class="w-full bg-transparent border-none text-gray-900 font-medium text-sm p-0 cursor-pointer focus:ring-0 outline-none"
+                    onchange="location = this.value;"> {{-- Gunakan redirect saat pilihan berubah --}}
+
+                <option value="">-- Pilih Mata Kuliah --</option>
+
+                @foreach($daftarMatkul as $mk)
+                    <option value="{{ route('input_nilai', $mk->kode_mk) }}"
+                            {{ (isset($matkulTerpilih) && $matkulTerpilih->kode_mk == $mk->kode_mk) ? 'selected' : '' }}>
+                        {{ $mk->kode_mk }} - {{ $mk->nama_mk }}
+                    </option>
+                @endforeach
+
             </select>
         </div>
         <div class="bg-white border-2 border-indigo-50 rounded-xl p-4 flex-1 min-w-[130px] focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/20 transition shadow-sm">

@@ -8,47 +8,45 @@ use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\KrsMahasiswaController;
 use Illuminate\Support\Facades\Route;
 
-// 1. Redirect Utama
 Route::get('/', function () {
     return redirect('/login');
 });
 
-// 2. Rute Khusus Tamu (Belum Login)
+
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'LoginPage'])->name('login');
     Route::post('/login', [LoginController::class, 'login'])->name('login.post');
 });
 
-// 3. Rute Khusus User (Sudah Login)
+
 Route::middleware('auth')->group(function () {
 
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-    // Mahasiswa
-    Route::get('/dashboard_mahasiswa', [MahasiswaController::class, 'MahasiswaPage'])->name('dashboard_mahasiswa');
-    Route::get('/isi_krs', [KrsMahasiswaController::class, 'isiKrs'])->name('isi_krs');
-    Route::get('/lihat_khs', [MahasiswaController::class, 'LihatKhs'])->name('lihat_khs');
 
-    // Dosen
-    Route::get('/dashboard_dosen', [DosenController::class, 'tampilkan'])->name('dashboard_dosen');
-    Route::get('/input_nilai', [DosenController::class, 'inputNilai'])->name('input_nilai');
-    Route::post('/input_nilai', [NilaiController::class, 'simpan'])->name('nilai.simpan');
+    Route::prefix('mahasiswa')->group(function () {
+        Route::get('/dashboard', [MahasiswaController::class, 'MahasiswaPage'])->name('dashboard_mahasiswa');
+        Route::get('/isi_krs', [KrsMahasiswaController::class, 'isiKrs'])->name('isi_krs');
+        Route::get('/lihat_khs', [MahasiswaController::class, 'LihatKhs'])->name('lihat_khs');
 
-    // Admin
-    Route::get('/dashboard_admin', [DashboardController::class, 'dashboardAdmin'])->name('dashboard_admin');
-    Route::get('/admin_krs', [DashboardController::class, 'pengaturanKrs'])->name('admin_krs');
-    Route::get('/data_users', [DashboardController::class, 'dataUsers'])->name('data_users');
-    Route::get('/admin_khs', [DashboardController::class, 'pengaturanKhs'])->name('admin_khs');
+
+        Route::get('/krs', [KrsMahasiswaController::class, 'isiKrs'])->name('mahasiswa.krs');
+        Route::post('/krs/tambah', [KrsMahasiswaController::class, 'tambahMataKuliah'])->name('mahasiswa.krs.tambah');
+        Route::delete('/krs/{id}/hapus', [KrsMahasiswaController::class, 'hapusMataKuliah'])->name('mahasiswa.krs.hapus');
+        Route::post('/krs/{id}/simpan', [KrsMahasiswaController::class, 'simpanKrs'])->name('mahasiswa.krs.simpan');
+    });
+
+
+    Route::prefix('dosen')->group(function () {
+        Route::get('/dashboard', [DosenController::class, 'tampilkan'])->name('dashboard_dosen');
+        Route::get('/input_nilai/{kode_mk?}', [DosenController::class, 'inputNilai'])->name('input_nilai');
+    });
+
+    Route::prefix('admin')->group(function () {
+        Route::get('/dashboard', [DashboardController::class, 'dashboardAdmin'])->name('dashboard_admin');
+        Route::get('/admin_krs', [DashboardController::class, 'pengaturanKrs'])->name('admin_krs');
+        Route::get('/data_users', [DashboardController::class, 'dataUsers'])->name('data_users');
+        Route::get('/admin_khs', [DashboardController::class, 'pengaturanKhs'])->name('admin_khs');
+    });
 
 });
-
-// rute khusus untuk fitur KRS mahasiswa
-Route::prefix('mahasiswa')->middleware('auth')->group(function () {
-    Route::get('/krs', [KrsMahasiswaController::class, 'isiKrs'])->name('mahasiswa.krs');
-    Route::post('/krs/tambah', [KrsMahasiswaController::class, 'tambahMataKuliah'])->name('mahasiswa.krs.tambah');
-    Route::delete('/krs/{id}/hapus', [KrsMahasiswaController::class, 'hapusMataKuliah'])->name('mahasiswa.krs.hapus');
-    Route::post('/krs/{id}/simpan', [KrsMahasiswaController::class, 'simpanKrs'])->name('mahasiswa.krs.simpan');
-});
-
-
-

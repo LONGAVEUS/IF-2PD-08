@@ -10,18 +10,17 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {
-        Schema::create('krs', function (Blueprint $table) {
-            $table->id('id_krs');
-            $table->string('mahasiswa_nim');
-            $table->foreign('mahasiswa_nim')->references('nim')->on('mahasiswa')->onDelete('cascade');
-            $table->unsignedBigInteger('semester_id');
-            $table->foreign('semester_id')->references('id_semester')->on('semester')->onDelete('cascade');
-
-            $table->timestamps();
-        });
-    }
-
+{
+    Schema::create('krs', function (Blueprint $table) {
+        $table->id('id_krs');
+        $table->string('mahasiswa_nim');
+        $table->string('mk_kode');
+        $table->integer('semester');
+        $table->foreign('mahasiswa_nim')->references('nim')->on('mahasiswa')->onDelete('cascade');
+        $table->foreign('mk_kode')->references('kode_mk')->on('mata_kuliah')->onDelete('cascade');
+        $table->timestamps();
+    });
+}
     /**
      * Reverse the migrations.
      */
