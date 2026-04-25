@@ -6,6 +6,7 @@ use App\Http\Controllers\NilaiController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\KrsMahasiswaController;
+use App\Http\Controllers\KhsMahasiswaController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -27,7 +28,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('mahasiswa')->group(function () {
         Route::get('/dashboard', [MahasiswaController::class, 'MahasiswaPage'])->name('dashboard_mahasiswa');
         Route::get('/isi_krs', [KrsMahasiswaController::class, 'isiKrs'])->name('isi_krs');
-        Route::get('/lihat_khs', [MahasiswaController::class, 'LihatKhs'])->name('lihat_khs');
+        Route::get('/lihat_khs', [KhsMahasiswaController::class, 'index'])->name('lihat_khs');
 
 
         Route::get('/krs', [KrsMahasiswaController::class, 'isiKrs'])->name('mahasiswa.krs');
