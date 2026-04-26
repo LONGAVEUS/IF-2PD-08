@@ -84,52 +84,20 @@
             <tbody class="divide-y divide-indigo-50">
             @foreach($nilai as $i => $n)
             <tr>
-                <td class="px-4 py-2 text-center">{{ $i+1 }}</td>
-                <td class="px-4 py-2">{{ $n->mataKuliah->kode_mk }}</td>
-                <td class="px-4 py-2">{{ $n->mataKuliah->nama_mk }}</td>
-                <td class="px-4 py-2 text-center">{{ $n->sks }}</td>
-                <td class="px-4 py-2 text-center">
-                    <span class="px-2 py-1 rounded 
-                        @if($n->nilai_huruf == 'A') bg-green-200 
-                        @elseif($n->nilai_huruf == 'B') bg-blue-200 
-                        @elseif($n->nilai_huruf == 'C') bg-yellow-200 
-                        @else bg-red-200 @endif">
-                        {{ $n->nilai_huruf }}
-                    </span>
+                <td class="px-5 py-4 align-middle text-sm text-gray-400 font-medium">{{ $i+1 }}</td>
+                <td class="px-5 py-4 align-middle">
+                    <span class="text-sm font-medium text-gray-500">{{ $n->mataKuliah->kode_mk }}</span>
                 </td>
-                <td class="px-4 py-2 text-center">{{ $n->bobot }}</td>
-                <td class="px-4 py-2 text-center">{{ $n->kn }}</td>
+                <td class="px-5 py-4 align-middle font-semibold text-gray-800">{{ $n->mataKuliah->nama_mk }}</td>
+                <td class="px-5 py-4 align-middle font-semibold text-gray-800">{{ $n->sks }}</td>
+                <td class="px-5 py-4 align-middle">
+                    <span class="text-sm font-bold text-indigo-700" id="huruf-${m.nim}">{{ $n->nilai_huruf }}</span>
+                </td>
+                <td class="px-5 py-4 align-middle font-semibold text-gray-800">{{ $n->bobot }}</td>
+                <td class="px-5 py-4 align-middle font-semibold text-gray-800">{{ $n->kn }}</td>
             </tr>
             @endforeach
         </tbody>
-        <script>
-        function highlightNilai() {
-            document.querySelectorAll("tbody tr").forEach(tr => {
-                const huruf = tr.querySelector("td:nth-child(5) span").textContent.trim();
-                if (huruf === "D" || huruf === "E") {
-                    tr.classList.add("bg-red-50");
-                }
-            });
-        }
-
-        function recalcRingkasan() {
-            let totalKN = 0, totalSKS = 0;
-            document.querySelectorAll("tbody tr").forEach(tr => {
-                const sks = parseInt(tr.querySelector("td:nth-child(4)").textContent);
-                const kn = parseFloat(tr.querySelector("td:nth-child(7)").textContent);
-                totalSKS += sks;
-                totalKN += kn;
-            });
-            const ips = (totalKN / totalSKS).toFixed(2);
-            document.getElementById("ipsCard").textContent = ips;
-            document.getElementById("sksCard").textContent = totalSKS;
-            document.getElementById("mutuCard").textContent = totalKN.toFixed(1);
-        }
-
-        // panggil saat halaman load
-        highlightNilai();
-        recalcRingkasan();
-        </script>
         </table>
     </div>
 </div>
