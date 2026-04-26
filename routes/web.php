@@ -7,6 +7,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\KrsMahasiswaController;
 use App\Http\Controllers\KhsMahasiswaController;
+use App\Http\Controllers\PengaturanKrsController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -48,6 +49,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin_krs', [DashboardController::class, 'pengaturanKrs'])->name('admin_krs');
         Route::get('/data_users', [DashboardController::class, 'dataUsers'])->name('data_users');
         Route::get('/admin_khs', [DashboardController::class, 'pengaturanKhs'])->name('admin_khs');
+
+        Route::post('/pengaturan-krs/simpan', [PengaturanKrsController::class, 'saveKonfigurasi'])->name('pengaturan_krs.simpan');
     });
 
 });

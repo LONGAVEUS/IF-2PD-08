@@ -9,84 +9,102 @@
 </head>
 <body>
     @extends('layouts.admin_layout')
-
-@section('title', 'Pengaturan KRS')
-
+    
 @section('content')
-<div class="mb-6">
-    <h1 class="text-3xl font-bold text-gray-800">Pengaturan KRS</h1>
-    <p class="text-gray-500 text-sm">Kelola aturan dan periode pengisian KRS mahasiswa</p>
-</div>
+<div class="max-w-6xl mx-auto">
 
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-    <div class="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-        <h2 class="text-lg font-semibold mb-6 text-gray-700">Form Pengaturan</h2>
-
-        <form class="space-y-5">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Mulai Pengisian</label>
-                    <input type="date" class="w-full border border-gray-300 rounded-xl p-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Batas Pengisian</label>
-                    <input type="date" class="w-full border border-gray-300 rounded-xl p-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
-                </div>
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Semester</label>
-                <input type="text" placeholder="Contoh: Semester Genap 2024/2025" class="w-full border border-gray-300 rounded-xl p-2.5">
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Maksimal SKS</label>
-                    <input type="number" placeholder="24" class="w-full border border-gray-300 rounded-xl p-2.5">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Minimal IPK</label>
-                    <input type="number" step="0.01" placeholder="3.00" class="w-full border border-gray-300 rounded-xl p-2.5">
-                </div>
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Status Sistem</label>
-                <select class="w-full border border-gray-300 rounded-xl p-2.5">
-                    <option>Aktif</option>
-                    <option>Nonaktif</option>
-                </select>
-            </div>
-
-            <div class="pt-4 border-t border-gray-100">
-                <button type="submit" class="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-3 rounded-xl shadow-lg shadow-blue-200 transition">
-                    Simpan Perubahan
-                </button>
-            </div>
-        </form>
-    </div>
-
-    <div class="space-y-6">
-        <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
-            <h2 class="font-bold text-gray-700 mb-3">Status Saat Ini</h2>
-            <span class="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold bg-green-100 text-green-700">
-                ● KRS Aktif
-            </span>
+    {{-- Header --}}
+    <div class="flex items-center gap-4 mb-7">
+        <div class="w-12 h-12 rounded-xl bg-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-500/40 shrink-0">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 11l3 3L22 4"/>
+                <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+            </svg>
         </div>
-
-        <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
-            <h2 class="font-bold text-gray-700 mb-3">Ringkasan Aturan</h2>
-            <ul class="text-sm text-gray-600 space-y-3">
-                <li class="flex items-center gap-2">📌 <b>SKS:</b> Maks 24 SKS</li>
-                <li class="flex items-center gap-2">📌 <b>IPK:</b> Minimal 3.00</li>
-                <li class="flex items-center gap-2">📌 <b>Mulai:</b> 1 September</li>
-            </ul>
+        <div>
+            <h1 class="text-2xl font-bold text-indigo-900 tracking-tight">Pengaturan KRS</h1>
+            <p class="text-sm text-gray-500 mt-1">Sistem Pengisian KRS dan Hasil Akhir (KHS)</p>
         </div>
     </div>
+
+    {{-- Form Card --}}
+    <div class="bg-white border-2 border-indigo-50 rounded-2xl shadow-lg shadow-indigo-500/5 overflow-hidden">
+
+        {{-- Card Header --}}
+        <div class="px-6 py-5 border-b-2 border-indigo-50">
+            <p class="text-base font-semibold text-indigo-900">Konfigurasi Pengisian KRS</p>
+            <p class="text-sm text-gray-400 mt-0.5">Atur semester dan batasan SKS.</p>
+        </div>
+
+        {{-- Card Body --}}
+        <div class="p-6">
+
+            @if(session('success'))
+                <div class="mb-5 flex items-center gap-3 bg-green-50 border border-green-200 text-green-700 text-sm font-medium px-4 py-3 rounded-xl">
+                    <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            <form method="POST" action="{{ route('pengaturan_krs.simpan') }}">
+            @csrf
+
+            <div class="flex gap-6">
+                {{-- Dropdown Semester --}}
+                <div class="flex-1">
+                    <p class="text-xs font-bold tracking-wider uppercase text-indigo-600 mb-2">Pilih Semester:</p>
+                    <div class="bg-white border-2 border-indigo-50 rounded-xl p-4 focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/20 transition shadow-sm max-w-sm">
+                        <select id="semester" name="semester" class="w-full bg-transparent border-none text-gray-900 font-medium text-sm p-0 cursor-pointer focus:ring-0 outline-none">
+                            @for($i = 1; $i <= 8; $i++)
+                                <option value="{{ $i }}" {{ (isset($pengaturan) && $pengaturan->semester == $i) ? 'selected' : ($i == 1 ? 'selected' : '') }}>
+                                    Semester {{ $i }}
+                                </option>
+                            @endfor
+                        </select>
+                    </div>
+                </div>
+
+                {{-- Input Maksimal SKS --}}
+                <div class="flex-1">
+                <p class="text-xs font-bold tracking-wider uppercase text-indigo-600 mb-2">Maksimal SKS:</p>
+                <div class="bg-white border-2 border-indigo-50 rounded-xl p-4 focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/20 transition shadow-sm max-w-sm">
+                    <input type="number"
+                        name="max_sks"
+                        min="1"
+                        max="100"
+                        placeholder="Ketik batas SKS disini..."
+                        value="{{ old('max_sks', $config->max_sks ?? '') }}"
+                        class="w-full bg-transparent border-none text-gray-900 font-medium text-sm p-0 cursor-pointer focus:ring-0 outline-none">
+                </div>
+                </div>
+            </div>
+            {{-- Tombol Simpan --}}
+                <div class="flex justify-end mt-6">
+                    <button onclick="simpan()"
+                        class="bg-indigo-600 text-white rounded-xl px-8 py-3 text-sm font-semibold shadow-lg shadow-indigo-500/30 hover:bg-indigo-700 active:scale-95 transition">
+                        Simpan
+                    </button>
+                </div>
+        </div>
+    </div>
+
 </div>
+
+<script>
+    function simpan() {
+        const semester = document.getElementById('semester').value;
+        const maxSks = document.querySelector('input[name="max_sks"]').value;
+
+        alert(
+            'Pengaturan berhasil disimpan!\n' +
+            'Semester aktif: Semester ' + semester + '\n' +
+            'Maksimal SKS: ' + maxSks
+        );
+    }
+</script>
+
 @endsection
-
-
 </body>
 </html>

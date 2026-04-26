@@ -49,8 +49,8 @@
             @endif
 
             {{-- Dropdown Semester --}}
+            <p class="text-xs font-bold tracking-wider uppercase text-indigo-600 mb-2">Pilih Semester:</p>
             <div class="bg-white border-2 border-indigo-50 rounded-xl p-4 focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/20 transition shadow-sm max-w-sm">
-                <p class="text-xs font-bold tracking-wider uppercase text-indigo-600 mb-2">Tipe Semester</p>
                 <select id="semester" name="semester" class="w-full bg-transparent border-none text-gray-900 font-medium text-sm p-0 cursor-pointer focus:ring-0 outline-none">
                     @for($i = 1; $i <= 8; $i++)
                         <option value="{{ $i }}" {{ (isset($pengaturan) && $pengaturan->semester == $i) ? 'selected' : ($i == 1 ? 'selected' : '') }}>
