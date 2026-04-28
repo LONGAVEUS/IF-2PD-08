@@ -23,7 +23,7 @@ class KhsMahasiswaController extends Controller
 
         $semesters = [1,2]; // contoh dropdown semester
 
-        return view('mahasiswa.lihat_khs', compact(
+        return view('pages.mahasiswa.lihat_khs', compact(
             'user','nilai','semester','semesters',
             'totalSks','totalKn','ips','ipk'
         ));

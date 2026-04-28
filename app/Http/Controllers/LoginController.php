@@ -7,18 +7,17 @@ use Illuminate\Support\Facades\Auth;
 class LoginController extends Controller
 {
     public function LoginPage() {
-        return view('auth.login');
+        return view('pages.auth.login');
     }
 
     public function login(Request $request)
     {
-        // 1. Validasi Input
+        
         $credentials = $request->validate([
             'username' => 'required',
             'password' => 'required',
         ]);
 
-        // 2. Coba Login
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             $user = Auth::user();

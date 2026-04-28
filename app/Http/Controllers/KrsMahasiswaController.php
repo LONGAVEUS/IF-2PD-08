@@ -34,7 +34,7 @@ class KrsMahasiswaController extends Controller
             'ips'              => number_format($mahasiswa->ip_semester ?? 0, 2),
         ];
 
-        return view('mahasiswa.isi_krs', compact('infoKrs', 'mataKuliahTerdaftar', 'mataKuliahTersedia'));
+        return view('pages.mahasiswa.isi_krs', compact('infoKrs', 'mataKuliahTerdaftar', 'mataKuliahTersedia'));
     }
 
     public function tambahMataKuliah(Request $request)

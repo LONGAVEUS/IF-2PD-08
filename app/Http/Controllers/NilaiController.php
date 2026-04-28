@@ -17,7 +17,7 @@ class NilaiController extends Controller
 
         $matkul = MataKuliah::where('kode_mk', $kode_mk)->firstOrFail();
 
-        return view('dosen.input_nilai', compact('dataKrs', 'matkul'));
+        return view('pages.dosen.input_nilai', compact('dataKrs', 'matkul'));
     }
 
     public function simpan(Request $request)

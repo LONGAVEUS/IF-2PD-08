@@ -1,15 +1,3 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Akademik - Mahasiswa</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<title>Dashboard Mahasiswa</title>
-<body>
-
-
 @extends('layouts.mahasiswa_layout')
 
 @section('content')
@@ -113,5 +101,3 @@
 </div>
 @endsection
 
-</body>
-</html>

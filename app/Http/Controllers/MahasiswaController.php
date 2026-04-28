@@ -18,7 +18,7 @@ class MahasiswaController extends Controller
         ->get()
         ->sum(fn($k) => $k->mata_kuliah->sks ?? 0);
 
-    return view('mahasiswa.dashboard_mahasiswa', compact('mahasiswa', 'totalSks'));
+    return view('pages.mahasiswa.dashboard_mahasiswa', compact('mahasiswa', 'totalSks'));
     }
         public function LihatKhs()
     {
@@ -28,6 +28,6 @@ class MahasiswaController extends Controller
             ->where('mahasiswa_nim', $mahasiswa->nim)
             ->get();
 
-        return view('mahasiswa.lihat_khs', compact('mahasiswa', 'khs'));
+        return view('pages.mahasiswa.lihat_khs', compact('mahasiswa', 'khs'));
     }
 }

@@ -91,7 +91,7 @@
                 <td class="px-5 py-4 align-middle font-semibold text-gray-800">{{ $n->mataKuliah->nama_mk }}</td>
                 <td class="px-5 py-4 align-middle font-semibold text-gray-800">{{ $n->sks }}</td>
                 <td class="px-5 py-4 align-middle">
-                    <span class="text-sm font-bold text-indigo-700" id="huruf-${m.nim}">{{ $n->nilai_huruf }}</span>
+                    <span class="text-sm font-bold text-indigo-700" id="huruf-{{ $user->mahasiswa->nim }}">{{ $n->nilai_huruf }}</span>
                 </td>
                 <td class="px-5 py-4 align-middle font-semibold text-gray-800">{{ $n->bobot }}</td>
                 <td class="px-5 py-4 align-middle font-semibold text-gray-800">{{ $n->kn }}</td>

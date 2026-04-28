@@ -12,7 +12,7 @@ class PengaturanKrsController extends Controller
             'max_sks' => 'required|integer|min:1|max:100',
         ]);
 
-        // sementara simpan di session (frontend demo)
+        
         session([
             'semester' => $request->semester,
             'max_sks' => $request->max_sks,

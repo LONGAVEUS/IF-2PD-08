@@ -1,12 +1,3 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Form Input Nilai Mahasiswa</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body>
 @extends('layouts.dosen_layout')
 
 @section('content')
@@ -167,5 +158,3 @@
 </script>
 @endsection
 
-</body>
-</html>

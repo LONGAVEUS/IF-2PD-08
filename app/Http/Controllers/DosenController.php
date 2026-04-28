@@ -39,7 +39,7 @@ class DosenController extends Controller
 
 
 
-        return view('dosen.dashboard_dosen', compact(
+        return view('pages.dosen.dashboard_dosen', compact(
             'mataKuliah',
             'jumlahMatkul',
             'nilaiPending',
@@ -64,6 +64,6 @@ class DosenController extends Controller
             $matkulTerpilih = MataKuliah::where('kode_mk', $kode_mk)->first();
         }
 
-        return view('dosen.input_nilai', compact('daftarMatkul', 'mahasiswaTerdaftar', 'matkulTerpilih'));
+        return view('pages.dosen.input_nilai', compact('daftarMatkul', 'mahasiswaTerdaftar', 'matkulTerpilih'));
     }
 }

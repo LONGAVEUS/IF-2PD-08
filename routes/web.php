@@ -32,7 +32,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/lihat_khs', [KhsMahasiswaController::class, 'index'])->name('lihat_khs');
 
 
-        Route::get('/krs', [KrsMahasiswaController::class, 'isiKrs'])->name('mahasiswa.krs');
         Route::post('/krs/tambah', [KrsMahasiswaController::class, 'tambahMataKuliah'])->name('mahasiswa.krs.tambah');
         Route::delete('/krs/{id}/hapus', [KrsMahasiswaController::class, 'hapusMataKuliah'])->name('mahasiswa.krs.hapus');
         Route::post('/krs/{id}/simpan', [KrsMahasiswaController::class, 'simpanKrs'])->name('mahasiswa.krs.simpan');
