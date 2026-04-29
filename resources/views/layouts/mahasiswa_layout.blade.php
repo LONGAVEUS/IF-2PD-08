@@ -10,8 +10,13 @@
     <x-navbar title="Portal Mahasiswa" />
     <x-sidebar-mahasiswa />
 
-    <div class="p-4 sm:ml-64 mt-14">
-        @yield('content')
+    <div class="p-4 sm:ml-64 mt-14 min-h-screen flex flex-col">
+
+        <div class="flex-grow">
+            @yield('content')
+        </div>
+
+        <x-footer />
     </div>
 </body>
 </html>
