@@ -1,7 +1,7 @@
 @extends('layouts.dosen_layout')
 
 @section('content')
-<div class="max-w-6xl mx-auto">
+<div class="max-w-6xl mx-auto pb-8">
 
     <div class="flex items-center gap-4 mb-7">
         <div class="w-12 h-12 rounded-xl bg-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-500/40 shrink-0">
@@ -23,26 +23,13 @@
             <select id="matkul"
                     class="w-full bg-transparent border-none text-gray-900 font-medium text-sm p-0 cursor-pointer focus:ring-0 outline-none"
                     onchange="location = this.value;">
-
                 <option value="">-- Pilih Mata Kuliah --</option>
-
                 @foreach($daftarMatkul as $mk)
                     <option value="{{ route('input_nilai', $mk->kode_mk) }}"
                             {{ (isset($matkulTerpilih) && $matkulTerpilih->kode_mk == $mk->kode_mk) ? 'selected' : '' }}>
                         {{ $mk->kode_mk }} - {{ $mk->nama_mk }}
                     </option>
                 @endforeach
-
-            </select>
-        </div>
-        <div class="bg-white border-2 border-indigo-50 rounded-xl p-4 flex-1 min-w-[130px] focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/20 transition shadow-sm">
-            <p class="text-xs font-bold tracking-wider uppercase text-indigo-600 mb-2">Kelas</p>
-            <select id="kelas" class="w-full bg-transparent border-none text-gray-900 font-medium text-sm p-0 cursor-pointer focus:ring-0 outline-none">
-                <option value="IF2D Pagi" selected>IF2D Pagi</option>
-                <option value="IF-3A">IF-3A</option>
-                <option value="IF-3B">IF-3B</option>
-                <option value="IF-3C">IF-3C</option>
-                <option value="IF-4A">IF-4A</option>
             </select>
         </div>
         <div class="bg-white border-2 border-indigo-50 rounded-xl p-4 flex-1 min-w-[150px] focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/20 transition shadow-sm">
@@ -149,12 +136,10 @@
     function simpan() {
         const matkul = document.getElementById("matkul");
         const matkulText = matkul.options[matkul.selectedIndex].text;
-        const kelas = document.getElementById("kelas").value;
         const semester = document.getElementById("semester").value;
-        alert("Nilai berhasil disimpan!\n" + matkulText + " | " + kelas + " | Semester " + semester);
+        alert("Nilai berhasil disimpan!\n" + matkulText + " | Semester " + semester);
     }
 
     updateTable();
 </script>
 @endsection
-

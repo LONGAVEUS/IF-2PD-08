@@ -1,8 +1,7 @@
-
-   @extends('layouts.dosen_layout')
+@extends('layouts.dosen_layout')
 
 @section('content')
-    <div class="max-w-6xl mx-auto">
+    <div class="max-w-6xl mx-auto pb-8">
         <div class="bg-white/80 backdrop-blur rounded-3xl shadow-xl border border-indigo-100 p-8">
 
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
@@ -14,7 +13,6 @@
                         Selamat datang, <span class="font-semibold text-indigo-600">{{ Auth::user()->name }}</span>
                     </p>
                 </div>
-
             </div>
 
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
@@ -85,32 +83,24 @@
                             </div>
 
                             <div class="flex-1 min-w-0">
-                                {{-- Gunakan -> untuk data dari Database --}}
                                 <p class="text-sm font-semibold text-gray-800">{{ $mk->nama_mk }}</p>
                                 <p class="text-xs text-gray-400 mt-0.5">
                                     {{ $mk->kode_mk }} · {{ $mk->sks }} SKS
                                 </p>
                             </div>
 
-                        <div class="flex flex-col items-end gap-1.5">
-                            @if($mk->sudah_input)
-                                <span class="text-xs bg-green-50 text-green-700 px-2.5 py-0.5 rounded-full font-medium">
-                                    Sudah input
-                                </span>
-                                <p class="text-xs font-semibold text-indigo-600">
-                                    Rata-rata Bobot: {{ number_format($mk->rata_rata, 1) }}
-                                </p>
-                            @else
-                                <span class="text-xs bg-yellow-50 text-yellow-700 px-2.5 py-0.5 rounded-full font-medium">
-                                    Belum input
-                                </span>
-                                <p class="text-xs text-red-400">
-                                    Deadline: {{ $mk->deadline ?? 'Segera' }}
-                                </p>
-                            @endif
-                        </div>
+                            <div class="flex flex-col items-end gap-1.5">
+                                @if($mk->sudah_input)
+                                    <span class="text-xs bg-green-50 text-green-700 px-2.5 py-0.5 rounded-full font-medium">
+                                        Sudah input
+                                    </span>
+                                    <p class="text-xs font-semibold text-indigo-600">
+                                        Rata-rata Bobot: {{ number_format($mk->rata_rata, 1) }}
+                                    </p>
+                                @endif
+                            </div>
 
-                    </div>
+                        </div>
                     @endforeach
                 </div>
             </div>
@@ -118,6 +108,3 @@
         </div>
     </div>
 @endsection
-
-</body>
-</html>
