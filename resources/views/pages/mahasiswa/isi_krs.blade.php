@@ -59,44 +59,49 @@
                 Pilih Mata Kuliah
             </button>
         </div>
-
-        <div class="overflow-x-auto">
-            <table class="w-full text-sm">
-                <thead>
-                    <tr class="bg-slate-800 text-white">
-                        <th class="px-5 py-3.5 text-left text-xs uppercase tracking-wider w-12">NO</th>
-                        <th class="px-5 py-3.5 text-left text-xs uppercase tracking-wider">Kode</th>
-                        <th class="px-5 py-3.5 text-left text-xs uppercase tracking-wider">Nama Mata Kuliah</th>
-                        <th class="px-5 py-3.5 text-center text-xs uppercase tracking-wider w-16">SKS</th>
-                        <th class="px-5 py-3.5 text-left text-xs uppercase tracking-wider">Dosen</th>
-                        <th class="px-5 py-3.5 text-center text-xs uppercase tracking-wider w-24">Aksi</th>
+        
+        <!-- Tabel Daftar Nilai -->
+        <div class="bg-white border-2 border-indigo-50 rounded-2xl shadow-sm overflow-hidden overflow-x-auto">
+            <table class="w-full text-left min-w-[800px]">
+                <thead class="bg-indigo-50/50">
+                    <tr class="text-[11px] font-bold uppercase text-indigo-800 tracking-wider">
+                        <th class="px-6 py-5">NO</th>
+                        <th class="px-6 py-5">Kode MK</th>
+                        <th class="px-6 py-5">Nama Mata Kuliah</th>
+                        <th class="px-6 py-5">SKS</th>
+                        <th class="px-6 py-5">Dosen</th>
+                        <th class="px-6 py-5 text-center">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-50">
-                    @forelse($mataKuliahTerdaftar as $index => $item)
-                    <tr class="hover:bg-slate-50/70 transition-colors">
-                        <td class="px-5 py-4 text-slate-500 font-medium">{{ $index + 1 }}</td>
-                        <td class="px-5 py-4">
-                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-lg text-xs font-bold bg-indigo-50 text-indigo-600">
-                                {{ $item->mk_kode }}
-                            </span>
-                        </td>
-                        <td class="px-5 py-4 font-semibold text-slate-800">{{ $item->mata_kuliah->nama_mk }}</td>
-                        <td class="px-5 py-4 text-center font-bold">{{ $item->mata_kuliah->sks }}</td>
-                        <td class="px-5 py-4 text-slate-600">{{ $item->mata_kuliah->dosen->user->name ?? '-' }}</td>
-                        <td class="px-5 py-4 text-center">
-                            <form action="{{ route('mahasiswa.krs.hapus', $item->id_krs) }}" method="POST" onsubmit="return confirm('Hapus dari KRS?')">
-                                @csrf @method('DELETE')
-                                <button type="submit" class="text-red-500 bg-red-50 px-3 py-1.5 rounded-lg border border-red-100 hover:bg-red-100">Hapus</button>
-                            </form>
+                <tbody class="divide-y divide-indigo-50 text-sm">
+                    @foreach($mataKuliahTerdaftar as $index => $item)
+                    <tr class="hover:bg-indigo-50/30 transition-colors">
+                        <td class="px-6 py-4 text-gray-400">{{ $index + 1 }}</td>
+                        <td class="px-6 py-4 font-bold text-gray-700">{{ $item->mk_kode }}</td>
+                        <td class="px-6 py-4 font-semibold text-gray-800">{{ $item->mata_kuliah->nama_mk }}</td>
+                        <td class="px-6 py-4 text-gray-500">{{ $item->mata_kuliah->sks }}</td>
+                        <td class="px-6 py-4 text-gray-500">{{ $item->mata_kuliah->dosen->user->name ?? '-' }}</td>
+                        
+                        <td class="px-6 py-4">
+                            <div class="flex items-center justify-center gap-2">
+                                <form action="{{ route('mahasiswa.destroy', $item->id) }}" method="POST"
+                                    onsubmit="return confirm('Apakah Anda yakin ingin menghapus mata kuliah ini {{ $item->mata_kuliah->nama_mk }}? Semua data akademik terkait juga akan terhapus.')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                        class="w-9 h-9 rounded-xl bg-red-50 text-red-600 flex items-center justify-center hover:bg-red-600 hover:text-white transition-all shadow-sm">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                            <path d="M19 7l-.867 12.142A2 2 0 0 1 16.138 21H7.862a2 2 0 0 1-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v3M4 7h16" />
+                                        </svg>
+                                    </button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
-                    @empty
-                    <tr><td colspan="6" class="px-5 py-16 text-center text-slate-400">Belum ada mata kuliah terdaftar.</td></tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
+
+                @endforeach
+            </tbody>
+        </table>
     </div>
 </div>
 

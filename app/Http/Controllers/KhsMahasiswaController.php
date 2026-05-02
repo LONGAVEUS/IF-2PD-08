@@ -30,7 +30,7 @@ class KhsMahasiswaController extends Controller
         ));
     }
 
-    private function getData($semester)
+    private function getData($selectedSemester)
 {
     return [
         (object)[
