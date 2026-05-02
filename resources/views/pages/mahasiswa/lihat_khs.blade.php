@@ -67,6 +67,15 @@
 
 </div>
 
+<!-- Judul tabel dan dropdown semester-->
+<div class="flex items-center gap-4">
+    <p class="text-base font-semibold text-indigo-900">
+        Daftar Nilai Mata Kuliah
+    </p>
+    <x-semester-filter :selectedSemester="$selectedSemester" />
+</div>
+
+
 <!-- Tabel Daftar Nilai -->
     <div class="bg-white border-2 border-indigo-50 rounded-2xl overflow-hidden shadow-lg shadow-indigo-500/5 overflow-x-auto">
         <table class="w-full text-left border-collapse min-w-max">

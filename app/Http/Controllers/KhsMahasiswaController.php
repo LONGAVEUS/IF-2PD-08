@@ -10,10 +10,13 @@ class KhsMahasiswaController extends Controller
      public function index()
     {
         $user = Auth::user();
-        $semester = request('semester', 1);
+
+        // daftar semester statis/dummy
+        $semesters = [1,2,3,4,5,6,7,8];
+        $selectedSemester = 1; // default semester
 
         // Dummy data manual
-        $nilai = $this->getData($semester);
+        $nilai = $this->getData($selectedSemester);
 
         // Hitung ringkasan
         $totalSks = collect($nilai)->sum('sks');
@@ -21,10 +24,8 @@ class KhsMahasiswaController extends Controller
         $ips      = $totalSks > 0 ? round($totalKn / $totalSks, 2) : 0;
         $ipk      = $ips; // untuk demo, samakan dulu
 
-        $semesters = [1,2]; // contoh dropdown semester
-
         return view('pages.mahasiswa.lihat_khs', compact(
-            'user','nilai','semester','semesters',
+            'user','nilai','selectedSemester','semesters',
             'totalSks','totalKn','ips','ipk'
         ));
     }
