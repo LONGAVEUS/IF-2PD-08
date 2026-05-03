@@ -14,7 +14,7 @@
             </div>
             <div>
                 <h1 class="text-2xl font-extrabold text-indigo-900 tracking-tight">Kartu Rencana Studi (KRS)</h1>
-                <p class="text-slate-400 text-sm mt-0.5">NIM: {{ $infoKrs['nim'] }} - {{ Auth::user()->name }}</p>
+                <p class="text-slate-400 text-sm mt-0.5">NIM: {{ $infoKrs['nim'] }} | Nama: {{ Auth::user()->name }}</p>
             </div>
         </div>
     </div>
@@ -26,7 +26,7 @@
         <p class="text-xl md:text-4xl font-extrabold text-slate-800">{{ $infoKrs['semester_aktif'] }}</p>
     </div>
 
-    {{-- Kartu IPK/IPS --}}
+    {{-- KARTU IPK/IPS --}}
     <div class="bg-white border-2 border-indigo-50 rounded-2xl p-4 md:p-6 shadow-sm">
         <p class="text-[10px] md:text-sm font-medium text-slate-500">IPK/IPS (lalu):</p>
         <p class="text-xl md:text-4xl font-extrabold text-slate-800">
@@ -35,7 +35,6 @@
     </div>
 </div>
 
-<div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden animate-[fadeUp_0.42s_0.14s_ease_both]">
     {{-- Header Tabel --}}
     <div class="flex flex-col sm:flex-row sm:items-center justify-between px-5 py-5 border-b border-slate-100 gap-4">
         <div>
@@ -53,8 +52,9 @@
         </button>
     </div>
 
-    {{-- Tabel  KHS --}}
+    {{-- Tabel  KRS --}}
     <div class="overflow-x-auto">
+        <div class="bg-white border-2 border-indigo-50 rounded-2xl overflow-hidden shadow-lg shadow-indigo-500/5 overflow-x-auto">
         <table class="w-full text-left min-w-[800px] border-collapse">
             <thead class="bg-indigo-50/50">
                 <tr>
@@ -70,10 +70,10 @@
                 @foreach($mataKuliahTerdaftar as $index => $item)
                 <tr class="hover:bg-indigo-50/30 transition-colors">
                     <td class="px-5 py-4 align-middle text-gray-400 font-medium">{{ $index + 1 }}</td>
-                    <td class="px-5 py-4 align-middle font-bold text-gray-700">{{ $item->mk_kode }}</td>
+                    <td class="px-5 py-4 align-middle font-semibold text-gray-500">{{ $item->mk_kode }}</td>
                     <td class="px-5 py-4 align-middle font-semibold text-gray-800">{{ $item->mata_kuliah->nama_mk }}</td>
-                    <td class="px-5 py-4 align-middle text-gray-500">{{ $item->mata_kuliah->sks }}</td>
-                    <td class="px-5 py-4 align-middle text-gray-500">{{ $item->mata_kuliah->dosen->user->name ?? '-' }}</td>
+                    <td class="px-5 py-4 align-middle font-bold text-gray-700">{{ $item->mata_kuliah->sks }}</td>
+                    <td class="px-5 py-4 align-middle font-semibold text-gray-800">{{ $item->mata_kuliah->dosen->user->name ?? '-' }}</td>
                     <td class="px-5 py-4 align-middle text-center">
                         <form action="{{ route('mahasiswa.destroy', $item->id_krs) }}" method="POST" onsubmit="return confirm('Hapus?')">
                             @csrf @method('DELETE')
@@ -86,6 +86,7 @@
                 @endforeach
             </tbody>
         </table>
+        </div>
     </div>
 </div>
 
@@ -95,8 +96,6 @@
             Simpan
         </button>
     </div>
-</div>
-
 
 {{-- MODAL TAMBAH MATA KULIAH --}}
 <div id="modalPilihMK" tabindex="-1" aria-hidden="true" class="hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -112,7 +111,7 @@
                     <div>
                         <p class="text-xs text-slate-500">{{ $mk->kode_mk }}</p>
                         <p class="font-bold text-slate-800">{{ $mk->nama_mk }}</p>
-                        <p class="text-xs text-slate-500">{{ $mk->sks }} SKS • {{ $mk->dosen->user->name ?? '-' }}  SKS</p>
+                        <p class="text-xs text-slate-500">{{ $mk->sks }} SKS • {{ $mk->dosen->user->name ?? '-' }}</p>
                     </div>
                     <form action="{{ route('mahasiswa.krs.tambah') }}" method="POST">
                         @csrf

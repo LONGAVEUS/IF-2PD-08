@@ -2,7 +2,7 @@
 
 @section('content')
 
-{{-- ══ PAGE HEADER ══ --}}
+{{-- PAGE HEADER --}}
     <div class="bg-white rounded-2xl border border-slate-100 shadow-sm px-7 py-6 flex flex-col md:flex-row md:items-center md:justify-between gap-3 animate-[fadeUp_0.42s_ease_both]">
         <div class="flex items-center gap-4">
             <div class="w-12 h-12 rounded-2xl bg-indigo-50 flex items-center justify-center shrink-0">
@@ -18,7 +18,7 @@
         </div>
     </div>
 
-<!-- Ringkasan IPS/IPK/Total SKS/Nilai Mutu -->
+{{-- RINGKASAN IPS/IPK/Total SKS/Nilai Mutu --}}
 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
 
     <div class="bg-white border border-indigo-100 rounded-2xl p-5 shadow-sm mt-6">
@@ -46,7 +46,7 @@
     </div>
 </div>
 
-<!-- Judul tabel dan dropdown semester-->
+{{-- JUDUL TABEL & DROPDOWN SEMESTER --}}
 <div class="flex flex-col sm:flex-row sm:items-center gap-4 mb-4">
     <p class="text-base font-semibold text-indigo-900">
         Daftar Nilai Mata Kuliah
@@ -57,7 +57,7 @@
 </div>
 
 
-<!-- Tabel Daftar Nilai -->
+{{-- TABEL DAFTAR NILAI --}}
     <div class="bg-white border-2 border-indigo-50 rounded-2xl overflow-hidden shadow-lg shadow-indigo-500/5 overflow-x-auto">
         <table class="w-full text-left border-collapse min-w-max">
             <thead class="bg-indigo-50/50">

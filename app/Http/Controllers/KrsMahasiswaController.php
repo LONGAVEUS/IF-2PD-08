@@ -23,7 +23,7 @@ class KrsMahasiswaController extends Controller
     if ($mataKuliahTerdaftar->isEmpty()) {
         $mataKuliahTerdaftar = collect([
             (object)[
-                'id' => 1,
+                'id_krs' => 1,
                 'mk_kode' => 'IF101',
                 'mata_kuliah' => (object)[
                     'nama_mk' => 'Algoritma & Pemrograman',
@@ -34,7 +34,7 @@ class KrsMahasiswaController extends Controller
                 ]
             ],
             (object)[
-                'id' => 2,
+                'id_krs' => 2,
                 'mk_kode' => 'IF102',
                 'mata_kuliah' => (object)[
                     'nama_mk' => 'Basis Data',
