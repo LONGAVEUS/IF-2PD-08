@@ -1,7 +1,7 @@
 @extends('layouts.dosen_layout')
 
 @section('content')
-    <div class="max-w-6xl mx-auto pb-8">
+    <div class="space-y-6 pb-12">
         <div class="bg-white/80 backdrop-blur rounded-3xl shadow-xl border border-indigo-100 p-8">
 
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">

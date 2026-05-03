@@ -1,7 +1,7 @@
 @extends('layouts.admin_layout')
 
 @section('content')
-<div class="max-w-7xl mx-auto space-y-6 pb-8">
+<div class="space-y-6">
     <x-management-header title="Manajemen Data Mahasiswa" buttonText="Tambah Mahasiswa" targetModal="modalTambah" />
 
     <form action="{{ route('data_mahasiswa') }}" method="GET"
@@ -34,7 +34,7 @@
                 @foreach($mahasiswa as $index => $m)
                 <tr class="hover:bg-indigo-50/30 transition-colors">
                     <td class="px-6 py-4 text-gray-400">{{ $index + 1 }}</td>
-                    <td class="px-6 py-4 font-bold text-gray-700">{{ $m->mahasiswa->nim }}</td>
+                    <td class="px-6 py-4 font-bold text-indigo-700">{{ $m->mahasiswa->nim }}</td>
                     <td class="px-6 py-4 font-semibold text-gray-800">{{ $m->name }}</td>
                     <td class="px-6 py-4 text-gray-500">{{ $m->mahasiswa->prodi }}</td>
                     <td class="px-6 py-4 text-center">

@@ -1,14 +1,14 @@
 @extends('layouts.admin_layout')
 
 @section('content')
-<div class="max-w-7xl mx-auto space-y-6">
+<div class="space-y-6 pb-12">
 
     {{-- HEADER --}}
-    <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
-        <div>
-            <h1 class="text-3xl font-extrabold text-indigo-900 tracking-tight">Dashboard Admin</h1>
-            <p class="text-sm font-semibold text-indigo-600 mt-2 bg-indigo-50 inline-block px-3 py-1 rounded-full">
-                Selamat datang, Administrator Utama 👋
+    <div class="flex justify-between items-start gap-2">
+        <div class="max-w-[60%]">
+            <h1 class="text-xl md:text-3xl font-extrabold text-indigo-900 tracking-tight leading-tight">Dashboard Admin</h1>
+            <p class="text-[10px] md:text-sm font-semibold text-indigo-600 mt-1 bg-indigo-50 inline-block px-2 py-0.5 rounded-full">
+                Admin 👋
             </p>
         </div>
 
@@ -31,36 +31,32 @@
         </form>
     </div>
 
-    {{-- STAT CARDS (Dinamis dari Controller) --}}
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="bg-white border-2 border-indigo-50 rounded-2xl p-6 shadow-sm">
-            <p class="text-4xl font-extrabold text-slate-800">{{ $totalMahasiswa }}</p>
-            <p class="text-sm font-medium text-slate-500 mt-1">Total Mahasiswa</p>
-            <span
-                class="inline-block mt-3 text-xs font-bold bg-indigo-50 text-indigo-600 px-2.5 py-1 rounded-full">Semester
-                {{ $selectedSemester }}</span>
+    {{-- STAT CARDS  --}}
+    <div class="grid grid-cols-3 gap-2 md:gap-6">
+        {{-- Total Mahasiswa --}}
+        <div class="bg-white border-2 border-indigo-50 rounded-xl p-3 md:p-6 shadow-sm">
+            <p class="text-xl md:text-4xl font-extrabold text-slate-800">{{ $totalMahasiswa }}</p>
+            <p class="text-[9px] md:text-sm font-medium text-slate-500 leading-tight">Mahasiswa</p>
+            <span class="hidden md:inline-block mt-3 text-xs font-bold bg-indigo-50 text-indigo-600 px-2.5 py-1 rounded-full">Semester {{ $selectedSemester }}</span>
         </div>
 
-        <div class="bg-white border-2 border-indigo-50 rounded-2xl p-6 shadow-sm">
-            <p class="text-4xl font-extrabold text-slate-800">{{ $totalDosen }}</p>
-            <p class="text-sm font-medium text-slate-500 mt-1">Total Dosen</p>
-            <span
-                class="inline-block mt-3 text-xs font-bold bg-purple-50 text-purple-600 px-2.5 py-1 rounded-full">Aktif
-                Semester {{ $selectedSemester }}</span>
+        {{-- Total Dosen --}}
+        <div class="bg-white border-2 border-indigo-50 rounded-xl p-3 md:p-6 shadow-sm">
+            <p class="text-xl md:text-4xl font-extrabold text-slate-800">{{ $totalDosen }}</p>
+            <p class="text-[9px] md:text-sm font-medium text-slate-500 leading-tight">Dosen</p>
+            <span class="hidden md:inline-block mt-3 text-xs font-bold bg-purple-50 text-purple-600 px-2.5 py-1 rounded-full">Aktif</span>
         </div>
 
-        <div class="bg-white border-2 border-indigo-50 rounded-2xl p-6 shadow-sm">
-            <p class="text-4xl font-extrabold text-slate-800">{{ $totalMatkulCount }}</p>
-            <p class="text-sm font-medium text-slate-500 mt-1">Mata Kuliah</p>
-            <span class="inline-block mt-3 text-xs font-bold bg-blue-50 text-blue-600 px-2.5 py-1 rounded-full">Total
-                Matkul</span>
+        {{-- Mata Kuliah --}}
+        <div class="bg-white border-2 border-indigo-50 rounded-xl p-3 md:p-6 shadow-sm">
+            <p class="text-xl md:text-4xl font-extrabold text-slate-800">{{ $totalMatkulCount }}</p>
+            <p class="text-[9px] md:text-sm font-medium text-slate-500 leading-tight">Mata Kuliah</p>
+            <span class="hidden md:inline-block mt-3 text-xs font-bold bg-blue-50 text-blue-600 px-2.5 py-1 rounded-full">Total</span>
         </div>
     </div>
 
-    {{-- ══ BOTTOM SECTION (Mata Kuliah & Menu Pengelolaan) ══ --}}
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-
-        {{-- Mata Kuliah Aktif (Kiri - 7 Kolom) --}}
+    {{-- ══ BOTTOM SECTION  ══ --}}
+    <div class="grid grid-cols-2 lg:grid-cols-12 gap-3 md:gap-6">
         <div class="lg:col-span-7 bg-white border-2 border-indigo-50 rounded-2xl shadow-sm overflow-hidden h-fit">
             <div class="p-6 border-b border-indigo-50 flex items-center justify-between">
                 <div>
@@ -68,11 +64,6 @@
                     <p class="text-xs text-slate-500 mt-1">Semester {{ $selectedSemester }} - {{ $totalMatkulCount }}
                         mata kuliah</p>
                 </div>
-                {{-- Tombol Kelola Mata Kuliah --}}
-                <button
-                    class="bg-indigo-50 text-indigo-700 hover:bg-indigo-100 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2">
-                    Kelola ⚙️
-                </button>
             </div>
 
             <div class="divide-y divide-indigo-50">
@@ -99,7 +90,7 @@
             </div>
         </div>
 
-        {{-- Menu Pengelolaan (Kanan - 5 Kolom) --}}
+        {{-- Menu Pengelolaan --}}
         <div class="lg:col-span-5 space-y-6">
             <div class="bg-white border-2 border-indigo-50 rounded-2xl shadow-sm overflow-hidden h-fit">
                 <div class="p-6 border-b border-indigo-50">
@@ -108,13 +99,11 @@
                 </div>
 
                 <div class="p-3 space-y-2">
-                    {{-- Shortcut: Data Mata Kuliah (Pengganti Data Pengguna) --}}
+                    {{-- Shortcut: Data Mata Kuliah  --}}
                     <a href="#"
                         class="flex items-center justify-between p-4 hover:bg-indigo-50 rounded-xl transition group">
                         <div class="flex items-center gap-4">
-                            {{-- Ikon Buku/Mata Kuliah sesuai stat card --}}
-                            <div
-                                class="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center group-hover:scale-110 transition">
+                            <div class="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center group-hover:scale-110 transition">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
                                     viewBox="0 0 24 24">
                                     <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
@@ -184,5 +173,6 @@
                 </div>
             </div>
         </div>
-
-        @endsection
+    </div>
+</div>
+@endsection

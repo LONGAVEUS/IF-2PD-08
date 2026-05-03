@@ -47,11 +47,13 @@
 </div>
 
 <!-- Judul tabel dan dropdown semester-->
-<div class="flex items-center gap-4">
+<div class="flex flex-col sm:flex-row sm:items-center gap-4 mb-4">
     <p class="text-base font-semibold text-indigo-900">
         Daftar Nilai Mata Kuliah
     </p>
-    <x-semester-filter :selectedSemester="$selectedSemester" />
+    <div class="w-full sm:w-auto">
+        <x-semester-filter :selectedSemester="$selectedSemester" />
+    </div>
 </div>
 
 
@@ -88,5 +90,4 @@
         </tbody>
         </table>
     </div>
-</div>
 @endsection

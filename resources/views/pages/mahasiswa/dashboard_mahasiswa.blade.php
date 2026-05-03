@@ -1,7 +1,7 @@
 @extends('layouts.mahasiswa_layout')
 
 @section('content')
-<div class="max-w-5xl mx-auto space-y-6">
+<div class="space-y-6">
 
     {{-- ══ GREETING CARD ══ --}}
     <div class="bg-white rounded-2xl border border-slate-100 shadow-sm px-7 py-6
@@ -33,58 +33,58 @@
         <div class="bg-slate-50 rounded-xl border border-slate-100 grid grid-cols-3 divide-x divide-slate-100">
             <div class="p-4 text-center">
                 <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">NIM</p>
-                {{-- Perbaikan: Ambil dari relasi mahasiswa --}}
                 <p class="text-base font-bold text-slate-700">{{ Auth::user()->mahasiswa->nim }}</p>
             </div>
             <div class="p-4 text-center">
-                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Program Studi</p>
-                {{-- Perbaikan: Nama kolom di database adalah 'prodi' --}}
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Prodi</p>
                 <p class="text-base font-bold text-slate-700">{{ Auth::user()->mahasiswa->prodi }}</p>
             </div>
             <div class="p-4 text-center">
                 <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Semester</p>
-                {{-- Perbaikan: Nama kolom di database adalah 'semester_ke' --}}
                 <p class="text-base font-bold text-slate-700">Semester {{ Auth::user()->mahasiswa->semester_ke }}</p>
             </div>
         </div>
     </div>
 
     {{-- ══ STAT CARDS ══ --}}
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="bg-white border-2 border-indigo-50 rounded-2xl p-6 shadow-sm">
-            <div class="w-10 h-10 rounded-[10px] bg-indigo-50 flex items-center justify-center mb-3">
-                <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-                </svg>
-            </div>
-            <p class="text-sm font-medium text-slate-500 mt-1">IP Semester Ini</p>
-            <p class="text-4xl font-extrabold text-slate-800">{{ $ips }}</p>
-            <p class="text-xs text-slate-400 mt-1">dari 4.00</p>
+    <div class="grid grid-cols-3 gap-2 md:gap-6">
+        <div class="bg-white border-2 border-indigo-50 rounded-xl md:rounded-2xl p-3 md:p-6 shadow-sm"> {{-- p-3 untuk mobile --}}
+        <div class="w-7 h-7 md:w-10 md:h-10 rounded-lg bg-indigo-50 flex items-center justify-center mb-2 md:mb-3"> {{-- Ikon lebih kecil --}}
+            <svg class="w-4 h-4 md:w-5 md:h-5 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+            </svg>
         </div>
-
-        <div class="bg-white border-2 border-indigo-50 rounded-2xl p-6 shadow-sm">
-           <div class="w-10 h-10 rounded-[10px] bg-blue-50 flex items-center justify-center mb-3">
-                <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
-                </svg>
-            </div>
-            <p class="text-sm font-medium text-slate-500 mt-1">SKS Semester Ini</p>
-            <p class="text-4xl font-extrabold text-slate-800">{{ $totalSks }}</p>
-            <p class="text-xs text-slate-400 mt-1">dari {{ $sksMax }} SKS</p>
-        </div>
-
-        <div class="bg-white border-2 border-indigo-50 rounded-2xl p-6 shadow-sm">
-            <div class="w-10 h-10 rounded-[10px] bg-violet-50 flex items-center justify-center mb-3">
-                <svg class="w-5 h-5 text-violet-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-                </svg>
-            </div>
-            <p class="text-sm font-medium text-slate-500 mt-1">IP Kumulatif</p>
-            <p class="text-4xl font-extrabold text-slate-800">{{ $ipk }}</p>
-            <p class="text-xs text-slate-400 mt-1">total {{ $jumlahSemester }} semester</p>
-        </div>
+        <p class="text-[9px] md:text-sm font-medium text-slate-500">IP Sem</p> {{-- Font label lebih kecil --}}
+        <p class="text-xl md:text-4xl font-extrabold text-slate-800">{{ $ips }}</p> {{-- Font angka disesuaikan --}}
+        <p class="text-[8px] md:text-xs text-slate-400 hidden md:block">dari 4.00</p>
     </div>
+
+
+
+    {{-- SKS Semester --}}
+    <div class="bg-white border-2 border-indigo-50 rounded-xl md:rounded-2xl p-3 md:p-6 shadow-sm">
+        <div class="w-7 h-7 md:w-10 md:h-10 rounded-lg bg-blue-50 flex items-center justify-center mb-2 md:mb-3">
+            <svg class="w-4 h-4 md:w-5 md:h-5 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+        </div>
+        <p class="text-[9px] md:text-sm font-medium text-slate-500">SKS Sem</p>
+        <p class="text-xl md:text-4xl font-extrabold text-slate-800">{{ $totalSks }}</p>
+        <p class="text-[8px] md:text-xs text-slate-400 hidden md:block">dari {{ $sksMax }} SKS</p>
+    </div>
+
+    {{-- IP Kumulatif --}}
+    <div class="bg-white border-2 border-indigo-50 rounded-xl md:rounded-2xl p-3 md:p-6 shadow-sm">
+        <div class="w-7 h-7 md:w-10 md:h-10 rounded-lg bg-violet-50 flex items-center justify-center mb-2 md:mb-3">
+            <svg class="w-4 h-4 md:w-5 md:h-5 text-violet-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+            </svg>
+        </div>
+        <p class="text-[9px] md:text-sm font-medium text-slate-500">IPK</p>
+        <p class="text-xl md:text-4xl font-extrabold text-slate-800">{{ $ipk }}</p>
+        <p class="text-[8px] md:text-xs text-slate-400 hidden md:block">total {{ $jumlahSemester }} sem</p>
+    </div>
+</div>
 </div>
 @endsection
 

@@ -2,7 +2,7 @@
     @extends('layouts.admin_layout')
 
 @section('content')
-<div class="max-w-6xl mx-auto">
+<div class="space-y-6">
 
     {{-- Header --}}
     <div class="flex items-center gap-4 mb-7">

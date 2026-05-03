@@ -1,7 +1,7 @@
 @extends('layouts.admin_layout')
 
 @section('content')
-<div class="max-w-7xl mx-auto space-y-6">
+<div class="space-y-6">
     <x-management-header title="Manajemen Data Dosen" buttonText="Tambah Dosen" targetModal="modalTambahDosen" />
 
     {{-- Search Bar --}}
@@ -31,7 +31,7 @@
                 @foreach($dosen as $index => $d)
                 <tr class="hover:bg-indigo-50/30 transition-colors">
                     <td class="px-6 py-4 text-gray-400">{{ $index + 1 }}</td>
-                    <td class="px-6 py-4 font-bold text-gray-700">{{ $d->dosen->nidn }}</td>
+                    <td class="px-6 py-4 font-bold text-indigo-700">{{ $d->dosen->nidn }}</td>
                     <td class="px-6 py-4 font-semibold text-gray-800">{{ $d->name }}</td>
                     <td class="px-6 py-4 text-gray-500">{{ $d->dosen->jurusan }}</td>
                     <td class="px-6 py-4 text-center">
