@@ -3,7 +3,7 @@
 @section('content')
 <div class="max-w-5xl mx-auto space-y-6">
 
-    {{-- ══ PAGE HEADER ══ --}}
+    {{-- PAGE HEADER --}}
     <div class="bg-white rounded-2xl border border-slate-100 shadow-sm px-7 py-6 flex flex-col md:flex-row md:items-center md:justify-between gap-3 animate-[fadeUp_0.42s_ease_both]">
         <div class="flex items-center gap-4">
             <div class="w-12 h-12 rounded-2xl bg-indigo-50 flex items-center justify-center shrink-0">
@@ -19,35 +19,26 @@
         </div>
     </div>
 
-    {{-- ══ INFO CARDS: Tanggal & IPK ══ --}}
-    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 animate-[fadeUp_0.42s_0.07s_ease_both]">
-        <div class="bg-slate-50 rounded-xl border border-slate-100 grid grid-cols-2 md:grid-cols-3 divide-x divide-slate-100">
-            <div class="p-4">
-                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Batas Pengisian</p>
-                <p class="text-base font-bold text-slate-700">
-                    {{ $infoKrs['batas_pengisian'] }}
-                </p>
-            </div>
-            <div class="p-4">
-                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Semester</p>
-                <p class="text-lg font-extrabold text-slate-700">
-                    {{ $infoKrs['semester_aktif'] }}
-                </p>
-            </div>
-            <div class="p-4">
-                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">IPK / IPS</p>
-                <p class="text-lg font-extrabold text-slate-700">
-                    {{ $infoKrs['ipk'] }} <span class="text-slate-400 font-semibold">/</span> {{ $infoKrs['ips'] }}
-                </p>
-            </div>
+    {{-- INFO CARDS: Semester & IPK --}}
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white border-2 border-indigo-50 rounded-2xl p-6 shadow-sm">
+            <p class="text-sm font-medium text-slate-500 mt-1">Semester Saat Ini:</p>
+            <p class="text-4xl font-extrabold text-slate-800">{{ $infoKrs['semester_aktif'] }}</p>
+        </div>
+
+        <div class="bg-white border-2 border-indigo-50 rounded-2xl p-6 shadow-sm">
+            <p class="text-sm font-medium text-slate-500 mt-1">IPK/IPS (semester lalu):</p>
+            <p class="text-4xl font-extrabold text-slate-800">
+                    {{ $infoKrs['ipk'] }} <span class="text-4xl font-extrabold text-slate-800">/</span> {{ $infoKrs['ips'] }}
+            </p>
         </div>
     </div>
 
-    {{-- ══ DAFTAR MATA KULIAH TERDAFTAR ══ --}}
+    {{-- DAFTAR MATA KULIAH TERPILIH --}}
     <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden animate-[fadeUp_0.42s_0.14s_ease_both]">
         <div class="flex items-center justify-between px-6 py-5 border-b border-slate-100">
             <div>
-                <h2 class="text-base font-bold text-slate-800">Daftar Mata Kuliah Terpilih</h2>
+                <h2 class="text-base font-semibold text-indigo-900">Daftar Mata Kuliah Terpilih</h2>
                 <p class="text-xs text-slate-400 mt-0.5">
                     Total: <span class="font-semibold text-slate-600">{{ $mataKuliahTerdaftar->count() }} Matkul</span>
                     &nbsp;·&nbsp;
@@ -105,6 +96,14 @@
     </div>
 </div>
 
+{{-- TOMBOL SIMPAN --}}
+<div class="flex justify-end mt-6">
+        <button class="bg-indigo-600 text-white rounded-xl px-8 py-3 text-sm font-semibold shadow-lg shadow-indigo-500/30 hover:bg-indigo-700 active:scale-95 transition" onclick="simpan()">
+            Simpan
+        </button>
+    </div>
+
+{{-- MODAL TAMBAH MATA KULIAH --}}
 <div id="modalPilihMK" tabindex="-1" aria-hidden="true" class="hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative p-4 w-full max-w-2xl max-h-full">
         <div class="relative bg-white rounded-2xl shadow-xl overflow-hidden">
@@ -113,11 +112,12 @@
                 <button type="button" class="text-slate-400 hover:text-slate-600" data-modal-hide="modalPilihMK">✕</button>
             </div>
             <div class="p-6 space-y-4 max-h-[60vh] overflow-y-auto">
-                @forelse($mataKuliahTersedia as $mk)
+                @foreach($mataKuliahTersedia as $mk)
                 <div class="flex justify-between items-center p-4 bg-slate-50 rounded-xl border border-slate-100">
                     <div>
+                        <p class="text-xs text-slate-500">{{ $mk->kode_mk }}</p>
                         <p class="font-bold text-slate-800">{{ $mk->nama_mk }}</p>
-                        <p class="text-xs text-slate-500">{{ $mk->kode_mk }} • {{ $mk->sks }} SKS</p>
+                        <p class="text-xs text-slate-500">{{ $mk->kode_mk }} • {{ $mk->dosen->user->name ?? '-' }} SKS</p>
                     </div>
                     <form action="{{ route('mahasiswa.krs.tambah') }}" method="POST">
                         @csrf
@@ -125,9 +125,7 @@
                         <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-indigo-700">Tambah</button>
                     </form>
                 </div>
-                @empty
-                <p class="text-slate-400 text-center py-10">Tidak ada mata kuliah untuk semester kamu.</p>
-                @endforelse
+                @endforeach
             </div>
         </div>
     </div>

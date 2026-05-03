@@ -12,22 +12,16 @@ class MahasiswaController extends Controller
     public function MahasiswaPage()
 {
     $mahasiswa = Auth::user()->mahasiswa;
-    $totalSks = Krs::where('mahasiswa_nim', $mahasiswa->nim)
-        ->where('semester', $mahasiswa->semester_ke)
-        ->with('mata_kuliah')
-        ->get()
-        ->sum(fn($k) => $k->mata_kuliah->sks ?? 0);
 
-    return view('pages.mahasiswa.dashboard_mahasiswa', compact('mahasiswa', 'totalSks'));
-    }
-        public function LihatKhs()
-    {
-        $mahasiswa = Auth::user()->mahasiswa;
+    // Dummy data untuk demo dashboard
+    $totalSks = 6;
+    $sksMax = 24;
+    $ips = 3.5;
+    $ipk = 3.5;
+    $jumlahSemester = 8;
 
-        $khs = Krs::with(['mata_kuliah', 'nilai'])
-            ->where('mahasiswa_nim', $mahasiswa->nim)
-            ->get();
+    return view('pages.mahasiswa.dashboard_mahasiswa',
+        compact('mahasiswa','totalSks','ips','ipk','sksMax','jumlahSemester'));
+}
 
-        return view('pages.mahasiswa.lihat_khs', compact('mahasiswa', 'khs'));
-    }
 }

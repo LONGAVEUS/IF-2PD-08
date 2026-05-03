@@ -22,49 +22,28 @@
 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
 
     <div class="bg-white border border-indigo-100 rounded-2xl p-5 shadow-sm mt-6">
-        <div class="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center mb-3">
-            <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/>
-            </svg>
-        </div>
-        <p class="text-2xl font-semibold text-gray-900">3.72</p>
-        <p class="text-xs text-gray-500 mt-1">IPS</p>
-        <span class="mt-2 inline-block text-xs bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded-full">Indeks Prestasi Semester </span>
+        <p class="text-sm font-medium text-slate-500">IPS</p>
+        <p class="text-4xl font-extrabold text-slate-800">{{ $ips }}</p>
+        <p class="text-xs text-slate-400 mt-1">Indeks Prestasi Semester</p>
     </div>
 
     <div class="bg-white border border-indigo-100 rounded-2xl p-5 shadow-sm mt-6">
-        <div class="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center mb-3">
-            <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/>
-            </svg>
-        </div>
-        <p class="text-2xl font-semibold text-gray-900">3.54</p>
-        <p class="text-xs text-gray-500 mt-1">IPK</p>
-        <span class="mt-2 inline-block text-xs bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full">Indeks Prestasi Kumulatif</span>
+        <p class="text-sm font-medium text-slate-500">IPK</p>
+        <p class="text-4xl font-extrabold text-slate-800">{{ $ipk }}</p>
+        <p class="text-xs text-slate-400 mt-1">Indeks Prestasi Kumulatif</p>
     </div>
 
     <div class="bg-white border border-indigo-100 rounded-2xl p-5 shadow-sm mt-6">
-        <div class="w-8 h-8 rounded-lg bg-green-50 flex items-center justify-center mb-3">
-            <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-            </svg>
-        </div>
-        <p class="text-2xl font-semibold text-gray-900">22</p>
-        <p class="text-xs text-gray-500 mt-1">Total SKS</p>
-        <span class="mt-2 inline-block text-xs bg-green-50 text-green-600 px-2 py-0.5 rounded-full">SKS diambil semester ini</span>
+        <p class="text-sm font-medium text-slate-500">Total SKS</p>
+        <p class="text-4xl font-extrabold text-slate-800">{{ $totalSks }}</p>
+        <p class="text-xs text-slate-400 mt-1">SKS diambil semester ini</p>
     </div>
 
     <div class="bg-white border border-indigo-100 rounded-2xl p-5 shadow-sm mt-6">
-        <div class="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center mb-3">
-            <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
-            </svg>
-        </div>
-        <p class="text-2xl font-semibold text-red-600">77.3</p>
-        <p class="text-xs text-gray-500 mt-1">Nilai Mutu</p>
-        <span class="mt-2 inline-block text-xs bg-red-50 text-red-500 px-2 py-0.5 rounded-full">Total K x N semester ini</span>
+        <p class="text-sm font-medium text-slate-500">Nilai Mutu</p>
+        <p class="text-4xl font-extrabold text-slate-800">{{ $totalKn }}</p>
+        <p class="text-xs text-slate-400 mt-1">Total K x N semester ini</p>
     </div>
-
 </div>
 
 <!-- Judul tabel dan dropdown semester-->

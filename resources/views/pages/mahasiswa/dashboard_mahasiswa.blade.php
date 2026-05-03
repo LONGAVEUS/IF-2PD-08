@@ -50,53 +50,40 @@
     </div>
 
     {{-- ══ STAT CARDS ══ --}}
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-
-        {{-- IP Semester --}}
-        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 animate-[fadeUp_0.42s_0.14s_ease_both]">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white border-2 border-indigo-50 rounded-2xl p-6 shadow-sm">
             <div class="w-10 h-10 rounded-[10px] bg-indigo-50 flex items-center justify-center mb-3">
                 <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
                     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
                 </svg>
             </div>
-            <p class="text-3xl font-extrabold text-slate-800">{{ number_format(Auth::user()->mahasiswa->ip_semester ?? 0, 2) }}</p>
-            <p class="text-sm text-slate-500 mt-0.5">IP Semester Ini</p>
-            <div class="h-1.5 rounded-full bg-indigo-100 overflow-hidden mt-3">
-                <div class="h-full rounded-full bg-gradient-to-r from-indigo-500 to-indigo-400"
-                     style="width: {{ min(((Auth::user()->mahasiswa->ip_semester ?? 0) / 4) * 100, 100) }}%">
-                </div>
-            </div>
+            <p class="text-sm font-medium text-slate-500 mt-1">IP Semester Ini</p>
+            <p class="text-4xl font-extrabold text-slate-800">{{ $ips }}</p>
+            <p class="text-xs text-slate-400 mt-1">dari 4.00</p>
         </div>
 
-        {{-- SKS Semester - Contoh hitung dinamis atau dari kolom tambahan --}}
-        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 animate-[fadeUp_0.42s_0.21s_ease_both]">
-            <div class="w-10 h-10 rounded-[10px] bg-blue-50 flex items-center justify-center mb-3">
+        <div class="bg-white border-2 border-indigo-50 rounded-2xl p-6 shadow-sm">
+           <div class="w-10 h-10 rounded-[10px] bg-blue-50 flex items-center justify-center mb-3">
                 <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <rect x="3" y="4" width="18" height="18" rx="2"/>
+                    <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
                 </svg>
             </div>
-            {{-- Anggap 20 sebagai placeholder sementara --}}
-            <p class="text-3xl font-extrabold text-slate-800">20</p>
-            <p class="text-sm text-slate-500 mt-0.5">SKS Terdaftar</p>
+            <p class="text-sm font-medium text-slate-500 mt-1">SKS Semester Ini</p>
+            <p class="text-4xl font-extrabold text-slate-800">{{ $totalSks }}</p>
+            <p class="text-xs text-slate-400 mt-1">dari {{ $sksMax }} SKS</p>
         </div>
 
-        {{-- IP Kumulatif --}}
-        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 animate-[fadeUp_0.42s_0.28s_ease_both]">
+        <div class="bg-white border-2 border-indigo-50 rounded-2xl p-6 shadow-sm">
             <div class="w-10 h-10 rounded-[10px] bg-violet-50 flex items-center justify-center mb-3">
                 <svg class="w-5 h-5 text-violet-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
                 </svg>
             </div>
-            <p class="text-3xl font-extrabold text-slate-800">{{ number_format(Auth::user()->mahasiswa->ip_kumulatif ?? 0, 2) }}</p>
-            <p class="text-sm text-slate-500 mt-0.5">IP Kumulatif</p>
-            <div class="h-1.5 rounded-full bg-violet-100 overflow-hidden mt-3">
-                <div class="h-full rounded-full bg-gradient-to-r from-violet-500 to-violet-400"
-                     style="width: {{ min(((Auth::user()->mahasiswa->ip_kumulatif ?? 0) / 4) * 100, 100) }}%">
-                </div>
-            </div>
+            <p class="text-sm font-medium text-slate-500 mt-1">IP Kumulatif</p>
+            <p class="text-4xl font-extrabold text-slate-800">{{ $ipk }}</p>
+            <p class="text-xs text-slate-400 mt-1">total {{ $jumlahSemester }} semester</p>
         </div>
-
     </div>
 </div>
 @endsection

@@ -61,14 +61,24 @@ class KrsMahasiswaController extends Controller
                 'nama_mk' => 'Pemrograman Web',
                 'sks' => 3,
                 'dosen' => (object)[
-                    'user' => (object)['name' => 'Pak Andi']
+                    'user' => (object)['name' => 'Cyntia Lasmi Andesti, S.Kom., M.Kom']
+                ]
+            ],
+            (object)[
+                'kode_mk' => 'IF104',
+                'nama_mk' => 'Bahasa Inggris untuk Komunikasi',
+                'sks' => 2,
+                'dosen' => (object)[
+                    'user' => (object)['name' => 'SUWARING S.S., M.Pd']
                 ]
             ]
         ]);
     }
 
+    // Hitung total SKS dari relasi
+    $totalSks = $mataKuliahTerdaftar->sum(fn($krs) => $krs->mata_kuliah->sks);
+
     $infoKrs = [
-        'batas_pengisian'  => '25 - 01 - 2026',
         'semester_aktif'   => "Semester " . $mahasiswa->semester_ke,
         'nim'              => $mahasiswa->nim,
         'ipk'              => number_format($mahasiswa->ip_kumulatif ?? 0, 2),
