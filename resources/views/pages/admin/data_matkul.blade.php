@@ -112,7 +112,8 @@
                             </div>
                         </div>
                         <button type="submit"
-                            class="w-full bg-indigo-600 text-white font-bold py-3.5 rounded-2xl shadow-lg active:scale-95 transition-all">Simpan
+                            class="w-full mt-6 bg-indigo-600 text-white font-bold py-3.5 rounded-2xl shadow-lg active:scale-95
+                            transition-all">Simpan
                             Perubahan</button>
                     </form>
                 </x-modal>
