@@ -53,7 +53,7 @@ Route::middleware('auth')->group(function () {
    Route::prefix('admin')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'dashboardAdmin'])->name('dashboard_admin');
 
-        // Mahasiswa
+        
         Route::controller(DataMahasiswaController::class)->group(function () {
             Route::get('/data_mahasiswa', 'index')->name('data_mahasiswa');
             Route::post('/data_mahasiswa/store', 'store')->name('mahasiswa.store');
@@ -61,7 +61,7 @@ Route::middleware('auth')->group(function () {
             Route::delete('/data_mahasiswa/{id}/delete', 'destroy')->name('mahasiswa.destroy');
         });
 
-        // Dosen
+
         Route::controller(DataDosenController::class)->group(function () {
             Route::get('/data_dosen', 'index')->name('data_dosen');
             Route::post('/data_dosen/store', 'store')->name('dosen.store');

@@ -44,7 +44,6 @@ class DataDosenController extends Controller
             'status' => $request->status
         ]);
 
-        // Simpan ke tabel dosen (sesuaikan dengan migration dosen)
         \App\Models\Dosen::create([
             'user_id' => $user->id,
             'nidn' => $request->nidn,
