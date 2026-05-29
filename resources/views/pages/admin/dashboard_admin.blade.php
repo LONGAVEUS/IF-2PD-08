@@ -148,28 +148,6 @@
                         </svg>
                     </a>
 
-                    {{-- Shortcut: Data KHS --}}
-                    <a href="{{ route('admin_khs') }}"
-                        class="flex items-center justify-between p-4 hover:bg-indigo-50 rounded-xl transition group">
-                        <div class="flex items-center gap-4">
-                            <div
-                                class="w-10 h-10 rounded-full bg-violet-50 text-violet-600 flex items-center justify-center group-hover:scale-110 transition">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
-                                    viewBox="0 0 24 24">
-                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="font-bold text-slate-800">Data KHS</p>
-                                <p class="text-[10px] font-medium text-slate-400">Lihat nilai akhir per mahasiswa</p>
-                            </div>
-                        </div>
-                        <svg class="w-5 h-5 text-slate-300 group-hover:text-violet-600 transition" fill="none"
-                            stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path d="M9 18l6-6-6-6"></path>
-                        </svg>
-                    </a>
                 </div>
             </div>
         </div>

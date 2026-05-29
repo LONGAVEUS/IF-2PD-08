@@ -79,7 +79,6 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/admin_krs', [PengaturanKrsController::class, 'index'])->name('admin_krs');
         Route::post('/pengaturan-krs/simpan', [PengaturanKrsController::class, 'saveKonfigurasi'])->name('pengaturan_krs.simpan');
-        Route::get('/admin_khs', [PengaturanKhsController::class, 'index'])->name('admin_khs');
     });
 
 });
