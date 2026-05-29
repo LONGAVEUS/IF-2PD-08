@@ -14,7 +14,8 @@
     </div>
     {{-- Tombol menggunakan prop buttonText agar teksnya bisa berbeda dari judul --}}
     <button data-modal-target="{{ $targetModal }}" data-modal-toggle="{{ $targetModal }}"
-        class="w-full md:w-auto bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-6 py-3 rounded-xl shadow-lg shadow-indigo-500/30 transition-all flex items-center justify-center gap-2">
+        class="w-full md:w-auto bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-6 py-3 rounded-xl shadow-lg
+         shadow-indigo-500/30 transition-all flex items-center justify-center gap-2">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
         {{ $buttonText }}
     </button>

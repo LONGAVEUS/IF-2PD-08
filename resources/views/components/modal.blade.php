@@ -7,7 +7,8 @@
                 <h3 class="text-lg md:text-xl font-extrabold text-indigo-900 tracking-tight">
                     {{ $title }}
                 </h3>
-                <button type="button" class="text-gray-400 bg-transparent hover:bg-red-50 hover:text-red-500 rounded-xl text-sm w-9 h-9 ms-auto inline-flex justify-center items-center transition-colors" data-modal-hide="{{ $id }}">
+                <button type="button" class="text-gray-400 bg-transparent hover:bg-red-50 hover:text-red-500 rounded-xl text-sm w-9 h-9 ms-auto
+                 inline-flex justify-center items-center transition-colors" data-modal-hide="{{ $id }}">
                     <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
                     </svg>
