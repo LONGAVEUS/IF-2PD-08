@@ -21,46 +21,40 @@ Route::get('/', function () {
     return redirect('/login');
 });
 
-
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'LoginPage'])->name('login');
     Route::post('/login', [LoginController::class, 'login'])->name('login.post');
 });
 
-
 Route::middleware('auth')->group(function () {
 
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-
 
     Route::prefix('mahasiswa')->group(function () {
         Route::get('/dashboard', [MahasiswaController::class, 'MahasiswaPage'])->name('dashboard_mahasiswa');
         Route::get('/isi_krs', [KrsMahasiswaController::class, 'isiKrs'])->name('isi_krs');
         Route::get('/lihat_khs', [KhsMahasiswaController::class, 'index'])->name('lihat_khs');
 
-
         Route::post('/krs/tambah', [KrsMahasiswaController::class, 'tambahMataKuliah'])->name('mahasiswa.krs.tambah');
         Route::delete('/krs/{id}/hapus', [KrsMahasiswaController::class, 'hapusMataKuliah'])->name('mahasiswa.krs.hapus');
         Route::post('/krs/{id}/simpan', [KrsMahasiswaController::class, 'simpanKrs'])->name('mahasiswa.krs.simpan');
     });
 
-
     Route::prefix('dosen')->group(function () {
         Route::get('/dashboard', [DosenController::class, 'tampilkan'])->name('dashboard_dosen');
         Route::get('/input_nilai/{kode_mk?}', [DosenController::class, 'inputNilai'])->name('input_nilai');
+        Route::post('/simpan_nilai', [DosenController::class, 'simpanNilai'])->name('simpan_nilai');
     });
 
-   Route::prefix('admin')->group(function () {
+    Route::prefix('admin')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'dashboardAdmin'])->name('dashboard_admin');
 
-        
         Route::controller(DataMahasiswaController::class)->group(function () {
             Route::get('/data_mahasiswa', 'index')->name('data_mahasiswa');
             Route::post('/data_mahasiswa/store', 'store')->name('mahasiswa.store');
             Route::put('/data_mahasiswa/{id}/update', 'update')->name('mahasiswa.update');
             Route::delete('/data_mahasiswa/{id}/delete', 'destroy')->name('mahasiswa.destroy');
         });
-
 
         Route::controller(DataDosenController::class)->group(function () {
             Route::get('/data_dosen', 'index')->name('data_dosen');

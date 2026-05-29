@@ -66,4 +66,31 @@ class DosenController extends Controller
 
         return view('pages.dosen.input_nilai', compact('daftarMatkul', 'mahasiswaTerdaftar', 'matkulTerpilih'));
     }
+
+    public function simpanNilai(Request $request)
+{
+    $krsIds = $request->krs_id;
+    $nilaiAngkas = $request->nilai_angka;
+
+    foreach ($krsIds as $i => $krsId) {
+        $angka = $nilaiAngkas[$i];
+
+        if ($angka === null || $angka === '') continue;
+
+        $angka = (int) $angka;
+
+        if ($angka >= 85) { $huruf = 'A'; $bobot = 4.0; }
+        elseif ($angka >= 75) { $huruf = 'B'; $bobot = 3.0; }
+        elseif ($angka >= 65) { $huruf = 'C'; $bobot = 2.0; }
+        elseif ($angka >= 55) { $huruf = 'D'; $bobot = 1.0; }
+        else { $huruf = 'E'; $bobot = 0.0; }
+
+        \App\Models\Nilai::updateOrCreate(
+            ['krs_id' => $krsId],
+            ['nilai_huruf' => $huruf, 'bobot' => $bobot]
+        );
+    }
+
+    return redirect()->back()->with('success', 'Nilai berhasil disimpan!');
+}
 }

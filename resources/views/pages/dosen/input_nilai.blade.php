@@ -32,53 +32,64 @@
                 @endforeach
             </select>
         </div>
-        <div class="bg-white border-2 border-indigo-50 rounded-xl p-4 flex-1 min-w-[150px] focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/20 transition shadow-sm">
-            <p class="text-xs font-bold tracking-wider uppercase text-indigo-600 mb-2">Semester</p>
-            <select id="semester" class="w-full bg-transparent border-none text-gray-900 font-medium text-sm p-0 cursor-pointer focus:ring-0 outline-none">
-                <option value="1">Semester 1</option>
-                <option value="2">Semester 2</option>
-                <option value="3">Semester 3</option>
-                <option value="4">Semester 4</option>
-                <option value="5">Semester 5</option>
-                <option value="6">Semester 6</option>
-                <option value="7">Semester 7</option>
-                <option value="8">Semester 8</option>
-            </select>
+    </div>
+
+    @if($matkulTerpilih && $mahasiswaTerdaftar)
+    <form action="{{ route('simpan_nilai') }}" method="POST">
+        @csrf
+        <input type="hidden" name="kode_mk" value="{{ $matkulTerpilih->kode_mk }}">
+
+        <div class="bg-white border-2 border-indigo-50 rounded-2xl overflow-hidden shadow-lg shadow-indigo-500/5 overflow-x-auto">
+            <table class="w-full text-left border-collapse min-w-max">
+                <thead class="bg-indigo-50/50">
+                    <tr>
+                        <th class="text-xs font-semibold uppercase tracking-wider text-indigo-800 px-5 py-4 border-b-2 border-indigo-100 w-16">No</th>
+                        <th class="text-xs font-semibold uppercase tracking-wider text-indigo-800 px-5 py-4 border-b-2 border-indigo-100">NIM</th>
+                        <th class="text-xs font-semibold uppercase tracking-wider text-indigo-800 px-5 py-4 border-b-2 border-indigo-100">Nama Mahasiswa</th>
+                        <th class="text-xs font-semibold uppercase tracking-wider text-indigo-800 px-5 py-4 border-b-2 border-indigo-100">Nilai Angka</th>
+                        <th class="text-xs font-semibold uppercase tracking-wider text-indigo-800 px-5 py-4 border-b-2 border-indigo-100">Nilai Huruf</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-indigo-50">
+                    @foreach($mahasiswaTerdaftar as $index => $krs)
+                    <tr class="hover:bg-indigo-50/30 transition">
+                        <td class="px-5 py-4 text-sm text-gray-400 font-medium">{{ $index + 1 }}</td>
+                        <td class="px-5 py-4 text-sm font-medium text-gray-500">{{ $krs->mahasiswa_nim }}</td>
+                        <td class="px-5 py-4 font-semibold text-gray-800">{{ $krs->mahasiswa->user->name }}</td>
+                        <td class="px-5 py-4">
+                            <input type="hidden" name="krs_id[]" value="{{ $krs->id_krs }}">
+                            <input type="number" name="nilai_angka[]" min="0" max="100"
+                                value="{{ $krs->nilai?->nilai_angka ?? '' }}"
+                                placeholder="0-100"
+                                oninput="recalc(this, {{ $index }})"
+                                class="w-24 bg-indigo-50 text-gray-900 border-2 border-indigo-100 rounded-lg px-2 py-1.5 text-center text-sm font-medium focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/20 transition" />
+                        </td>
+                        <td class="px-5 py-4">
+                            <span class="text-sm font-bold text-indigo-700" id="huruf-{{ $index }}">
+                               {{ $krs->nilai ? $krs->nilai->nilai_huruf : 'E' }}
+                            </span>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
-    </div>
 
-    <div class="bg-white border-2 border-indigo-50 rounded-2xl overflow-hidden shadow-lg shadow-indigo-500/5 overflow-x-auto">
-        <table class="w-full text-left border-collapse min-w-max">
-            <thead class="bg-indigo-50/50">
-                <tr>
-                    <th class="text-xs font-semibold uppercase tracking-wider text-indigo-800 px-5 py-4 border-b-2 border-indigo-100 w-16">No</th>
-                    <th class="text-xs font-semibold uppercase tracking-wider text-indigo-800 px-5 py-4 border-b-2 border-indigo-100">NIM</th>
-                    <th class="text-xs font-semibold uppercase tracking-wider text-indigo-800 px-5 py-4 border-b-2 border-indigo-100">Nama Mahasiswa</th>
-                    <th class="text-xs font-semibold uppercase tracking-wider text-indigo-800 px-5 py-4 border-b-2 border-indigo-100">Nilai Angka</th>
-                    <th class="text-xs font-semibold uppercase tracking-wider text-indigo-800 px-5 py-4 border-b-2 border-indigo-100">Nilai Huruf</th>
-                    <th class="text-xs font-semibold uppercase tracking-wider text-indigo-800 px-5 py-4 border-b-2 border-indigo-100">Keterangan</th>
-                </tr>
-            </thead>
-            <tbody id="tableBody" class="divide-y divide-indigo-50">
-            </tbody>
-        </table>
+        <div class="flex justify-end mt-6">
+            <button type="submit" class="bg-indigo-600 text-white rounded-xl px-8 py-3 text-sm font-semibold shadow-lg shadow-indigo-500/30 hover:bg-indigo-700 active:scale-95 transition">
+                Simpan Nilai
+            </button>
+        </div>
+    </form>
+    @else
+    <div class="bg-white border-2 border-indigo-50 rounded-2xl p-10 text-center text-gray-400">
+        Pilih mata kuliah terlebih dahulu
     </div>
-
-    <div class="flex justify-end mt-6">
-        <button class="bg-indigo-600 text-white rounded-xl px-8 py-3 text-sm font-semibold shadow-lg shadow-indigo-500/30 hover:bg-indigo-700 active:scale-95 transition" onclick="simpan()">
-            Simpan Nilai
-        </button>
-    </div>
+    @endif
 
 </div>
 
 <script>
-    const mahasiswa = [
-        { nim: "2021001", nama: "Peter Parker" },
-        { nim: "2021002", nama: "Tony Stark" },
-        { nim: "2021003", nama: "Natalia Romanoff" },
-    ];
-
     function toHuruf(n) {
         if (n === "" || n === null) return "E";
         n = parseInt(n);
@@ -89,57 +100,9 @@
         return "E";
     }
 
-    function updateTable() {
-        const tbody = document.getElementById("tableBody");
-        const saved = {};
-
-        tbody.querySelectorAll("tr").forEach(tr => {
-            const inp = tr.querySelector("input[type='number']");
-            if (inp) saved[tr.dataset.nim] = inp.value;
-        });
-
-        tbody.innerHTML = "";
-
-        mahasiswa.forEach((m, index) => {
-            const val = saved[m.nim] || "";
-            const huruf = toHuruf(val);
-            const tr = document.createElement("tr");
-
-            tr.dataset.nim = m.nim;
-            tr.className = "hover:bg-indigo-50/30 transition";
-
-            tr.innerHTML = `
-                <td class="px-5 py-4 align-middle text-sm text-gray-400 font-medium">${index + 1}</td>
-                <td class="px-5 py-4 align-middle">
-                    <span class="text-sm font-medium text-gray-500">${m.nim}</span>
-                </td>
-                <td class="px-5 py-4 align-middle font-semibold text-gray-800">${m.nama}</td>
-                <td class="px-5 py-4 align-middle">
-                    <input type="number" min="0" max="100" value="${val}" placeholder="0-100" oninput="recalc(this, '${m.nim}')" class="w-24 bg-indigo-50 text-gray-900 border-2 border-indigo-100 rounded-lg px-2 py-1.5 text-center text-sm font-medium focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/20 transition" />
-                </td>
-                <td class="px-5 py-4 align-middle">
-                    <span class="text-sm font-bold text-indigo-700" id="huruf-${m.nim}">${huruf}</span>
-                </td>
-                <td class="px-5 py-4 align-middle">
-                    <input type="text" placeholder="Isi keterangan disini" class="w-full bg-indigo-50 text-gray-700 border-2 border-indigo-100 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/20 transition" />
-                </td>
-            `;
-            tbody.appendChild(tr);
-        });
-    }
-
-    function recalc(input, nim) {
+    function recalc(input, index) {
         const huruf = toHuruf(input.value);
-        document.getElementById("huruf-" + nim).textContent = huruf;
+        document.getElementById("huruf-" + index).textContent = huruf;
     }
-
-    function simpan() {
-        const matkul = document.getElementById("matkul");
-        const matkulText = matkul.options[matkul.selectedIndex].text;
-        const semester = document.getElementById("semester").value;
-        alert("Nilai berhasil disimpan!\n" + matkulText + " | Semester " + semester);
-    }
-
-    updateTable();
 </script>
 @endsection

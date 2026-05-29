@@ -11,11 +11,10 @@ class Nilai extends Model
     protected $primaryKey = 'id_nilai';
 
     protected $fillable = [
-        'krs_id',
-        'nilai_angka',
-        'bobot',
-    ];
-
+    'krs_id',
+    'nilai_huruf',
+    'bobot',
+];
     public function krs()
     {
         return $this->belongsTo(Krs::class, 'krs_id', 'id_krs');
