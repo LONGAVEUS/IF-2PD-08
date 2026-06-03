@@ -21,6 +21,18 @@
         </div>
     </div>
 
+    @if(session('success'))
+        <div class="p-4 text-sm text-green-800 rounded-xl bg-green-50 font-medium border border-green-100 shadow-sm animate-[fadeUp_0.3s_ease_both]" role="alert">
+            <span class="font-bold">Berhasil!</span> {{ session('success') }}
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="p-4 text-sm text-red-800 rounded-xl bg-red-50 font-medium border border-red-100 shadow-sm animate-[fadeUp_0.3s_ease_both]" role="alert">
+            <span class="font-bold">Peringatan Batas SKS!</span> {{ session('error') }}
+        </div>
+    @endif
+
     {{-- INFO CARDS: Semester & IPK --}}
     <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
         <div class="bg-white border-2 border-indigo-50 rounded-2xl p-4 md:p-6 shadow-sm">
@@ -85,27 +97,24 @@
                             Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-indigo-50 text-sm">
+                <tbody class="divide-y divide-indigo-50">
                     @foreach($mataKuliahTerdaftar as $index => $item)
                     <tr class="hover:bg-indigo-50/30 transition-colors">
-                        <td class="px-5 py-4 align-middle text-gray-400 font-medium">{{ $index + 1 }}</td>
+                        <td class="px-5 py-4 align-middle text-sm text-gray-400 font-medium">{{ $index + 1 }}</td>
                         <td class="px-5 py-4 align-middle font-semibold text-gray-500">{{ $item->mk_kode }}</td>
-                        <td class="px-5 py-4 align-middle font-semibold text-gray-800">{{ $item->mata_kuliah->nama_mk }}
-                        </td>
+                        <td class="px-5 py-4 align-middle font-semibold text-gray-800">{{ $item->mata_kuliah->nama_mk }}</td>
                         <td class="px-5 py-4 align-middle font-bold text-gray-700">{{ $item->mata_kuliah->sks }}</td>
                         <td class="px-5 py-4 align-middle font-semibold text-gray-800">
-                            {{ $item->mata_kuliah->dosen->user->name ?? '-' }}</td>
+                            {{ $item->mata_kuliah->dosen->user->name ?? '-' }}
+                        </td>
                         <td class="px-5 py-4 align-middle text-center">
-                            <form action="{{ route('mahasiswa.destroy', $item->id_krs) }}" method="POST"
-                                onsubmit="return confirm('Hapus?')">
+
+                            <form action="{{ route('mahasiswa.krs.hapus', $item->id_krs) }}" method="POST" onsubmit="return confirm('Apakah yakin ingin menghapus mata kuliah ini?')">
                                 @csrf @method('DELETE')
-                                <button type="submit"
-                                    class="p-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-600 hover:text-white transition-all">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"
-                                        viewBox="0 0 24 24">
-                                        <path
-                                            d="M19 7l-.867 12.142A2 2 0 0 1 16.138 21H7.862a2 2 0 0 1-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v3M4 7h16" />
-                                        </svg>
+                                <button type="submit" class="p-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-600 hover:text-white transition-all">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path d="M19 7l-.867 12.142A2 2 0 0 1 16.138 21H7.862a2 2 0 0 1-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v3M4 7h16" />
+                                    </svg>
                                 </button>
                             </form>
                         </td>
@@ -119,11 +128,13 @@
 
 {{-- TOMBOL SIMPAN --}}
 <div class="flex justify-end mt-8 mb-4 pr-4 md:pr-16">
-    <button
-        class="w-full sm:w-auto bg-indigo-600 text-white rounded-xl px-8 py-3 text-sm font-semibold shadow-lg shadow-indigo-500/30 hover:bg-indigo-700 active:scale-95 transition"
-        onclick="simpan()">
-        Simpan
-    </button>
+    <form action="{{ route('mahasiswa.krs.simpan', 1) }}" method="POST" class="w-full sm:w-auto"
+          onsubmit="return confirm('Apakah Anda sudah yakin dengan mata kuliah pilihan Anda?');">
+        @csrf
+        <button type="submit" class="w-full sm:w-auto bg-indigo-600 text-white rounded-xl px-8 py-3 text-sm font-semibold shadow-lg shadow-indigo-500/30 hover:bg-indigo-700 active:scale-95 transition">
+            Simpan
+        </button>
+    </form>
 </div>
 
 {{-- MODAL TAMBAH MATA KULIAH --}}
