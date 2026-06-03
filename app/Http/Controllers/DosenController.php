@@ -48,49 +48,99 @@ class DosenController extends Controller
         ));
     }
 
-   public function inputNilai($kode_mk = null)
-    {
-        $dosen = Auth::user()->dosen;
+   public function inputNilai(Request $request, $kode_mk = null)
+   {
+       $dosen = Auth::user()->dosen;
 
-        $daftarMatkul = MataKuliah::where('dosen_nidn', $dosen->nidn)->get();
+       $selectedSemester = $request->get('semester');
 
-        $mahasiswaTerdaftar = null;
-        $matkulTerpilih = null;
+       if (!$kode_mk) {
+           $kode_mk = $request->get('kode_mk');
+       }
 
-        if ($kode_mk) {
-            $mahasiswaTerdaftar = Krs::with(['mahasiswa.user', 'nilai'])
-                ->where('mk_kode', $kode_mk)
-                ->get();
-            $matkulTerpilih = MataKuliah::where('kode_mk', $kode_mk)->first();
-        }
+       $daftarMatkul = MataKuliah::where('dosen_nidn', $dosen->nidn)->get();
 
-        return view('pages.dosen.input_nilai', compact('daftarMatkul', 'mahasiswaTerdaftar', 'matkulTerpilih'));
-    }
+       $mahasiswaTerdaftar = null;
+       $matkulTerpilih = null;
+
+       if ($kode_mk) {
+           $matkulTerpilih = MataKuliah::where('kode_mk', $kode_mk)
+               ->where('dosen_nidn', $dosen->nidn)
+               ->first();
+
+           if ($matkulTerpilih) {
+               $mahasiswaQuery = Krs::with(['mahasiswa.user', 'nilai'])
+                   ->where('mk_kode', $kode_mk);
+
+               if ($selectedSemester) {
+                   $mahasiswaQuery->where('semester', $selectedSemester);
+               }
+
+               $mahasiswaTerdaftar = $mahasiswaQuery->get();
+           }
+       }
+
+       return view('pages.dosen.input_nilai', compact(
+           'daftarMatkul',
+           'mahasiswaTerdaftar',
+           'matkulTerpilih',
+           'selectedSemester'
+       ));
+   }
 
     public function simpanNilai(Request $request)
-{
-    $krsIds = $request->krs_id;
-    $nilaiAngkas = $request->nilai_angka;
+    {
+        $request->validate([
+            'krs_id' => 'required|array',
+            'nilai_angka' => 'required|array',
+            'nilai_angka.*' => 'nullable|numeric|min:0|max:100',
+        ]);
 
-    foreach ($krsIds as $i => $krsId) {
-        $angka = $nilaiAngkas[$i];
+        $krsIds = $request->krs_id;
+        $nilaiAngkas = $request->nilai_angka;
 
-        if ($angka === null || $angka === '') continue;
+        if (!$krsIds) {
+            return redirect()->back()->with('error', 'Tidak ada data nilai yang diproses.');
+        }
 
-        $angka = (int) $angka;
+        foreach ($krsIds as $i => $krsId) {
+            $angka = $nilaiAngkas[$i];
 
-        if ($angka >= 85) { $huruf = 'A'; $bobot = 4.0; }
-        elseif ($angka >= 75) { $huruf = 'B'; $bobot = 3.0; }
-        elseif ($angka >= 65) { $huruf = 'C'; $bobot = 2.0; }
-        elseif ($angka >= 55) { $huruf = 'D'; $bobot = 1.0; }
-        else { $huruf = 'E'; $bobot = 0.0; }
+            if ($angka === null || $angka === '') continue;
+            $angka = (int) $angka;
+            if ($angka >= 85) {
+                $huruf = 'A';  $bobot = 4.0;
+            } elseif ($angka >= 80) {
+                $huruf = 'A-'; $bobot = 3.7;
+            } elseif ($angka >= 75) {
+                $huruf = 'B+'; $bobot = 3.3;
+            } elseif ($angka >= 70) {
+                $huruf = 'B';  $bobot = 3.0;
+            } elseif ($angka >= 65) {
+                $huruf = 'B-'; $bobot = 2.7;
+            } elseif ($angka >= 60) {
+                $huruf = 'C+'; $bobot = 2.3;
+            } elseif ($angka >= 55) {
+                $huruf = 'C';  $bobot = 2.0;
+            } elseif ($angka >= 50) {
+                $huruf = 'C-'; $bobot = 1.7;
+            } elseif ($angka >= 45) {
+                $huruf = 'D+'; $bobot = 1.3;
+            } elseif ($angka >= 40) {
+                $huruf = 'D';  $bobot = 1.0;
+            } else {
+                $huruf = 'E';  $bobot = 0.0;
+            }
+            
+            \App\Models\Nilai::updateOrCreate(
+                ['krs_id' => $krsId],
+                [
+                    'nilai_huruf' => $huruf,
+                    'bobot' => $bobot
+                ]
+            );
+        }
 
-        \App\Models\Nilai::updateOrCreate(
-            ['krs_id' => $krsId],
-            ['nilai_huruf' => $huruf, 'bobot' => $bobot]
-        );
+        return redirect()->back()->with('success', 'Nilai desimal akademik berhasil disimpan!');
     }
-
-    return redirect()->back()->with('success', 'Nilai berhasil disimpan!');
-}
 }
