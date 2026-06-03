@@ -18,7 +18,8 @@
     </div>
 
     <div class="flex flex-wrap gap-3 mb-6">
-        <div class="bg-white border-2 border-indigo-50 rounded-xl p-4 flex-1 min-w-[200px] focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/20 transition shadow-sm">
+        <div class="bg-white border-2 border-indigo-50 rounded-xl p-4 flex-1 min-w-[200px] focus-within:border-indigo-500 focus-within:ring-4
+         focus-within:ring-indigo-500/20 transition shadow-sm">
             <p class="text-xs font-bold tracking-wider uppercase text-indigo-600 mb-2">Mata Kuliah</p>
             <select id="matkul"
                     class="w-full bg-transparent border-none text-gray-900 font-medium text-sm p-0 cursor-pointer focus:ring-0 outline-none"
@@ -62,7 +63,8 @@
                                 value="{{ $krs->nilai?->nilai_angka ?? '' }}"
                                 placeholder="0-100"
                                 oninput="recalc(this, {{ $index }})"
-                                class="w-24 bg-indigo-50 text-gray-900 border-2 border-indigo-100 rounded-lg px-2 py-1.5 text-center text-sm font-medium focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/20 transition" />
+                                class="w-24 bg-indigo-50 text-gray-900 border-2 border-indigo-100 rounded-lg px-2 py-1.5 text-center text-sm font-medium focus:outline-none
+                                 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/20 transition" />
                         </td>
                         <td class="px-5 py-4">
                             <span class="text-sm font-bold text-indigo-700" id="huruf-{{ $index }}">
@@ -76,7 +78,8 @@
         </div>
 
         <div class="flex justify-end mt-6">
-            <button type="submit" class="bg-indigo-600 text-white rounded-xl px-8 py-3 text-sm font-semibold shadow-lg shadow-indigo-500/30 hover:bg-indigo-700 active:scale-95 transition">
+            <button type="submit" class="bg-indigo-600 text-white rounded-xl px-8 py-3 text-sm font-semibold shadow-lg
+             shadow-indigo-500/30 hover:bg-indigo-700 active:scale-95 transition">
                 Simpan Nilai
             </button>
         </div>

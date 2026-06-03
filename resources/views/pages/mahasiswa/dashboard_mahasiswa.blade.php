@@ -48,14 +48,14 @@
 
     {{-- ══ STAT CARDS ══ --}}
     <div class="grid grid-cols-3 gap-2 md:gap-6">
-        <div class="bg-white border-2 border-indigo-50 rounded-xl md:rounded-2xl p-3 md:p-6 shadow-sm"> {{-- p-3 untuk mobile --}}
-        <div class="w-7 h-7 md:w-10 md:h-10 rounded-lg bg-indigo-50 flex items-center justify-center mb-2 md:mb-3"> {{-- Ikon lebih kecil --}}
+        <div class="bg-white border-2 border-indigo-50 rounded-xl md:rounded-2xl p-3 md:p-6 shadow-sm">
+        <div class="w-7 h-7 md:w-10 md:h-10 rounded-lg bg-indigo-50 flex items-center justify-center mb-2 md:mb-3">
             <svg class="w-4 h-4 md:w-5 md:h-5 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
             </svg>
         </div>
-        <p class="text-[9px] md:text-sm font-medium text-slate-500">IP Sem</p> {{-- Font label lebih kecil --}}
-        <p class="text-xl md:text-4xl font-extrabold text-slate-800">{{ $ips }}</p> {{-- Font angka disesuaikan --}}
+        <p class="text-[9px] md:text-sm font-medium text-slate-500">IP Sem</p> 
+        <p class="text-xl md:text-4xl font-extrabold text-slate-800">{{ $ips }}</p>
         <p class="text-[8px] md:text-xs text-slate-400 hidden md:block">dari 4.00</p>
     </div>
 
