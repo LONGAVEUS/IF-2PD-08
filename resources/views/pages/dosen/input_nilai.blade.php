@@ -16,27 +16,30 @@
             <p class="text-sm text-gray-500 mt-1">Sistem Pengisian KRS dan Hasil Akhir (KHS)</p>
         </div>
     </div>
+    <form action="{{ route('input_nilai') }}" method="GET" id="filterForm" class="mb-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-start gap-4 w-full">
+            <div class="w-full md:max-w-xs bg-white border-2 border-indigo-50 rounded-xl p-4 flex flex-col justify-center focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/20 transition shadow-sm">
+                <p class="text-xs font-bold tracking-wider uppercase text-indigo-600 mb-2">Mata Kuliah</p>
+                <select id="matkul" name="kode_mk" onchange="document.getElementById('filterForm').submit()"
+                        class="w-full bg-transparent border-none text-gray-900 font-medium text-sm p-0 cursor-pointer focus:ring-0 outline-none">
+                    <option value="">-- Pilih Mata Kuliah --</option>
+                    @foreach($daftarMatkul as $mk)
+                        <option value="{{ $mk->kode_mk }}"
+                                {{ (request('kode_mk') == $mk->kode_mk || (isset($matkulTerpilih) && $matkulTerpilih->kode_mk == $mk->kode_mk)) ? 'selected' : '' }}>
+                            {{ $mk->kode_mk }} - {{ $mk->nama_mk }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
 
-    <div class="flex flex-wrap gap-3 mb-6">
-        <div class="bg-white border-2 border-indigo-50 rounded-xl p-4 flex-1 min-w-[200px] focus-within:border-indigo-500 focus-within:ring-4
-         focus-within:ring-indigo-500/20 transition shadow-sm">
-            <p class="text-xs font-bold tracking-wider uppercase text-indigo-600 mb-2">Mata Kuliah</p>
-            <select id="matkul"
-                    class="w-full bg-transparent border-none text-gray-900 font-medium text-sm p-0 cursor-pointer focus:ring-0 outline-none"
-                    onchange="location = this.value;">
-                <option value="">-- Pilih Mata Kuliah --</option>
-                @foreach($daftarMatkul as $mk)
-                    <option value="{{ route('input_nilai', $mk->kode_mk) }}"
-                            {{ (isset($matkulTerpilih) && $matkulTerpilih->kode_mk == $mk->kode_mk) ? 'selected' : '' }}>
-                        {{ $mk->kode_mk }} - {{ $mk->nama_mk }}
-                    </option>
-                @endforeach
-            </select>
+            <div class="bg-white border-2 border-indigo-50 rounded-xl p-4 shadow-sm min-w-[200px] flex items-center justify-center md:justify-end">
+                <x-semester-filter :selectedSemester="$selectedSemester" />
+            </div>
         </div>
-    </div>
+    </form>
 
     @if($matkulTerpilih && $mahasiswaTerdaftar)
-    <form action="{{ route('simpan_nilai') }}" method="POST">
+    <form action="{{ route('simpan_nilai') }}" method="POST" onsubmit="return confirm('Apakah Anda yakin semua nilai angka yang diinput sudah benar? Nilai yang disimpan akan langsung terbit di KHS mahasiswa.')">
         @csrf
         <input type="hidden" name="kode_mk" value="{{ $matkulTerpilih->kode_mk }}">
 
@@ -52,28 +55,28 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-indigo-50">
-                    @foreach($mahasiswaTerdaftar as $index => $krs)
-                    <tr class="hover:bg-indigo-50/30 transition">
-                        <td class="px-5 py-4 text-sm text-gray-400 font-medium">{{ $index + 1 }}</td>
-                        <td class="px-5 py-4 text-sm font-medium text-gray-500">{{ $krs->mahasiswa_nim }}</td>
-                        <td class="px-5 py-4 font-semibold text-gray-800">{{ $krs->mahasiswa->user->name }}</td>
-                        <td class="px-5 py-4">
-                            <input type="hidden" name="krs_id[]" value="{{ $krs->id_krs }}">
-                            <input type="number" name="nilai_angka[]" min="0" max="100"
-                                value="{{ $krs->nilai?->nilai_angka ?? '' }}"
-                                placeholder="0-100"
-                                oninput="recalc(this, {{ $index }})"
-                                class="w-24 bg-indigo-50 text-gray-900 border-2 border-indigo-100 rounded-lg px-2 py-1.5 text-center text-sm font-medium focus:outline-none
-                                 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/20 transition" />
-                        </td>
-                        <td class="px-5 py-4">
-                            <span class="text-sm font-bold text-indigo-700" id="huruf-{{ $index }}">
-                               {{ $krs->nilai ? $krs->nilai->nilai_huruf : 'E' }}
-                            </span>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
+    @foreach($mahasiswaTerdaftar as $index => $krs)
+    <tr class="hover:bg-indigo-50/30 transition">
+        <td class="px-5 py-4 text-sm text-gray-400 font-medium">{{ $index + 1 }}</td>
+        <td class="px-5 py-4 text-sm font-medium text-gray-500">{{ $krs->mahasiswa_nim }}</td>
+        <td class="px-5 py-4 font-semibold text-gray-800">{{ $krs->mahasiswa->user->name }}</td>
+        <td class="px-5 py-4">
+            <input type="hidden" name="krs_id[{{ $index }}]" value="{{ $krs->id_krs }}">
+            <input type="number" name="nilai_angka[{{ $index }}]" min="0" max="100"
+                value=""
+                placeholder="0-100"
+                oninput="recalc(this, {{ $index }})"
+                onkeyup="if(this.value > 100) this.value = 100; if(this.value < 0) this.value = 0;"
+                class="w-24 bg-indigo-50 text-gray-900 border-2 border-indigo-100 rounded-lg px-2 py-1.5 text-center text-sm font-medium focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/20 transition" />
+        </td>
+        <td class="px-5 py-4">
+            <span class="text-sm font-bold text-indigo-700" id="huruf-{{ $index }}">
+                {{ $krs->nilai ? $krs->nilai->nilai_huruf : '-' }}
+            </span>
+        </td>
+    </tr>
+    @endforeach
+</tbody>
             </table>
         </div>
 
@@ -94,12 +97,19 @@
 
 <script>
     function toHuruf(n) {
-        if (n === "" || n === null) return "E";
+        if (n === "" || n === null) return "-";
         n = parseInt(n);
+
         if (n >= 85) return "A";
-        if (n >= 75) return "B";
-        if (n >= 65) return "C";
-        if (n >= 55) return "D";
+        if (n >= 80) return "A-";
+        if (n >= 75) return "B+";
+        if (n >= 70) return "B";
+        if (n >= 65) return "B-";
+        if (n >= 60) return "C+";
+        if (n >= 55) return "C";
+        if (n >= 50) return "C-";
+        if (n >= 45) return "D+";
+        if (n >= 40) return "D";
         return "E";
     }
 
