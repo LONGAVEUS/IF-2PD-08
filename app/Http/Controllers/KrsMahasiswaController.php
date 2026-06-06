@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -10,7 +9,6 @@ use App\Models\Nilai;
 
 class KrsMahasiswaController extends Controller
 {
-
     public function isiKrs()
     {
         $mahasiswa = Auth::user()->mahasiswa;
@@ -35,10 +33,12 @@ class KrsMahasiswaController extends Controller
         ->get();
 
         $totalSksLalu = $nilaiLalu->sum(function($n) {
-            return $n->krs->mata_kuliah->sks ?? 0; });
+            return $n->krs->mata_kuliah->sks ?? 0;
+        });
 
         $totalKnLalu = $nilaiLalu->sum(function($n) {
-            return ($n->krs->mata_kuliah->sks ?? 0) * ($n->bobot ?? 0); });
+            return ($n->krs->mata_kuliah->sks ?? 0) * ($n->bobot ?? 0);
+        });
 
         $ipkLalu = $totalSksLalu > 0 ? round($totalKnLalu / $totalSksLalu, 2) : 0.00;
 
@@ -48,10 +48,12 @@ class KrsMahasiswaController extends Controller
         });
 
         $totalSksSemesterLalu = $nilaiSemesterLalu->sum(function($n) {
-            return $n->krs->mata_kuliah->sks ?? 0; });
+            return $n->krs->mata_kuliah->sks ?? 0;
+        });
 
         $totalKnSemesterLalu = $nilaiSemesterLalu->sum(function($n) {
-            return ($n->krs->mata_kuliah->sks ?? 0) * ($n->bobot ?? 0); });
+            return ($n->krs->mata_kuliah->sks ?? 0) * ($n->bobot ?? 0);
+        });
 
         $ipsLalu = $totalSksSemesterLalu > 0 ? round($totalKnSemesterLalu / $totalSksSemesterLalu, 2) : 0.00;
 
@@ -67,7 +69,6 @@ class KrsMahasiswaController extends Controller
 
     public function tambahMataKuliah(Request $request)
     {
-
         $request->validate([
             'kode_mk' => 'required'
         ]);
@@ -91,7 +92,7 @@ class KrsMahasiswaController extends Controller
 
         $matkulBaru = MataKuliah::where('kode_mk', $request->kode_mk)->firstOrFail();
         if (($sksSekarang + $matkulBaru->sks) > 24) {
-            return redirect()->back()->with('error', 'Tidak dapat mengambil matakuliah lewat dari maksimum sks! ' );
+            return redirect()->back()->with('error', 'Tidak dapat mengambil matakuliah lewat dari maksimum sks!');
         }
 
         Krs::create([
@@ -100,14 +101,12 @@ class KrsMahasiswaController extends Controller
             'semester'      => $mahasiswa->semester_ke,
         ]);
 
-
         return redirect()->back()->with('success', 'Mata kuliah berhasil ditambahkan ke rencana studi Anda!');
     }
 
     public function simpanKrs(Request $request)
     {
         $mahasiswa = Auth::user()->mahasiswa;
-
 
         $krsAktif = Krs::where('mahasiswa_nim', $mahasiswa->nim)
             ->where('semester', $mahasiswa->semester_ke)
@@ -118,14 +117,18 @@ class KrsMahasiswaController extends Controller
         }
 
         foreach ($krsAktif as $krs) {
-
             $sudahAda = Nilai::where('krs_id', $krs->id_krs)->exists();
 
             if (!$sudahAda) {
+
+                // Menginisialisasi draf awal nilai kosong menggunakan objek kelas turunan
+                $inisialisasi = new DrafNilaiBaru($krs->id_krs);
+                $dataAwal = $inisialisasi->setNilaiDefault();
+
                 Nilai::create([
                     'krs_id'      => $krs->id_krs,
-                    'nilai_huruf' => null,
-                    'bobot'       => null,
+                    'nilai_huruf' => $dataAwal['huruf'],
+                    'bobot'       => $dataAwal['bobot'],
                 ]);
             }
         }
@@ -133,18 +136,41 @@ class KrsMahasiswaController extends Controller
         return redirect()->route('lihat_khs', ['semester' => $mahasiswa->semester_ke])
             ->with('success', 'KRS berhasil disimpan! Silakan cek draf nilai Anda di KHS.');
     }
+
     public function hapusMataKuliah($id)
     {
-
         $krsItem = Krs::where('id_krs', $id)->first();
 
         if ($krsItem) {
-
             $krsItem->delete();
-
             return redirect()->back()->with('success', 'Mata kuliah berhasil dibatalkan dari KRS.');
         }
 
         return redirect()->back()->with('error', 'Data KRS gagal ditemukan atau sudah dihapus.');
+    }
+}
+
+abstract class NilaiAkademik
+{
+    protected $krsId;
+
+    public function __construct($krsId)
+    {
+        $this->krsId = $krsId;
+    }
+
+    // Abstract method sebagai kontrak wajib kelas turunan
+    abstract public function setNilaiDefault();
+}
+
+class DrafNilaiBaru extends NilaiAkademik
+{
+    // Polimorfisme untuk mengisi data draf awal nilai
+    public function setNilaiDefault()
+    {
+        return [
+            'huruf' => null,
+            'bobot' => null
+        ];
     }
 }

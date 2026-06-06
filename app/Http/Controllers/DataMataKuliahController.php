@@ -19,7 +19,6 @@ class DataMataKuliahController extends Controller
             $query->where('semester', $selectedSemester);
         }
 
-        // Pencarian
         if ($search) {
             $query->where(function($q) use ($search) {
                 $q->where('nama_mk', 'like', '%' . $search . '%')
@@ -49,6 +48,11 @@ class DataMataKuliahController extends Controller
             'dosen_nidn' => 'required'
         ]);
 
+        $validatorAkademik = new AturanKurikulumNasional($request->kode_mk, $request->sks);
+        if (!$validatorAkademik->validasiKelayakan()) {
+            return back()->with('error', 'Gagal: Kode Mata Kuliah wajib diawali huruf atau SKS bernilai negatif!');
+        }
+
         MataKuliah::create($request->all());
 
         return back()->with('success', 'Mata kuliah berhasil ditambahkan!');
@@ -68,6 +72,11 @@ class DataMataKuliahController extends Controller
 
         try {
 
+            $validatorAkademik = new AturanKurikulumNasional($request->kode_mk, $request->sks);
+            if (!$validatorAkademik->validasiKelayakan()) {
+                return back()->with('error', 'Gagal: Kode Mata Kuliah wajib diawali huruf atau SKS bernilai negatif!');
+            }
+
             $mk->update($request->all());
 
             return back()->with('success', 'Data mata kuliah berhasil diperbarui!');
@@ -85,6 +94,37 @@ class DataMataKuliahController extends Controller
     public function destroy($kode_mk)
     {
         MataKuliah::where('kode_mk', $kode_mk)->delete();
+
         return back()->with('success', 'Mata kuliah berhasil dihapus!');
+    }
+}
+
+abstract class StandarKurikulum
+{
+    protected $kodeMk;
+    protected $sks;
+
+    public function __construct($kodeMk, $sks)
+    {
+        $this->kodeMk = $kodeMk;
+        $this->sks = (int) $sks;
+    }
+
+    abstract public function validasiKelayakan();
+}
+
+class AturanKurikulumNasional extends StandarKurikulum
+{
+    public function validasiKelayakan()
+    {
+        if ($this->sks < 0) {
+            return false;
+        }
+
+        if (is_numeric(substr($this->kodeMk, 0, 1))) {
+            return false;
+        }
+
+        return true;
     }
 }
