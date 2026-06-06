@@ -12,7 +12,7 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        
+
         $credentials = $request->validate([
             'username' => 'required',
             'password' => 'required',
@@ -30,15 +30,15 @@ class LoginController extends Controller
             switch ($user->role) {
                 case 'admin':
 
-                    return redirect()->intended(route('dashboard_admin'));
+                    return redirect()->route('dashboard_admin');
 
                 case 'dosen':
 
-                    return redirect()->intended(route('dashboard_dosen'));
+                    return redirect()->route('dashboard_dosen');
 
                 case 'mahasiswa':
 
-                    return redirect()->intended(route('dashboard_mahasiswa'));
+                    return redirect()->route('dashboard_mahasiswa');
 
                 default:
                     return redirect('/');
