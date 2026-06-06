@@ -12,7 +12,7 @@
             <p class="text-sm text-gray-500">Sistem Pengisian KRS dan Hasil Akhir (KHS)</p>
         </div>
     </div>
-    {{-- Tombol menggunakan prop buttonText agar teksnya bisa berbeda dari judul --}}
+
     <button data-modal-target="{{ $targetModal }}" data-modal-toggle="{{ $targetModal }}"
         class="w-full md:w-auto bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-6 py-3 rounded-xl shadow-lg
          shadow-indigo-500/30 transition-all flex items-center justify-center gap-2">

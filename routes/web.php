@@ -5,8 +5,6 @@ use App\Http\Controllers\DataMahasiswaController;
 use App\Http\Controllers\DataDosenController;
 use App\Http\Controllers\DataAdminController;
 use App\Http\Controllers\DataMataKuliahController;
-use App\Http\Controllers\KrsController;
-use App\Http\Controllers\KhsController;
 use App\Http\Controllers\DosenController;
 use App\Http\Controllers\NilaiController;
 use App\Http\Controllers\LoginController;
@@ -73,8 +71,8 @@ Route::middleware('auth')->group(function () {
         Route::controller(DataMataKuliahController::class)->group(function () {
             Route::get('/data_matkul', 'index')->name('data_matkul');
             Route::post('/data_matkul/store', 'store')->name('matkul.store');
-            Route::put('/data_matkul/{id}/update', 'update')->name('matkul.update');
-            Route::delete('/data_matkul/{id}/delete', 'destroy')->name('matkul.destroy');
+            Route::put('/data_matkul/{kode_mk}/update', 'update')->name('matkul.update');
+            Route::delete('/data_matkul/{kode_mk}/delete', 'destroy')->name('matkul.destroy');;
         });
 
         Route::get('/admin_krs', [PengaturanKrsController::class, 'index'])->name('admin_krs');
