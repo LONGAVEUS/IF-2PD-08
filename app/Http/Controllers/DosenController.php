@@ -131,6 +131,7 @@ class DosenController extends Controller
             } else {
                 $huruf = 'E';  $bobot = 0.0;
             }
+<<<<<<< Updated upstream
             
             \App\Models\Nilai::updateOrCreate(
                 ['krs_id' => $krsId],
@@ -141,6 +142,18 @@ class DosenController extends Controller
             );
         }
 
+=======
+
+            \App\Models\Nilai::updateOrCreate(
+                ['krs_id' => $krsId],
+                [
+                    'nilai_huruf' => $huruf,
+                    'bobot' => $bobot
+                ]
+            );
+        }
+
+>>>>>>> Stashed changes
         return redirect()->back()->with('success', 'Nilai desimal akademik berhasil disimpan!');
     }
 }
