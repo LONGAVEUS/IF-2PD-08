@@ -18,6 +18,18 @@
         <x-semester-filter :selectedSemester="$selectedSemester" />
     </form>
 
+    @if(session('success'))
+        <div class="p-4 text-sm text-green-800 rounded-xl bg-green-50 font-medium border border-green-100 shadow-sm" role="alert">
+            <span class="font-bold">Berhasil!</span> {{ session('success') }}
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="p-4 text-sm text-red-800 rounded-xl bg-red-50 font-medium border border-red-100 shadow-sm" role="alert">
+            <span class="font-bold"></span> {{ session('error') }}
+        </div>
+    @endif
+
     {{-- Tabel Mata Kuliah --}}
     <div class="bg-white border-2 border-indigo-50 rounded-2xl shadow-sm overflow-hidden overflow-x-auto">
         <table class="w-full text-left min-w-[800px]">
@@ -114,57 +126,62 @@
                         <button type="submit" class="w-full mt-6 bg-indigo-600 text-white font-bold py-3.5 rounded-2xl shadow-lg active:scale-95
                             transition-all">Simpan
                             Perubahan</button>
-                    </form>
-                </x-modal>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-</div>
-
-{{-- Modal Tambah Matkul --}}
-<x-modal id="modalTambahMatkul" title="Tambah Mata Kuliah">
-    <form action="{{ route('matkul.store') }}" method="POST" class="p-1 space-y-4">
-        @csrf
-        <div class="grid grid-cols-2 gap-4">
-            <div>
-                <label class="block mb-1.5 text-[11px] font-bold text-indigo-900 uppercase">Kode MK:</label>
-                <input type="text" name="kode_mk" placeholder="Contoh: IF101" required
-                    class="w-full border border-gray-200 rounded-xl p-3 text-sm">
-            </div>
-            <div>
-                <label class="block mb-1.5 text-[11px] font-bold text-indigo-900 uppercase">SKS:</label>
-                <input type="number" name="sks" placeholder="Jml SKS" required
-                    class="w-full border border-gray-200 rounded-xl p-3 text-sm">
-            </div>
-        </div>
-        <div>
-            <label class="block mb-1.5 text-[11px] font-bold text-indigo-900 uppercase">Nama Mata Kuliah:</label>
-            <input type="text" name="nama_matkul" placeholder="Masukkan Nama Mata Kuliah" required
-                class="w-full border border-gray-200 rounded-xl p-3 text-sm">
-        </div>
-        <div class="grid grid-cols-2 gap-4">
-            <div>
-                <label class="block mb-1.5 text-[11px] font-bold text-indigo-900 uppercase">Semester:</label>
-                <select name="semester" class="w-full border border-gray-200 rounded-xl p-3 text-sm">
-                    @for($i=1; $i<=8; $i++) <option value="{{ $i }}">Semester {{ $i }}</option>
-                        @endfor
-                </select>
-            </div>
-            <div>
-                <label class="block mb-1.5 text-[11px] font-bold text-indigo-900 uppercase">Dosen Pengampu:</label>
-                <select name="user_id" required
-                    class="w-full border border-gray-200 rounded-xl p-3 text-sm font-bold text-indigo-600">
-                    <option value="">Pilih Dosen</option>
-                    @foreach($allDosen as $d)
-                    <option value="{{ $d->id }}">{{ $d->name }}</option>
+                        </form>
+                    </x-modal>
                     @endforeach
-                </select>
-            </div>
+                </tbody>
+            </table>
+    </div>
+        <div class="mt-5">
+            {{ $matkul->links('components.pagination') }}
         </div>
-        <button type="submit"
-            class="w-full bg-indigo-600 text-white font-bold py-3.5 rounded-2xl shadow-lg active:scale-95 transition-all">Simpan
-            Mata Kuliah</button>
-    </form>
-</x-modal>
+
+
+    <x-modal id="modalTambahMatkul" title="Tambah Mata Kuliah">
+        <form action="{{ route('matkul.store') }}" method="POST" class="p-1 space-y-4">
+            @csrf
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block mb-1.5 text-[11px] font-bold text-indigo-900 uppercase">Kode MK:</label>
+                    <input type="text" name="kode_mk" placeholder="Contoh: IF101" required
+                        class="w-full border border-gray-200 rounded-xl p-3 text-sm">
+                </div>
+                <div>
+                    <label class="block mb-1.5 text-[11px] font-bold text-indigo-900 uppercase">SKS:</label>
+                    <input type="number" name="sks" placeholder="Jml SKS" required
+                        class="w-full border border-gray-200 rounded-xl p-3 text-sm">
+                </div>
+            </div>
+            <div>
+                <label class="block mb-1.5 text-[11px] font-bold text-indigo-900 uppercase">Nama Mata Kuliah:</label>
+                <input type="text" name="nama_mk" placeholder="Masukkan Nama Mata Kuliah" required
+                    class="w-full border border-gray-200 rounded-xl p-3 text-sm">
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block mb-1.5 text-[11px] font-bold text-indigo-900 uppercase">Semester:</label>
+                    <select name="semester" class="w-full border border-gray-200 rounded-xl p-3 text-sm">
+                        @for($i=1; $i<=8; $i++)
+                            <option value="{{ $i }}">Semester {{ $i }}</option>
+                        @endfor
+                    </select>
+                </div>
+                <div>
+                    <label class="block mb-1.5 text-[11px] font-bold text-indigo-900 uppercase">Dosen Pengampu:</label>
+                    <select name="dosen_nidn" required
+                        class="w-full border border-gray-200 rounded-xl p-3 text-sm font-bold text-indigo-600">
+                        <option value="">Pilih Dosen</option>
+                        @foreach($allDosen as $d)
+                        <option value="{{ $d->username }}">{{ $d->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <button type="submit"
+                class="w-full bg-indigo-600 text-white font-bold py-3.5 rounded-2xl shadow-lg active:scale-95 transition-all">
+                Simpan Mata Kuliah
+            </button>
+        </form>
+    </x-modal>
+    </div>
 @endsection

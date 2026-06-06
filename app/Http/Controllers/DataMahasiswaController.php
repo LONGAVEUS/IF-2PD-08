@@ -30,7 +30,7 @@ class DataMahasiswaController extends Controller
             });
         }
 
-        $mahasiswa = $query->get();
+        $mahasiswa = $query->orderBy('name', 'asc')->paginate(5)->withQueryString();
 
         return view('pages.admin.data_mahasiswa', compact('mahasiswa', 'selectedSemester', 'search'));
     }
@@ -40,6 +40,7 @@ class DataMahasiswaController extends Controller
         $request->validate([
             'nim' => 'required|unique:mahasiswa,nim',
             'name' => 'required',
+            'prodi' => 'required',
             'password' => 'required|min:5',
             'semester_ke' => 'required',
             'status' => 'required|in:aktif,tidak_aktif'

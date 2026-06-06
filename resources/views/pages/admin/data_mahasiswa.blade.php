@@ -33,7 +33,7 @@
             <tbody class="divide-y divide-indigo-50 text-sm">
                 @foreach($mahasiswa as $index => $m)
                 <tr class="hover:bg-indigo-50/30 transition-colors">
-                    <td class="px-6 py-4 text-gray-400">{{ $index + 1 }}</td>
+                    <td class="px-6 py-4 text-gray-400">{{ ($mahasiswa->currentPage() - 1) * $mahasiswa->perPage() + $index + 1 }}</td>
                     <td class="px-6 py-4 font-bold text-indigo-700">{{ $m->mahasiswa->nim }}</td>
                     <td class="px-6 py-4 font-semibold text-gray-800">{{ $m->name }}</td>
                     <td class="px-6 py-4 text-gray-500">{{ $m->mahasiswa->prodi }}</td>
@@ -145,6 +145,11 @@
             </tbody>
         </table>
     </div>
+    <div class="mt-5">
+        {{ $mahasiswa->links('components.pagination') }}
+    </div>
+
+
 
     {{-- Modal Tambah --}}
     <x-modal id="modalTambah" title="Tambah Mahasiswa">
