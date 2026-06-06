@@ -34,7 +34,7 @@
             <tbody class="divide-y divide-indigo-50 text-sm">
                 @foreach($admin as $index => $a)
                 <tr class="hover:bg-indigo-50/30 transition-colors">
-                    <td class="px-6 py-4 text-gray-400">{{ $index + 1 }}</td>
+                    <td class="px-6 py-4 text-gray-400">{{ ($admin->currentPage() - 1) * $admin->perPage() + $index + 1 }}</td>
                     <td class="px-6 py-4 font-bold text-indigo-700">{{ $a->username }}</td>
                     <td class="px-6 py-4 font-semibold text-gray-800">{{ $a->name }}</td>
                     <td class="px-6 py-4 text-center">
@@ -108,6 +108,9 @@
                 @endforeach
             </tbody>
         </table>
+    </div>
+    <div class="mt-5">
+        {{ $admin->links('components.pagination') }}
     </div>
 </div>
 

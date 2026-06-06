@@ -23,7 +23,7 @@
             <thead class="bg-indigo-50/50">
                 <tr class="text-[11px] font-bold uppercase text-indigo-800 tracking-wider">
                     <th class="px-6 py-5">NO</th>
-                    <th class="px-6 py-5">NIDN</th>
+                    <th class="px-6 py-5">NIDN/NIP</th>
                     <th class="px-6 py-5">Nama Lengkap</th>
                     <th class="px-6 py-5">Jurusan</th>
                     <th class="px-6 py-5 text-center">Status</th>
@@ -33,7 +33,7 @@
             <tbody class="divide-y divide-indigo-50 text-sm">
                 @foreach($dosen as $index => $d)
                 <tr class="hover:bg-indigo-50/30 transition-colors">
-                    <td class="px-6 py-4 text-gray-400">{{ $index + 1 }}</td>
+                    <td class="px-6 py-4 text-gray-400">{{ ($dosen->currentPage() - 1) * $dosen->perPage() + $index + 1 }}</td>
                     <td class="px-6 py-4 font-bold text-indigo-700">{{ $d->dosen->nidn }}</td>
                     <td class="px-6 py-4 font-semibold text-gray-800">{{ $d->name }}</td>
                     <td class="px-6 py-4 text-gray-500">{{ $d->dosen->jurusan }}</td>
@@ -78,7 +78,7 @@
 
                         <div class="mb-5">
                             <label
-                                class="block mb-1.5 text-[11px] font-bold text-indigo-900 uppercase tracking-wider">NIDN:</label>
+                                class="block mb-1.5 text-[11px] font-bold text-indigo-900 uppercase tracking-wider">NIDN/NIP:</label>
                             <input type="text" name="nidn" value="{{ $d->dosen->nidn }}" required
                                 class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 p-3 outline-none transition-all">
                         </div>
@@ -99,9 +99,6 @@
                                 <option value="Teknik Informatika"
                                     {{ $d->dosen->jurusan == 'Teknik Informatika' ? 'selected' : '' }}>Teknik
                                     Informatika</option>
-                                <option value="Sistem Informasi"
-                                    {{ $d->dosen->jurusan == 'Sistem Informasi' ? 'selected' : '' }}>Sistem Informasi
-                                </option>
                             </select>
                         </div>
 
@@ -135,6 +132,10 @@
             </tbody>
         </table>
     </div>
+    <div class="mt-5">
+        {{ $dosen->links('components.pagination') }}
+    </div>
+
 </div>
 
 {{-- Modal Tambah Dosen --}}
@@ -142,7 +143,7 @@
     <form action="{{ route('dosen.store') }}" method="POST" class="p-1 space-y-4">
         @csrf
         <div>
-            <label class="block mb-1.5 text-[11px] font-bold text-indigo-900 uppercase">NIDN:</label>
+            <label class="block mb-1.5 text-[11px] font-bold text-indigo-900 uppercase">NIDN/NIP:</label>
             <input type="text" name="nidn" placeholder="Tambah NIDN Dosen" required
                 class="w-full border border-gray-200 rounded-xl p-3 text-sm">
         </div>
@@ -156,7 +157,6 @@
             <select name="jurusan" required class="w-full border border-gray-200 rounded-xl p-3 text-sm">
                 <option value="">Pilih Jurusan</option>
                 <option value="Teknik Informatika">Teknik Informatika</option>
-                <option value="Manajemen Bisnis">Manajemen Bisnis</option>
             </select>
         </div>
         <div class="grid grid-cols-2 gap-4">

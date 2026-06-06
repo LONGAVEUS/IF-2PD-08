@@ -14,7 +14,6 @@ class DataAdminController extends Controller
         $search = $request->query('search');
         $query = User::where('role', 'admin');
 
-        // Pencarian berdasarkan NIP (username) atau Nama
         if ($search) {
             $query->where(function($q) use ($search) {
                 $q->where('name', 'like', '%' . $search . '%')
@@ -22,7 +21,7 @@ class DataAdminController extends Controller
             });
         }
 
-        $admin = $query->orderBy('name', 'asc')->get();
+        $admin = $query->orderBy('name', 'asc')->paginate(5)->withQueryString();
         return view('pages.admin.data_admin', compact('admin', 'search'));
     }
 
@@ -37,7 +36,7 @@ class DataAdminController extends Controller
 
         User::create([
             'name' => $request->name,
-            'username' => $request->nip, // NIP disimpan sebagai username
+            'username' => $request->nip,
             'password' => Hash::make($request->password),
             'role' => 'admin',
             'status' => $request->status

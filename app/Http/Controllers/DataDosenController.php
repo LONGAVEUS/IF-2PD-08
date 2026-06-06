@@ -22,7 +22,7 @@ class DataDosenController extends Controller
             });
         }
 
-        $dosen = $query->orderBy('name', 'asc')->get();
+        $dosen = $query->orderBy('name', 'asc')->paginate(5)->withQueryString();
         return view('pages.admin.data_dosen', compact('dosen', 'search'));
     }
 
