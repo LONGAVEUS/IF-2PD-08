@@ -123,7 +123,7 @@
                     </a>
 
                     {{-- Shortcut: Data KRS --}}
-                    <a href="{{ route('admin_krs') }}"
+                    <a href="{{ route('data_mahasiswa') }}"
                         class="flex items-center justify-between p-4 hover:bg-indigo-50 rounded-xl transition group">
                         <div class="flex items-center gap-4">
                             <div

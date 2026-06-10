@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class DataAdminController extends Controller
 {
-    public function index(Request $request)
+    public function tampilAdmin(Request $request)
     {
         $search = $request->query('search');
         $query = User::where('role', 'admin');
@@ -25,7 +25,7 @@ class DataAdminController extends Controller
         return view('pages.admin.data_admin', compact('admin', 'search'));
     }
 
-    public function store(Request $request)
+    public function tambahAdmin(Request $request)
     {
         $request->validate([
             'nip' => 'required|unique:users,username',
@@ -45,7 +45,7 @@ class DataAdminController extends Controller
         return back()->with('success', 'Admin berhasil ditambahkan!');
     }
 
-    public function update(Request $request, $id)
+    public function ubahAdmin(Request $request, $id)
     {
         $user = User::findOrFail($id);
 
@@ -68,7 +68,7 @@ class DataAdminController extends Controller
         return redirect()->route('data_admin')->with('success', 'Data admin berhasil diperbarui!');
     }
 
-    public function destroy($id)
+    public function hapusAdmin($id)
     {
         $user = User::findOrFail($id);
 

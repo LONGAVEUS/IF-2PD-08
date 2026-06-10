@@ -6,13 +6,10 @@ use App\Http\Controllers\DataDosenController;
 use App\Http\Controllers\DataAdminController;
 use App\Http\Controllers\DataMataKuliahController;
 use App\Http\Controllers\DosenController;
-use App\Http\Controllers\NilaiController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\KrsMahasiswaController;
 use App\Http\Controllers\KhsMahasiswaController;
-use App\Http\Controllers\PengaturanKrsController;
-use App\Http\Controllers\PengaturanKhsController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -48,35 +45,33 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'dashboardAdmin'])->name('dashboard_admin');
 
         Route::controller(DataMahasiswaController::class)->group(function () {
-            Route::get('/data_mahasiswa', 'index')->name('data_mahasiswa');
-            Route::post('/data_mahasiswa/store', 'store')->name('mahasiswa.store');
-            Route::put('/data_mahasiswa/{id}/update', 'update')->name('mahasiswa.update');
-            Route::delete('/data_mahasiswa/{id}/delete', 'destroy')->name('mahasiswa.destroy');
+            Route::get('/data_mahasiswa', 'tampilMahasiswa')->name('data_mahasiswa');
+            Route::post('/data_mahasiswa/store', 'tambahMahasiswa')->name('mahasiswa.store');
+            Route::put('/data_mahasiswa/{id}/update', 'ubahMahasiswa')->name('mahasiswa.update');
+            Route::delete('/data_mahasiswa/{id}/delete', 'hapusMahasiswa')->name('mahasiswa.destroy');
         });
 
         Route::controller(DataDosenController::class)->group(function () {
-            Route::get('/data_dosen', 'index')->name('data_dosen');
-            Route::post('/data_dosen/store', 'store')->name('dosen.store');
-            Route::put('/data_dosen/{id}/update', 'update')->name('dosen.update');
-            Route::delete('/data_dosen/{id}/delete', 'destroy')->name('dosen.destroy');
+            Route::get('/data_dosen', 'tampilDosen')->name('data_dosen');
+            Route::post('/data_dosen/store', 'tambahDosen')->name('dosen.store');
+            Route::put('/data_dosen/{id}/update', 'ubahDosen')->name('dosen.update');
+            Route::delete('/data_dosen/{id}/delete', 'hapusDosen')->name('dosen.destroy');
         });
 
         Route::controller(DataAdminController::class)->group(function () {
-            Route::get('/data_admin', 'index')->name('data_admin');
-            Route::post('/data_admin/store', 'store')->name('admin.store');
-            Route::put('/data_admin/{id}/update', 'update')->name('admin.update');
-            Route::delete('/data_admin/{id}/delete', 'destroy')->name('admin.destroy');
+            Route::get('/data_admin', 'tampilAdmin')->name('data_admin');
+            Route::post('/data_admin/store', 'tambahAdmin')->name('admin.store');
+            Route::put('/data_admin/{id}/update', 'ubahAdmin')->name('admin.update');
+            Route::delete('/data_admin/{id}/delete', 'hapusAdmin')->name('admin.destroy');
         });
 
         Route::controller(DataMataKuliahController::class)->group(function () {
-            Route::get('/data_matkul', 'index')->name('data_matkul');
-            Route::post('/data_matkul/store', 'store')->name('matkul.store');
-            Route::put('/data_matkul/{kode_mk}/update', 'update')->name('matkul.update');
-            Route::delete('/data_matkul/{kode_mk}/delete', 'destroy')->name('matkul.destroy');;
+            Route::get('/data_matkul', 'tampilMatkul')->name('data_matkul');
+            Route::post('/data_matkul/store', 'tambahMatkul')->name('matkul.store');
+            Route::put('/data_matkul/{kode_mk}/update', 'ubahMatkul')->name('matkul.update');
+            Route::delete('/data_matkul/{kode_mk}/delete', 'hapusMatkul')->name('matkul.destroy');;
         });
 
-        Route::get('/admin_krs', [PengaturanKrsController::class, 'index'])->name('admin_krs');
-        Route::post('/pengaturan-krs/simpan', [PengaturanKrsController::class, 'saveKonfigurasi'])->name('pengaturan_krs.simpan');
     });
 
 });

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Hash;
 
 class DataDosenController extends Controller
 {
-    public function index(Request $request)
+    public function tampilDosen(Request $request)
     {
         $search = $request->query('search');
         $query = User::where('role', 'dosen')->with('dosen');
@@ -26,7 +26,7 @@ class DataDosenController extends Controller
         return view('pages.admin.data_dosen', compact('dosen', 'search'));
     }
 
-    public function store(Request $request)
+    public function tambahDosen(Request $request)
     {
         $request->validate([
             'nidn' => 'required|unique:dosen,nidn',
@@ -53,7 +53,7 @@ class DataDosenController extends Controller
         return back()->with('success', 'Dosen berhasil ditambahkan!');
     }
 
-    public function update(Request $request, $id)
+    public function ubahDosen(Request $request, $id)
     {
         $user = User::findOrFail($id);
         $request->validate([
@@ -77,7 +77,7 @@ class DataDosenController extends Controller
         return redirect()->route('data_dosen')->with('success', 'Data dosen berhasil diperbarui!');
     }
 
-    public function destroy($id)
+    public function hapusDosen($id)
     {
         $user = User::findOrFail($id);
         if ($user->dosen) { $user->dosen->delete(); }

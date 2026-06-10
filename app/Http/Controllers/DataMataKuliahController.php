@@ -8,7 +8,8 @@ use Illuminate\Http\Request;
 
 class DataMataKuliahController extends Controller
 {
-    public function index(Request $request)
+   
+    public function tampilMatkul(Request $request)
     {
         $search = $request->query('search');
         $selectedSemester = $request->query('semester');
@@ -27,7 +28,6 @@ class DataMataKuliahController extends Controller
         }
 
         $matkul = $query->orderBy('semester', 'asc')->paginate(5)->withQueryString();
-
         $allDosen = User::where('role', 'dosen')->where('status', 'aktif')->get();
 
         return view('pages.admin.data_matkul', compact(
@@ -38,7 +38,8 @@ class DataMataKuliahController extends Controller
         ));
     }
 
-    public function store(Request $request)
+
+    public function tambahMatkul(Request $request)
     {
         $request->validate([
             'kode_mk' => 'required|unique:mata_kuliah,kode_mk',
@@ -58,7 +59,7 @@ class DataMataKuliahController extends Controller
         return back()->with('success', 'Mata kuliah berhasil ditambahkan!');
     }
 
-    public function update(Request $request, $kode_mk)
+    public function ubahMatkul(Request $request, $kode_mk)
     {
         $mk = MataKuliah::where('kode_mk', $kode_mk)->firstOrFail();
 
@@ -71,7 +72,6 @@ class DataMataKuliahController extends Controller
         ]);
 
         try {
-
             $validatorAkademik = new AturanKurikulumNasional($request->kode_mk, $request->sks);
             if (!$validatorAkademik->validasiKelayakan()) {
                 return back()->with('error', 'Gagal: Kode Mata Kuliah wajib diawali huruf atau SKS bernilai negatif!');
@@ -82,16 +82,14 @@ class DataMataKuliahController extends Controller
             return back()->with('success', 'Data mata kuliah berhasil diperbarui!');
 
         } catch (\Illuminate\Database\QueryException $e) {
-
             if ($e->getCode() == '23000') {
                 return back()->with('error', 'Mata kuliah sedang berjalan di KRS mahasiswa! Kode MK tidak dapat diubah.');
             }
-
             return back()->with('error', 'Gagal memperbarui data: ' . $e->getMessage());
         }
     }
 
-    public function destroy($kode_mk)
+    public function hapusMatkul($kode_mk)
     {
         MataKuliah::where('kode_mk', $kode_mk)->delete();
 

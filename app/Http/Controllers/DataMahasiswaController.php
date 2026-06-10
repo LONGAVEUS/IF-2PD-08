@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Hash;
 
 class DataMahasiswaController extends Controller
 {
-    public function index(Request $request)
+    public function tampilMahasiswa(Request $request)
     {
         $selectedSemester = $request->query('semester');
         $search = $request->query('search');
@@ -35,7 +35,7 @@ class DataMahasiswaController extends Controller
         return view('pages.admin.data_mahasiswa', compact('mahasiswa', 'selectedSemester', 'search'));
     }
 
-    public function store(Request $request)
+    public function tambahMahasiswa(Request $request)
     {
         $request->validate([
             'nim' => 'required|unique:mahasiswa,nim',
@@ -64,7 +64,7 @@ class DataMahasiswaController extends Controller
         return back()->with('success', 'Mahasiswa berhasil ditambahkan!');
     }
 
-    public function update(Request $request, $id)
+    public function ubahMahasiswa(Request $request, $id)
     {
         $user = User::findOrFail($id);
         $request->validate([
@@ -90,7 +90,7 @@ class DataMahasiswaController extends Controller
         return redirect()->route('data_mahasiswa')->with('success', 'Data mahasiswa berhasil diperbarui!');
     }
 
-    public function destroy($id)
+    public function hapusMahasiswa($id)
     {
         $user = User::findOrFail($id);
         if ($user->mahasiswa) { $user->mahasiswa->delete(); }
