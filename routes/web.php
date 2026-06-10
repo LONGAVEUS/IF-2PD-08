@@ -28,7 +28,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('mahasiswa')->group(function () {
         Route::get('/dashboard', [MahasiswaController::class, 'MahasiswaPage'])->name('dashboard_mahasiswa');
         Route::get('/isi_krs', [KrsMahasiswaController::class, 'isiKrs'])->name('isi_krs');
-        Route::get('/lihat_khs', [KhsMahasiswaController::class, 'index'])->name('lihat_khs');
+        Route::get('/lihat_khs', [KhsMahasiswaController::class, 'tampilKhs'])->name('lihat_khs');
 
         Route::post('/krs/tambah', [KrsMahasiswaController::class, 'tambahMataKuliah'])->name('mahasiswa.krs.tambah');
         Route::delete('/krs/{id}/hapus', [KrsMahasiswaController::class, 'hapusMataKuliah'])->name('mahasiswa.krs.hapus');

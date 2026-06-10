@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class KhsMahasiswaController extends Controller
 {
-    public function index(Request $request)
+    public function tampilKhs(Request $request)
     {
         $user = Auth::user();
         $mahasiswa = $user->mahasiswa;
@@ -46,7 +46,7 @@ class KhsMahasiswaController extends Controller
         $semuaNilaiLolos = Nilai::whereHas('krs', function($query) use ($mahasiswa) {
             $query->where('mahasiswa_nim', $mahasiswa->nim);
         })
-        ->whereNotNull('bobot') 
+        ->whereNotNull('bobot')
         ->get();
 
         $totalSksKumulatif = $semuaNilaiLolos->sum(function($n) {
