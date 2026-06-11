@@ -112,6 +112,7 @@
         if (n >= 40) return "D";
         return "E";
     }
+    
 
     function recalc(input, index) {
         const huruf = toHuruf(input.value);

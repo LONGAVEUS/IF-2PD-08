@@ -10,6 +10,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\KrsMahasiswaController;
 use App\Http\Controllers\KhsMahasiswaController;
+use App\Http\Controllers\NilaiController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -35,11 +36,11 @@ Route::middleware('auth')->group(function () {
         Route::post('/krs/{id}/simpan', [KrsMahasiswaController::class, 'simpanKrs'])->name('mahasiswa.krs.simpan');
     });
 
-    Route::prefix('dosen')->group(function () {
-        Route::get('/dashboard', [DosenController::class, 'tampilkan'])->name('dashboard_dosen');
-        Route::get('/input_nilai/{kode_mk?}', [DosenController::class, 'inputNilai'])->name('input_nilai');
-        Route::post('/simpan_nilai', [DosenController::class, 'simpanNilai'])->name('simpan_nilai');
-    });
+   Route::prefix('dosen')->group(function () {
+    Route::get('/dashboard', [DosenController::class, 'tampilkan'])->name('dashboard_dosen');
+    Route::get('/input_nilai/{kode_mk?}', [NilaiController::class, 'inputNilai'])->name('input_nilai');
+    Route::post('/simpan_nilai', [NilaiController::class, 'simpanNilai'])->name('simpan_nilai');
+});
 
     Route::prefix('admin')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'dashboardAdmin'])->name('dashboard_admin');

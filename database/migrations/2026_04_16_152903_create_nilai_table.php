@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('nilai', function (Blueprint $table) {
             $table->id('id_nilai');
             $table->unsignedBigInteger('krs_id');
-            $table->enum('nilai_huruf', ['A', 'B+', 'B', 'C+', 'C', 'D', 'E'])->nullable();
+            $table->enum('nilai_huruf', ['A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'E'])->nullable();
             $table->float('bobot')->nullable();
             $table->foreign('krs_id')->references('id_krs')->on('krs')->onDelete('cascade');
             $table->timestamps();
