@@ -121,6 +121,10 @@
                                     </option>
                                     <option value="2" {{ $m->mahasiswa->semester_ke == 2 ? 'selected' : '' }}>Semester 2
                                     </option>
+                                    <option value="2" {{ $m->mahasiswa->semester_ke == 3 ? 'selected' : '' }}>Semester 3
+                                    </option>
+                                    <option value="2" {{ $m->mahasiswa->semester_ke == 4 ? 'selected' : '' }}>Semester 4
+                                    </option>
                                 </select>
                             </div>
                             <div>
@@ -189,6 +193,8 @@
                         class="w-full bg-white border border-gray-200 text-sm rounded-xl p-3 outline-none">
                         <option value="1">Semester 1</option>
                         <option value="2">Semester 2</option>
+                        <option value="3">Semester 3</option>
+                        <option value="4">Semester 4</option>
                     </select>
                 </div>
                 <div>

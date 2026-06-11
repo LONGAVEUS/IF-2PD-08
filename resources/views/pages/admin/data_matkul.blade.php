@@ -19,15 +19,16 @@
     </form>
 
     @if(session('success'))
-        <div class="p-4 text-sm text-green-800 rounded-xl bg-green-50 font-medium border border-green-100 shadow-sm" role="alert">
-            <span class="font-bold">Berhasil!</span> {{ session('success') }}
-        </div>
+    <div class="p-4 text-sm text-green-800 rounded-xl bg-green-50 font-medium border border-green-100 shadow-sm"
+        role="alert">
+        <span class="font-bold">Berhasil!</span> {{ session('success') }}
+    </div>
     @endif
 
     @if(session('error'))
-        <div class="p-4 text-sm text-red-800 rounded-xl bg-red-50 font-medium border border-red-100 shadow-sm" role="alert">
-            <span class="font-bold"></span> {{ session('error') }}
-        </div>
+    <div class="p-4 text-sm text-red-800 rounded-xl bg-red-50 font-medium border border-red-100 shadow-sm" role="alert">
+        <span class="font-bold"></span> {{ session('error') }}
+    </div>
     @endif
 
     {{-- Tabel Mata Kuliah --}}
@@ -83,58 +84,74 @@
 
                 {{-- Modal Edit MK --}}
                 <x-modal id="modalEditMK-{{ $mk->kode_mk }}" title="Edit Mata Kuliah">
-                    <form action="{{ route('matkul.update', $mk->kode_mk) }}" method="POST" class="p-1 space-y-4">
-                        @csrf @method('PUT')
-                        <div>
-                            <label class="block mb-1.5 text-[11px] font-bold text-indigo-900 uppercase">Nama Mata
-                                Kuliah:</label>
-                            <input type="text" name="nama_mk" value="{{ $mk->nama_mk }}" required
-                                class="w-full border border-gray-200 rounded-xl p-3 text-sm">
-                        </div>
+                    <form action="{{ route('matkul.update', $mk->kode_mk) }}" method="POST" class="p-1">
+                        @csrf
+                        @method('PUT')
+
+                        {{-- Baris 1: Kode MK dan SKS Berdampingan --}}
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block mb-1.5 text-[11px] font-bold text-indigo-900 uppercase">Kode
                                     MK:</label>
-                                <input type="text" name="kode_mk" value="{{ $mk->kode_mk }}" required
-                                    class="w-full border border-gray-200 rounded-xl p-3 text-sm">
+                                <input type="text" name="kode_mk" value="{{ $mk->kode_mk }}" required readonly
+                                    class="w-full border border-gray-200 bg-gray-100 text-gray-400 rounded-xl p-3 text-sm outline-none cursor-not-allowed">
                             </div>
                             <div>
                                 <label class="block mb-1.5 text-[11px] font-bold text-indigo-900 uppercase">SKS:</label>
                                 <input type="number" name="sks" value="{{ $mk->sks }}" required
-                                    class="w-full border border-gray-200 rounded-xl p-3 text-sm">
+                                    class="w-full border border-gray-200 bg-white rounded-xl p-3 text-sm outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition">
                             </div>
                         </div>
-                        <div class="grid grid-cols-2 gap-4">
+
+
+                        <div class="mt-5">
+                            <label class="block mb-1.5 text-[11px] font-bold text-indigo-900 uppercase">Nama Mata
+                                Kuliah:</label>
+                            <input type="text" name="nama_mk" value="{{ $mk->nama_mk }}" required
+                                class="w-full border border-gray-200 bg-white rounded-xl p-3 text-sm outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition">
+                        </div>
+
+                        {{-- Baris 3: Semester dan Dosen Pengampu  --}}
+                        <div class="grid grid-cols-2 gap-4 mt-5">
                             <div>
                                 <label
                                     class="block mb-1.5 text-[11px] font-bold text-indigo-900 uppercase">Semester:</label>
-                                <input type="number" name="semester" value="{{ $mk->semester }}" required
-                                    class="w-full border border-gray-200 rounded-xl p-3 text-sm">
+                                <select name="semester" required
+                                    class="w-full border border-gray-200 bg-white text-gray-700 rounded-xl p-3 text-sm outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition">
+                                    @for($i=1; $i<=8; $i++) <option value="{{ $i }}"
+                                        {{ $mk->semester == $i ? 'selected' : '' }}>Semester {{ $i }}</option>
+                                        @endfor
+                                </select>
                             </div>
                             <div>
                                 <label class="block mb-1.5 text-[11px] font-bold text-indigo-900 uppercase">Dosen
                                     Pengampu:</label>
                                 <select name="dosen_nidn" required
-                                    class="w-full border border-gray-200 rounded-xl p-3 text-sm font-bold text-indigo-600">
+                                    class="w-full border border-gray-200 bg-white text-indigo-600 font-bold rounded-xl p-3 text-sm outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition">
                                     @foreach($allDosen as $d)
                                     <option value="{{ $d->username }}"
-                                        {{ $mk->dosen_nidn == $d->username ? 'selected' : '' }}>{{ $d->name }}</option>
+                                        {{ $mk->dosen_nidn == $d->username ? 'selected' : '' }}>
+                                        {{ $d->name }}
+                                    </option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
-                        <button type="submit" class="w-full mt-6 bg-indigo-600 text-white font-bold py-3.5 rounded-2xl shadow-lg active:scale-95
-                            transition-all">Simpan
-                            Perubahan</button>
-                        </form>
-                    </x-modal>
-                    @endforeach
-                </tbody>
-            </table>
+
+                        {{-- Tombol Aksi Simpan  --}}
+                        <button type="submit"
+                            class="w-full mt-6 bg-indigo-600 text-white font-bold py-3.5 rounded-2xl shadow-lg active:scale-95 hover:bg-indigo-700 transition-all">
+                            Simpan Perubahan
+                        </button>
+                    </form>
+                </x-modal>
+                @endforeach
+            </tbody>
+        </table>
     </div>
-        <div class="mt-5">
-            {{ $matkul->links('components.pagination') }}
-        </div>
+    <div class="mt-5">
+        {{ $matkul->links('components.pagination') }}
+    </div>
 
 
     <x-modal id="modalTambahMatkul" title="Tambah Mata Kuliah">
@@ -161,9 +178,8 @@
                 <div>
                     <label class="block mb-1.5 text-[11px] font-bold text-indigo-900 uppercase">Semester:</label>
                     <select name="semester" class="w-full border border-gray-200 rounded-xl p-3 text-sm">
-                        @for($i=1; $i<=8; $i++)
-                            <option value="{{ $i }}">Semester {{ $i }}</option>
-                        @endfor
+                        @for($i=1; $i<=8; $i++) <option value="{{ $i }}">Semester {{ $i }}</option>
+                            @endfor
                     </select>
                 </div>
                 <div>
@@ -183,5 +199,5 @@
             </button>
         </form>
     </x-modal>
-    </div>
+</div>
 @endsection

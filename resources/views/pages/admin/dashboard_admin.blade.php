@@ -96,64 +96,46 @@
         {{-- Menu Pengelolaan --}}
         <div class="lg:col-span-5 space-y-6">
             <div class="bg-white border-2 border-indigo-50 rounded-2xl shadow-sm overflow-hidden h-fit">
-                <div class="p-6 border-b border-indigo-50">
-                    <h2 class="text-lg font-bold text-slate-800">Menu Pengelolaan</h2>
-                    <p class="text-xs text-slate-500 mt-1">Akses cepat ke semua fitur</p>
+                {{-- Bagian Header Kotak --}}
+                <div class="p-6 border-b border-indigo-50 bg-amber-50/30 flex justify-between items-center">
+                    <div>
+                        <h2 class="text-lg font-bold text-slate-800">Perhatian Akademik</h2>
+                        <p class="text-xs text-slate-500 mt-1">Mahasiswa belum mengisi KRS di Semester {{ $selectedSemester }}</p>
+                    </div>
+                    {{-- Badge Angka Berwarna Peringatan --}}
+                    <span class="text-xs font-extrabold bg-amber-100 text-amber-800 px-2.5 py-1 rounded-full animate-pulse">
+                        {{ $jumlahBelumKrs }} Peringatan
+                    </span>
                 </div>
 
-                <div class="p-3 space-y-2">
-                    {{-- Shortcut: Data Mata Kuliah  --}}
-                    <a href="#"
-                        class="flex items-center justify-between p-4 hover:bg-indigo-50 rounded-xl transition group">
-                        <div class="flex items-center gap-4">
-                            <div class="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center group-hover:scale-110 transition">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
-                                    viewBox="0 0 24 24">
-                                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-                                </svg>
-                            </div>
+                {{-- Daftar Mahasiswa yang Belum Isi KRS --}}
+                <div class="p-3 max-h-[350px] overflow-y-auto divide-y divide-slate-100">
+                    @if($jumlahBelumKrs > 0)
+                        @foreach($mahasiswaBelumKrs as $mhs)
+                        <div class="p-3 flex items-center justify-between hover:bg-slate-50 rounded-xl transition">
                             <div>
-                                <p class="font-bold text-slate-800">Data Mata Kuliah</p>
-                                <p class="text-[10px] font-medium text-slate-400">Kelola daftar & kurikulum mata kuliah
-                                </p>
+                                <p class="text-sm font-bold text-slate-800">{{ $mhs->user->name }}</p>
+                                <p class="text-[11px] font-medium text-slate-400 mt-0.5">NIM: {{ $mhs->nim }} · Prodi: {{ $mhs->prodi }}</p>
                             </div>
+                            {{-- Tombol Tindakan Langsung Menuju Halaman Kelola --}}
+                            <a href="{{ route('data_mahasiswa') }}?search={{ $mhs->nim }}"
+                               class="text-[11px] font-bold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-2.5 py-1.5 rounded-lg transition">
+                                Hubungi
+                            </a>
                         </div>
-                        <svg class="w-5 h-5 text-slate-300 group-hover:text-blue-600 transition" fill="none"
-                            stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path d="M9 18l6-6-6-6"></path>
-                        </svg>
-                    </a>
-
-                    {{-- Shortcut: Data KRS --}}
-                    <a href="{{ route('data_mahasiswa') }}"
-                        class="flex items-center justify-between p-4 hover:bg-indigo-50 rounded-xl transition group">
-                        <div class="flex items-center gap-4">
-                            <div
-                                class="w-10 h-10 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center group-hover:scale-110 transition">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
-                                    viewBox="0 0 24 24">
-                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                                    <polyline points="14 2 14 8 20 8"></polyline>
-                                    <line x1="16" y1="13" x2="8" y2="13"></line>
-                                    <line x1="16" y1="17" x2="8" y2="17"></line>
-                                    <polyline points="10 9 9 9 8 9"></polyline>
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="font-bold text-slate-800">Data KRS</p>
-                                <p class="text-[10px] font-medium text-slate-400">Monitor pengisian KRS mahasiswa</p>
-                            </div>
+                        @endforeach
+                    @else
+                        <div class="p-8 text-center text-slate-400 space-y-2">
+                            <svg class="w-8 h-8 text-emerald-500 mx-auto" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <p class="text-xs font-semibold text-slate-500">Luar biasa! Semua mahasiswa di semester ini sudah mengisi KRS.</p>
                         </div>
-                        <svg class="w-5 h-5 text-slate-300 group-hover:text-indigo-600 transition" fill="none"
-                            stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path d="M9 18l6-6-6-6"></path>
-                        </svg>
-                    </a>
-
+                    @endif
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 @endsection
