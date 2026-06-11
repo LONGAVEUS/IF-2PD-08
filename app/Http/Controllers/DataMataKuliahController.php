@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 
 class DataMataKuliahController extends Controller
 {
-   
     public function tampilMatkul(Request $request)
     {
         $search = $request->query('search');

@@ -1,5 +1,5 @@
 @if ($paginator->hasPages())
-<nav aria-label="Page navigation example" class="flex justify-between items-center px-4 py-3">
+<nav aria-label="Page navigation example" class="flex flex-col md:flex-row justify-between items-center gap-4 px-4 py-3">
     <span class="text-sm text-gray-500">
         Menampilkan {{ $paginator->firstItem() }} sampai {{ $paginator->lastItem() }} dari {{ $paginator->total() }} data
     </span>
@@ -15,7 +15,7 @@
             </li>
         @endif
 
-   
+
         @foreach ($elements as $element)
 
             @if (is_string($element))

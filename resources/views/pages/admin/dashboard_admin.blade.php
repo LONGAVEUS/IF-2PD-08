@@ -88,6 +88,9 @@
                 <div class="p-10 text-center text-slate-400">Tidak ada mata kuliah aktif di semester ini.</div>
                 @endforelse
             </div>
+            <div class="p-4 border-t border-indigo-50 bg-slate-50/50">
+                {{ $mataKuliahAktif->links('components.pagination') }}
+            </div>
         </div>
 
         {{-- Menu Pengelolaan --}}
