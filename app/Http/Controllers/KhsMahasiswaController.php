@@ -12,13 +12,14 @@ class KhsMahasiswaController extends Controller
     {
         $user = Auth::user();
         $mahasiswa = $user->mahasiswa;
-
-
+        
+        // Daftar pilihan semester untuk dropdown
         $semesters = [1, 2, 3, 4, 5, 6, 7, 8];
 
-
+        // Ambil semester yang dipilih user, default semester 1
         $selectedSemester = $request->get('semester', 1);
 
+        //Ambil data nilai (relasi KRS & mata kuliah)
         $nilai = Nilai::with(['krs' => function($query) use ($mahasiswa, $selectedSemester) {
             $query->where('mahasiswa_nim', $mahasiswa->nim)
                   ->where('semester', $selectedSemester);
@@ -29,7 +30,7 @@ class KhsMahasiswaController extends Controller
         })
         ->get();
 
-
+        // Hitung total SKS dan total KN semester yang dipilih
         $totalSks = $nilai->sum(function($n) {
             return $n->krs->mata_kuliah->sks ?? 0;
         });

@@ -25,6 +25,7 @@ class KrsMahasiswaController extends Controller
             ->whereNotIn('kode_mk', $sudahDipilihCodes)
             ->get();
 
+        // Ngambil nilai di semua semester lalu (udh ada bobotnya)
         $nilaiLalu = \App\Models\Nilai::whereHas('krs', function($query) use ($mahasiswa) {
             $query->where('mahasiswa_nim', $mahasiswa->nim)
                   ->where('semester', '<', $mahasiswa->semester_ke);
@@ -32,31 +33,37 @@ class KrsMahasiswaController extends Controller
         ->whereNotNull('bobot')
         ->get();
 
+        //jumlahin total SKS & KN dari semua nilai semester lalu
         $totalSksLalu = $nilaiLalu->sum(function($n) {
             return $n->krs->mata_kuliah->sks ?? 0;
         });
-
         $totalKnLalu = $nilaiLalu->sum(function($n) {
             return ($n->krs->mata_kuliah->sks ?? 0) * ($n->bobot ?? 0);
         });
 
+        //HITUNG IPK
         $ipkLalu = $totalSksLalu > 0 ? round($totalKnLalu / $totalSksLalu, 2) : 0.00;
 
+        //Hitung nomor semester sebelumnya (utk hitung IPS)
         $semesterLalu = $mahasiswa->semester_ke - 1;
+
+        // Menyaring nilai hanya dari semester sebelumnya
         $nilaiSemesterLalu = $nilaiLalu->filter(function($n) use ($semesterLalu) {
             return $n->krs->semester == $semesterLalu;
         });
 
+        //Hitung total SKS & KN di semester sebelumnya
         $totalSksSemesterLalu = $nilaiSemesterLalu->sum(function($n) {
             return $n->krs->mata_kuliah->sks ?? 0;
         });
-
         $totalKnSemesterLalu = $nilaiSemesterLalu->sum(function($n) {
             return ($n->krs->mata_kuliah->sks ?? 0) * ($n->bobot ?? 0);
         });
 
+        //HITUNG IPS
         $ipsLalu = $totalSksSemesterLalu > 0 ? round($totalKnSemesterLalu / $totalSksSemesterLalu, 2) : 0.00;
 
+        //GABUNGAN INFO PENTING DALAM 1 ARRAY
         $infoKrs = [
             'semester_aktif'   => "Semester " . $mahasiswa->semester_ke,
             'nim'              => $mahasiswa->nim,
