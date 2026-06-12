@@ -83,12 +83,12 @@
                 </tr>
 
                 {{-- Modal Edit MK --}}
-                <x-modal id="modalEditMK-{{ $mk->kode_mk }}" title="Edit Mata Kuliah">
+                <x-modal id="modalEditMK-{{ $mk->kode_mk }}" t itle="Edit Mata Kuliah">
                     <form action="{{ route('matkul.update', $mk->kode_mk) }}" method="POST" class="p-1">
                         @csrf
                         @method('PUT')
 
-                        {{-- Baris 1: Kode MK dan SKS Berdampingan --}}
+                        {{--  Kode MK dan SKS Berdampingan --}}
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block mb-1.5 text-[11px] font-bold text-indigo-900 uppercase">Kode
@@ -111,7 +111,7 @@
                                 class="w-full border border-gray-200 bg-white rounded-xl p-3 text-sm outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition">
                         </div>
 
-                        {{-- Baris 3: Semester dan Dosen Pengampu  --}}
+                        {{-- Semester dan Dosen Pengampu  --}}
                         <div class="grid grid-cols-2 gap-4 mt-5">
                             <div>
                                 <label

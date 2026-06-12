@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\MataKuliah;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\AturanKurikulumNasional;
 
 class DataMataKuliahController extends Controller
 {
@@ -96,32 +97,4 @@ class DataMataKuliahController extends Controller
     }
 }
 
-abstract class StandarKurikulum
-{
-    protected $kodeMk;
-    protected $sks;
 
-    public function __construct($kodeMk, $sks)
-    {
-        $this->kodeMk = $kodeMk;
-        $this->sks = (int) $sks;
-    }
-
-    abstract public function validasiKelayakan();
-}
-
-class AturanKurikulumNasional extends StandarKurikulum
-{
-    public function validasiKelayakan()
-    {
-        if ($this->sks < 0) {
-            return false;
-        }
-
-        if (is_numeric(substr($this->kodeMk, 0, 1))) {
-            return false;
-        }
-
-        return true;
-    }
-}

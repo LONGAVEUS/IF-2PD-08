@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\MataKuliah;
 use App\Models\Krs;
 use App\Models\Nilai;
+use App\Models\DrafNilaiBaru;
 
 class KrsMahasiswaController extends Controller
 {
@@ -157,27 +158,4 @@ class KrsMahasiswaController extends Controller
     }
 }
 
-abstract class NilaiAkademik
-{
-    protected $krsId;
 
-    public function __construct($krsId)
-    {
-        $this->krsId = $krsId;
-    }
-
-    // Abstract method sebagai kontrak wajib kelas turunan
-    abstract public function setNilaiDefault();
-}
-
-class DrafNilaiBaru extends NilaiAkademik
-{
-    // Polimorfisme untuk mengisi data draf awal nilai
-    public function setNilaiDefault()
-    {
-        return [
-            'huruf' => null,
-            'bobot' => null
-        ];
-    }
-}

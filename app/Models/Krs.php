@@ -33,3 +33,28 @@ class Krs extends Model
         return $this->hasOne(Nilai::class, 'krs_id', 'id_krs');
     }
 }
+
+abstract class NilaiAkademik
+{
+    protected $krsId;
+
+    public function __construct($krsId)
+    {
+        $this->krsId = $krsId;
+    }
+
+    // Abstract method sebagai kontrak wajib kelas turunan
+    abstract public function setNilaiDefault();
+}
+
+class DrafNilaiBaru extends NilaiAkademik
+{
+    // Polimorfisme untuk mengisi data draf awal nilai
+    public function setNilaiDefault()
+    {
+        return [
+            'huruf' => null,
+            'bobot' => null
+        ];
+    }
+}

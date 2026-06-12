@@ -21,7 +21,34 @@ class MataKuliah extends Model
     {
         return $this->hasMany(Krs::class, 'mk_kode', 'kode_mk');
     }
-
-
 }
 
+abstract class StandarKurikulum
+{
+    protected $kodeMk;
+    protected $sks;
+
+    public function __construct($kodeMk, $sks)
+    {
+        $this->kodeMk = $kodeMk;
+        $this->sks = (int) $sks;
+    }
+
+    abstract public function validasiKelayakan();
+}
+
+class AturanKurikulumNasional extends StandarKurikulum
+{
+    public function validasiKelayakan()
+    {
+        if ($this->sks < 0) {
+            return false;
+        }
+
+        if (is_numeric(substr($this->kodeMk, 0, 1))) {
+            return false;
+        }
+
+        return true;
+    }
+}
