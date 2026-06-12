@@ -20,7 +20,13 @@ class DosenController extends Controller
             ->get()
             ->map(function($mk) {
                 $totalMhs = $mk->krs->count();
-                $mhsPunyaNilai = $mk->krs->whereNotNull('nilai')->count();
+
+                // KITA UBAH DI SINI: Memeriksa apakah kolom nilai_huruf terisi fisik
+                $mhsPunyaNilai = $mk->krs->filter(function($krsItem) {
+                    return isset($krsItem->nilai) &&
+                           !is_null($krsItem->nilai->nilai_huruf) &&
+                           trim($krsItem->nilai->nilai_huruf) !== '';
+                })->count();
 
                 $mk->sudah_input = ($totalMhs > 0 && $totalMhs === $mhsPunyaNilai);
                 $mk->rata_rata = $mk->krs->avg('nilai.bobot') ?? 0;
@@ -29,7 +35,20 @@ class DosenController extends Controller
             });
 
         $jumlahMatkul = $mataKuliah->count();
-        $nilaiPending = $mataKuliah->where('sudah_input', false)->count();
+
+        // KITA UBAH DI SINI JUGA: Menghitung berdasarkan nilai_huruf yang kosong
+        $nilaiPending = 0;
+        foreach ($mataKuliah as $mk) {
+            $totalMhs = $mk->krs->count();
+            $mhsPunyaNilai = $mk->krs->filter(function($krsItem) {
+                return isset($krsItem->nilai) &&
+                       !is_null($krsItem->nilai->nilai_huruf) &&
+                       trim($krsItem->nilai->nilai_huruf) !== '';
+            })->count();
+
+            $nilaiPending += ($totalMhs - $mhsPunyaNilai);
+        }
+
         $totalMahasiswa = $mataKuliah->sum(fn($mk) => $mk->krs->count());
         $rataRataSemua = $mataKuliah->avg('rata_rata') ?? 0;
 

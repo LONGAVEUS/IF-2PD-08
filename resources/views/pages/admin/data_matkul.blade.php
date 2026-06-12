@@ -83,7 +83,7 @@
                 </tr>
 
                 {{-- Modal Edit MK --}}
-                <x-modal id="modalEditMK-{{ $mk->kode_mk }}" t itle="Edit Mata Kuliah">
+                <x-modal id="modalEditMK-{{ $mk->kode_mk }}" title="Edit Mata Kuliah">
                     <form action="{{ route('matkul.update', $mk->kode_mk) }}" method="POST" class="p-1">
                         @csrf
                         @method('PUT')
