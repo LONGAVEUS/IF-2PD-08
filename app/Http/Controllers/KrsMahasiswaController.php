@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -6,7 +7,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\MataKuliah;
 use App\Models\Krs;
 use App\Models\Nilai;
-use App\Models\DrafNilaiBaru;
 
 class KrsMahasiswaController extends Controller
 {
@@ -26,15 +26,13 @@ class KrsMahasiswaController extends Controller
             ->whereNotIn('kode_mk', $sudahDipilihCodes)
             ->get();
 
-        // Ngambil nilai di semua semester lalu (udh ada bobotnya)
-        $nilaiLalu = \App\Models\Nilai::whereHas('krs', function($query) use ($mahasiswa) {
+        $nilaiLalu = Nilai::whereHas('krs', function($query) use ($mahasiswa) {
             $query->where('mahasiswa_nim', $mahasiswa->nim)
                   ->where('semester', '<', $mahasiswa->semester_ke);
         })
         ->whereNotNull('bobot')
         ->get();
 
-        //jumlahin total SKS & KN dari semua nilai semester lalu
         $totalSksLalu = $nilaiLalu->sum(function($n) {
             return $n->krs->mata_kuliah->sks ?? 0;
         });
@@ -42,18 +40,13 @@ class KrsMahasiswaController extends Controller
             return ($n->krs->mata_kuliah->sks ?? 0) * ($n->bobot ?? 0);
         });
 
-        //HITUNG IPK
         $ipkLalu = $totalSksLalu > 0 ? round($totalKnLalu / $totalSksLalu, 2) : 0.00;
-
-        //Hitung nomor semester sebelumnya (utk hitung IPS)
         $semesterLalu = $mahasiswa->semester_ke - 1;
 
-        // Menyaring nilai hanya dari semester sebelumnya
         $nilaiSemesterLalu = $nilaiLalu->filter(function($n) use ($semesterLalu) {
             return $n->krs->semester == $semesterLalu;
         });
 
-        //Hitung total SKS & KN di semester sebelumnya
         $totalSksSemesterLalu = $nilaiSemesterLalu->sum(function($n) {
             return $n->krs->mata_kuliah->sks ?? 0;
         });
@@ -61,10 +54,8 @@ class KrsMahasiswaController extends Controller
             return ($n->krs->mata_kuliah->sks ?? 0) * ($n->bobot ?? 0);
         });
 
-        //HITUNG IPS
         $ipsLalu = $totalSksSemesterLalu > 0 ? round($totalKnSemesterLalu / $totalSksSemesterLalu, 2) : 0.00;
 
-        //GABUNGAN INFO PENTING DALAM 1 ARRAY
         $infoKrs = [
             'semester_aktif'   => "Semester " . $mahasiswa->semester_ke,
             'nim'              => $mahasiswa->nim,
@@ -128,8 +119,6 @@ class KrsMahasiswaController extends Controller
             $sudahAda = Nilai::where('krs_id', $krs->id_krs)->exists();
 
             if (!$sudahAda) {
-
-                // Menginisialisasi draf awal nilai kosong menggunakan objek kelas turunan
                 $inisialisasi = new DrafNilaiBaru($krs->id_krs);
                 $dataAwal = $inisialisasi->setNilaiDefault();
 
@@ -158,4 +147,25 @@ class KrsMahasiswaController extends Controller
     }
 }
 
+abstract class NilaiAkademik
+{
+    protected $krsId;
 
+    public function __construct($krsId)
+    {
+        $this->krsId = $krsId;
+    }
+
+    abstract public function setNilaiDefault();
+}
+
+class DrafNilaiBaru extends NilaiAkademik
+{
+    public function setNilaiDefault()
+    {
+        return [
+            'huruf' => null,
+            'bobot' => null
+        ];
+    }
+}

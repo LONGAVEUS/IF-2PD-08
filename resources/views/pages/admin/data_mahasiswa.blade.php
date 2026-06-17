@@ -97,11 +97,8 @@
                                 Studi:</label>
                             <select name="prodi" required
                                 class="w-full bg-white border border-gray-200 text-sm rounded-xl p-3 outline-none focus:border-indigo-500">
-                                <option value="Informatika"
-                                    {{ $m->mahasiswa->prodi == 'Informatika' ? 'selected' : '' }}>Informatika</option>
-                                <option value="Sistem Informasi"
-                                    {{ $m->mahasiswa->prodi == 'Sistem Informasi' ? 'selected' : '' }}>Sistem Informasi
-                                </option>
+                                <option value="Teknik Informatika"
+                                    {{ $m->mahasiswa->prodi == 'Teknik Informatika' ? 'selected' : '' }}>Teknik Informatika</option>
                             </select>
                         </div>
                         <div class="mb-5">
@@ -176,7 +173,7 @@
                 <select name="prodi" required
                     class="w-full bg-white border border-gray-200 text-sm rounded-xl p-3 outline-none focus:border-indigo-500 appearance-none">
                     <option value="">Pilih Program Studi</option>
-                    <option value="Informatika">Informatika</option>
+                    <option value="Teknik Informatika">Teknik Informatika</option>
                 </select>
             </div>
             <div class="mb-5">
