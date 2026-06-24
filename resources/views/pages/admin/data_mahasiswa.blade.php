@@ -4,6 +4,19 @@
 <div class="space-y-6">
     <x-management-header title="Manajemen Data Mahasiswa" buttonText="Tambah Mahasiswa" targetModal="modalTambah" />
 
+    @if(session('success'))
+    <div class="p-4 text-sm text-green-800 rounded-xl bg-green-50 font-medium border border-green-100 shadow-sm"
+        role="alert">
+        <span class="font-bold">Berhasil!</span> {{ session('success') }}
+    </div>
+    @endif
+
+    @if(session('error'))
+    <div class="p-4 text-sm text-red-800 rounded-xl bg-red-50 font-medium border border-red-100 shadow-sm" role="alert">
+        <span class="font-bold">Gagal!</span> {{ session('error') }}
+    </div>
+    @endif
+
     <form action="{{ route('data_mahasiswa') }}" method="GET"
         class="bg-white border-2 border-indigo-50 rounded-2xl p-4 md:p-5 shadow-sm flex flex-col md:flex-row gap-4 md:items-center justify-between">
         <div class="relative w-full md:w-80">
@@ -33,7 +46,8 @@
             <tbody class="divide-y divide-indigo-50 text-sm">
                 @foreach($mahasiswa as $index => $m)
                 <tr class="hover:bg-indigo-50/30 transition-colors">
-                    <td class="px-6 py-4 text-gray-400">{{ ($mahasiswa->currentPage() - 1) * $mahasiswa->perPage() + $index + 1 }}</td>
+                    <td class="px-6 py-4 text-gray-400">
+                        {{ ($mahasiswa->currentPage() - 1) * $mahasiswa->perPage() + $index + 1 }}</td>
                     <td class="px-6 py-4 font-bold text-indigo-700">{{ $m->mahasiswa->nim }}</td>
                     <td class="px-6 py-4 font-semibold text-gray-800">{{ $m->name }}</td>
                     <td class="px-6 py-4 text-gray-500">{{ $m->mahasiswa->prodi }}</td>
@@ -98,7 +112,8 @@
                             <select name="prodi" required
                                 class="w-full bg-white border border-gray-200 text-sm rounded-xl p-3 outline-none focus:border-indigo-500">
                                 <option value="Teknik Informatika"
-                                    {{ $m->mahasiswa->prodi == 'Teknik Informatika' ? 'selected' : '' }}>Teknik Informatika</option>
+                                    {{ $m->mahasiswa->prodi == 'Teknik Informatika' ? 'selected' : '' }}>Teknik
+                                    Informatika</option>
                             </select>
                         </div>
                         <div class="mb-5">
@@ -118,9 +133,9 @@
                                     </option>
                                     <option value="2" {{ $m->mahasiswa->semester_ke == 2 ? 'selected' : '' }}>Semester 2
                                     </option>
-                                    <option value="2" {{ $m->mahasiswa->semester_ke == 3 ? 'selected' : '' }}>Semester 3
+                                    <option value="3" {{ $m->mahasiswa->semester_ke == 3 ? 'selected' : '' }}>Semester 3
                                     </option>
-                                    <option value="2" {{ $m->mahasiswa->semester_ke == 4 ? 'selected' : '' }}>Semester 4
+                                    <option value="4" {{ $m->mahasiswa->semester_ke == 4 ? 'selected' : '' }}>Semester 4
                                     </option>
                                 </select>
                             </div>

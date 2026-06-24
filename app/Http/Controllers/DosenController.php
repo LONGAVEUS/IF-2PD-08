@@ -21,7 +21,7 @@ class DosenController extends Controller
             ->map(function($mk) {
                 $totalMhs = $mk->krs->count();
 
-                // KITA UBAH DI SINI: Memeriksa apakah kolom nilai_huruf terisi fisik
+
                 $mhsPunyaNilai = $mk->krs->filter(function($krsItem) {
                     return isset($krsItem->nilai) &&
                            !is_null($krsItem->nilai->nilai_huruf) &&
@@ -36,7 +36,7 @@ class DosenController extends Controller
 
         $jumlahMatkul = $mataKuliah->count();
 
-        // KITA UBAH DI SINI JUGA: Menghitung berdasarkan nilai_huruf yang kosong
+      
         $nilaiPending = 0;
         foreach ($mataKuliah as $mk) {
             $totalMhs = $mk->krs->count();

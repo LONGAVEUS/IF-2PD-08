@@ -4,6 +4,19 @@
 <div class="space-y-6">
     <x-management-header title="Manajemen Data Dosen" buttonText="Tambah Dosen" targetModal="modalTambahDosen" />
 
+    @if(session('success'))
+    <div class="p-4 text-sm text-green-800 rounded-xl bg-green-50 font-medium border border-green-100 shadow-sm"
+        role="alert">
+        <span class="font-bold">Berhasil!</span> {{ session('success') }}
+    </div>
+    @endif
+
+    @if(session('error'))
+    <div class="p-4 text-sm text-red-800 rounded-xl bg-red-50 font-medium border border-red-100 shadow-sm" role="alert">
+        <span class="font-bold">Gagal!</span> {{ session('error') }}
+    </div>
+    @endif
+    
     {{-- Search Bar --}}
     <form action="{{ route('data_dosen') }}" method="GET"
         class="bg-white border-2 border-indigo-50 rounded-2xl p-4 shadow-sm flex items-center justify-between">
@@ -85,7 +98,7 @@
 
                         <div class="mb-5">
                             <label
-                                class="blaock mb-1.5 text-[11px] font-bold text-indigo-900 uppercase tracking-wider">Nama
+                                class="block mb-1.5 text-[11px] font-bold text-indigo-900 uppercase tracking-wider">Nama
                                 Dosen:</label>
                             <input type="text" name="name" value="{{ $d->name }}" required
                                 class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 p-3 outline-none transition-all">

@@ -81,7 +81,7 @@ class DataMataKuliahController extends Controller
 
         } catch (\Illuminate\Database\QueryException $e) {
             if ($e->getCode() == '23000') {
-                return back()->with('error', 'Mata kuliah sedang berjalan di KRS mahasiswa! Kode MK tidak dapat diubah.');
+                return back()->with('error', 'Mata kuliah sedang berjalan di KRS mahasiswa! Tidak dapat diubah.');
             }
             return back()->with('error', 'Gagal memperbarui data: ' . $e->getMessage());
         }

@@ -44,7 +44,7 @@ class DataDosenController extends Controller
             'status' => $request->status
         ]);
 
-        \App\Models\Dosen::create([
+        Dosen::create([
             'user_id' => $user->id,
             'nidn' => $request->nidn,
             'jurusan' => $request->jurusan

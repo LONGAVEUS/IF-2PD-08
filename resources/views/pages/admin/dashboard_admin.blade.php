@@ -2,12 +2,20 @@
 
 @section('content')
 <div class="space-y-6 pb-12">
+    @if(session('success'))
+    <div class="p-4 mb-4 text-sm text-green-800 rounded-xl bg-green-50 font-medium border border-green-100 shadow-sm"
+        role="alert">
+        <span class="font-bold">Sukses!</span> {{ session('success') }}
+    </div>
+    @endif
 
     {{-- HEADER --}}
     <div class="flex justify-between items-start gap-2">
         <div class="max-w-[60%]">
-            <h1 class="text-xl md:text-3xl font-extrabold text-indigo-900 tracking-tight leading-tight">Dashboard Admin</h1>
-            <p class="text-[10px] md:text-sm font-semibold text-indigo-600 mt-1 bg-indigo-50 inline-block px-2 py-0.5 rounded-full">
+            <h1 class="text-xl md:text-3xl font-extrabold text-indigo-900 tracking-tight leading-tight">Dashboard Admin
+            </h1>
+            <p
+                class="text-[10px] md:text-sm font-semibold text-indigo-600 mt-1 bg-indigo-50 inline-block px-2 py-0.5 rounded-full">
                 Admin 👋
             </p>
         </div>
@@ -37,21 +45,25 @@
         <div class="bg-white border-2 border-indigo-50 rounded-xl p-3 md:p-6 shadow-sm">
             <p class="text-xl md:text-4xl font-extrabold text-slate-800">{{ $totalMahasiswa }}</p>
             <p class="text-[9px] md:text-sm font-medium text-slate-500 leading-tight">Mahasiswa</p>
-            <span class="hidden md:inline-block mt-3 text-xs font-bold bg-indigo-50 text-indigo-600 px-2.5 py-1 rounded-full">Semester {{ $selectedSemester }}</span>
+            <span
+                class="hidden md:inline-block mt-3 text-xs font-bold bg-indigo-50 text-indigo-600 px-2.5 py-1 rounded-full">Semester
+                {{ $selectedSemester }}</span>
         </div>
 
         {{-- Total Dosen --}}
         <div class="bg-white border-2 border-indigo-50 rounded-xl p-3 md:p-6 shadow-sm">
             <p class="text-xl md:text-4xl font-extrabold text-slate-800">{{ $totalDosen }}</p>
             <p class="text-[9px] md:text-sm font-medium text-slate-500 leading-tight">Dosen</p>
-            <span class="hidden md:inline-block mt-3 text-xs font-bold bg-purple-50 text-purple-600 px-2.5 py-1 rounded-full">Aktif</span>
+            <span
+                class="hidden md:inline-block mt-3 text-xs font-bold bg-purple-50 text-purple-600 px-2.5 py-1 rounded-full">Aktif</span>
         </div>
 
         {{-- Mata Kuliah --}}
         <div class="bg-white border-2 border-indigo-50 rounded-xl p-3 md:p-6 shadow-sm">
             <p class="text-xl md:text-4xl font-extrabold text-slate-800">{{ $totalMatkulCount }}</p>
             <p class="text-[9px] md:text-sm font-medium text-slate-500 leading-tight">Mata Kuliah</p>
-            <span class="hidden md:inline-block mt-3 text-xs font-bold bg-blue-50 text-blue-600 px-2.5 py-1 rounded-full">Total</span>
+            <span
+                class="hidden md:inline-block mt-3 text-xs font-bold bg-blue-50 text-blue-600 px-2.5 py-1 rounded-full">Total</span>
         </div>
     </div>
 
@@ -100,10 +112,12 @@
                 <div class="p-6 border-b border-indigo-50 bg-amber-50/30 flex justify-between items-center">
                     <div>
                         <h2 class="text-lg font-bold text-slate-800">Perhatian Akademik</h2>
-                        <p class="text-xs text-slate-500 mt-1">Mahasiswa belum mengisi KRS di Semester {{ $selectedSemester }}</p>
+                        <p class="text-xs text-slate-500 mt-1">Mahasiswa belum mengisi KRS di Semester
+                            {{ $selectedSemester }}</p>
                     </div>
                     {{-- Badge Angka Berwarna Peringatan --}}
-                    <span class="text-xs font-extrabold bg-amber-100 text-amber-800 px-2.5 py-1 rounded-full animate-pulse">
+                    <span
+                        class="text-xs font-extrabold bg-amber-100 text-amber-800 px-2.5 py-1 rounded-full animate-pulse">
                         {{ $jumlahBelumKrs }} Peringatan
                     </span>
                 </div>
@@ -111,26 +125,30 @@
                 {{-- Daftar Mahasiswa yang Belum Isi KRS --}}
                 <div class="p-3 max-h-[350px] overflow-y-auto divide-y divide-slate-100">
                     @if($jumlahBelumKrs > 0)
-                        @foreach($mahasiswaBelumKrs as $mhs)
-                        <div class="p-3 flex items-center justify-between hover:bg-slate-50 rounded-xl transition">
-                            <div>
-                                <p class="text-sm font-bold text-slate-800">{{ $mhs->user->name }}</p>
-                                <p class="text-[11px] font-medium text-slate-400 mt-0.5">NIM: {{ $mhs->nim }} · Prodi: {{ $mhs->prodi }}</p>
-                            </div>
-                            {{-- Tombol Tindakan Langsung Menuju Halaman Kelola --}}
-                            <a href="{{ route('data_mahasiswa') }}?search={{ $mhs->nim }}"
-                               class="text-[11px] font-bold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-2.5 py-1.5 rounded-lg transition">
-                                Hubungi
-                            </a>
+                    @foreach($mahasiswaBelumKrs as $mhs)
+                    <div class="p-3 flex items-center justify-between hover:bg-slate-50 rounded-xl transition">
+                        <div>
+                            <p class="text-sm font-bold text-slate-800">{{ $mhs->user->name }}</p>
+                            <p class="text-[11px] font-medium text-slate-400 mt-0.5">NIM: {{ $mhs->nim }} · Prodi:
+                                {{ $mhs->prodi }}</p>
                         </div>
-                        @endforeach
+                        {{-- Tombol Tindakan Langsung Menuju Halaman Kelola --}}
+                        <a href="{{ route('data_mahasiswa') }}?search={{ $mhs->nim }}"
+                            class="text-[11px] font-bold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-2.5 py-1.5 rounded-lg transition">
+                            Hubungi
+                        </a>
+                    </div>
+                    @endforeach
                     @else
-                        <div class="p-8 text-center text-slate-400 space-y-2">
-                            <svg class="w-8 h-8 text-emerald-500 mx-auto" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                            <p class="text-xs font-semibold text-slate-500">Luar biasa! Semua mahasiswa di semester ini sudah mengisi KRS.</p>
-                        </div>
+                    <div class="p-8 text-center text-slate-400 space-y-2">
+                        <svg class="w-8 h-8 text-emerald-500 mx-auto" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <p class="text-xs font-semibold text-slate-500">Luar biasa! Semua mahasiswa di semester ini
+                            sudah mengisi KRS.</p>
+                    </div>
                     @endif
                 </div>
             </div>

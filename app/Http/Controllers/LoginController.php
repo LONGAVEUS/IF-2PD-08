@@ -30,15 +30,14 @@ class LoginController extends Controller
             switch ($user->role) {
                 case 'admin':
 
-                    return redirect()->route('dashboard_admin');
+                    return redirect()->route('dashboard_admin')->with('success', 'Berhasil Login! Selamat datang Admin.');
 
                 case 'dosen':
 
-                    return redirect()->route('dashboard_dosen');
-
+                    return redirect()->route('dashboard_dosen')->with('success', 'Berhasil Login! Selamat datang Dosen.');
                 case 'mahasiswa':
 
-                    return redirect()->route('dashboard_mahasiswa');
+                    return redirect()->route('dashboard_mahasiswa')->with('success', 'Berhasil Login! Selamat datang Mahasiswa.');
 
                 default:
                     return redirect('/');
