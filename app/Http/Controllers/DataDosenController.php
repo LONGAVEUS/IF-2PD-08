@@ -5,6 +5,7 @@ use App\Models\User;
 use App\Models\Dosen;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class DataDosenController extends Controller
 {
@@ -28,13 +29,21 @@ class DataDosenController extends Controller
 
     public function tambahDosen(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'nidn' => 'required|unique:dosen,nidn|max:20',
             'name' => 'required',
             'jurusan' => 'required',
             'password' => 'required|min:5',
             'status' => 'required|in:aktif,tidak_aktif'
         ]);
+
+        if ($validator->fails()) {
+        if ($validator->errors()->has('nidn')) {
+            return back()->withInput()->with('error', 'Gagal! NIDN/NIP dosen sudah terdaftar.');
+        }
+        
+        return back()->withInput()->withErrors($validator);
+    }
 
         $user = User::create([
             'name' => $request->name,

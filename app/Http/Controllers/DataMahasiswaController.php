@@ -5,6 +5,7 @@ use App\Models\User;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class DataMahasiswaController extends Controller
 {
@@ -37,7 +38,7 @@ class DataMahasiswaController extends Controller
 
     public function tambahMahasiswa(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'nim' => 'required|unique:mahasiswa,nim|max:15',
             'name' => 'required',
             'prodi' => 'required',
@@ -45,6 +46,14 @@ class DataMahasiswaController extends Controller
             'semester_ke' => 'required',
             'status' => 'required|in:aktif,tidak_aktif'
         ]);
+
+        if ($validator->fails()) {
+        if ($validator->errors()->has('nim')) {
+            return back()->withInput()->with('error', 'Gagal! NIM mahasiswa sudah terdaftar.');
+        }
+
+        return back()->withInput()->withErrors($validator);
+    }
 
         $user = User::create([
             'name' => $request->name,

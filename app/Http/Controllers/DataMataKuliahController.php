@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\MataKuliah;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class DataMataKuliahController extends Controller
 {
@@ -39,13 +40,20 @@ class DataMataKuliahController extends Controller
 
     public function tambahMatkul(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'kode_mk' => 'required|unique:mata_kuliah,kode_mk',
             'nama_mk' => 'required',
             'sks' => 'required|numeric',
             'semester' => 'required|numeric',
             'dosen_nidn' => 'required'
         ]);
+        if ($validator->fails()) {
+        if ($validator->errors()->has('kode_mk')) {
+            return back()->withInput()->with('error', 'Gagal! Kode Mata kuliah sudah terdaftar.');
+        }
+
+        return back()->withInput()->withErrors($validator);
+    }
 
         $validatorAkademik = new AturanKurikulumNasional($request->kode_mk, $request->sks);
         if (!$validatorAkademik->validasiKelayakan()) {

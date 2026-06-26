@@ -6,6 +6,7 @@ use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class DataAdminController extends Controller
 {
@@ -27,12 +28,20 @@ class DataAdminController extends Controller
 
     public function tambahAdmin(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'nip' => 'required|unique:users,username|max:20',
             'name' => 'required',
             'password' => 'required|min:5',
             'status' => 'required|in:aktif,tidak_aktif'
         ]);
+
+        if ($validator->fails()) {
+        if ($validator->errors()->has('nip')) {
+            return back()->withInput()->with('error', 'Gagal! NIP Admin sudah terdaftar.');
+        }
+        
+        return back()->withInput()->withErrors($validator);
+    }
 
         User::create([
             'name' => $request->name,
