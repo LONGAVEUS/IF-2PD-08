@@ -13,8 +13,8 @@ return new class extends Migration
         $table->string('mahasiswa_nim');
         $table->string('mk_kode');
         $table->integer('semester');
-        $table->foreign('mahasiswa_nim')->references('nim')->on('mahasiswa')->onDelete('cascade');
-        $table->foreign('mk_kode')->references('kode_mk')->on('mata_kuliah')->onDelete('cascade');
+        $table->foreign('mahasiswa_nim')->references('nim')->on('mahasiswa')->onDelete('cascade')->onUpdate('cascade');
+        $table->foreign('mk_kode')->references('kode_mk')->on('mata_kuliah')->onDelete('cascade')->onUpdate('cascade');
         $table->timestamps();
     });
 }

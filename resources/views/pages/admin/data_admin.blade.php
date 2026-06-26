@@ -92,7 +92,7 @@
                         <div class="mb-5">
                             <label
                                 class="block mb-2 text-[11px] font-bold text-indigo-900 uppercase tracking-wider">NIP:</label>
-                            <input type="text" name="nip" value="{{ $a->username }}" required class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-4
+                            <input type="text" name="nip" value="{{ $a->username }}" maxlength="20" required class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-4
                                  focus:ring-indigo-500/10 focus:border-indigo-500 p-3 outline-none transition-all">
                         </div>
 
@@ -101,7 +101,7 @@
                             <label
                                 class="block mb-2 text-[11px] font-bold text-indigo-900 uppercase tracking-wider">Nama
                                 Admin:</label>
-                            <input type="text" name="name" value="{{ $a->name }}" required class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-4
+                            <input type="text" name="name" value="{{ $a->name }}" maxlength="100" required class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-4
                                  focus:ring-indigo-500/10 focus:border-indigo-500 p-3 outline-none transition-all">
                         </div>
 
@@ -149,12 +149,12 @@
         @csrf
         <div>
             <label class="block mb-1.5 text-[11px] font-bold text-gray-600 uppercase">NIP:</label>
-            <input type="text" name="nip" placeholder="Masukkan NIP Admin" required
+            <input type="text" name="nip" placeholder="Masukkan NIP Admin" maxlength="20" required
                 class="w-full border border-gray-200 rounded-xl p-3 text-sm outline-none focus:border-indigo-500">
         </div>
         <div>
             <label class="block mb-1.5 text-[11px] font-bold text-gray-600 uppercase">Nama Admin:</label>
-            <input type="text" name="name" placeholder="Nama Lengkap Admin" required
+            <input type="text" name="name" placeholder="Nama Lengkap Admin" maxlength="100" required
                 class="w-full border border-gray-200 rounded-xl p-3 text-sm outline-none focus:border-indigo-500">
         </div>
         <div class="grid grid-cols-2 gap-4">

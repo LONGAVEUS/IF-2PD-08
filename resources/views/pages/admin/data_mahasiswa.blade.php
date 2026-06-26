@@ -69,6 +69,7 @@
                                 </svg>
                             </button>
 
+                            {{-- Tombol Hapus --}}
                             <form action="{{ route('mahasiswa.destroy', $m->id) }}" method="POST"
                                 onsubmit="return confirm('Apakah Anda yakin ingin menghapus data mahasiswa {{ $m->name }}? Semua data akademik terkait juga akan terhapus.')">
                                 @csrf
@@ -95,14 +96,14 @@
                         <div class="mb-5">
                             <label
                                 class="block mb-2 text-[11px] font-bold text-indigo-900 uppercase tracking-wider">NIM:</label>
-                            <input type="text" name="nim" value="{{ $m->mahasiswa->nim }}" required
+                            <input type="text" name="nim" value="{{ $m->mahasiswa->nim }}" maxlength="15" required
                                 class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 p-3 outline-none transition-all">
                         </div>
                         <div class="mb-5">
                             <label
                                 class="block mb-2 text-[11px] font-bold text-indigo-900 uppercase tracking-wider">Nama
                                 Lengkap Mahasiswa:</label>
-                            <input type="text" name="name" value="{{ $m->name }}" required
+                            <input type="text" name="name" value="{{ $m->name }}" maxlength="100" required
                                 class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 p-3 outline-none transition-all">
                         </div>
                         <div class="mb-5">
@@ -173,13 +174,13 @@
             @csrf
             <div class="mb-5">
                 <label class="block mb-1.5 text-[11px] font-bold text-gray-600 uppercase tracking-wider">NIM:</label>
-                <input type="text" name="nim" placeholder="Masukkan NIM Mahasiswa" required
+                <input type="text" name="nim" placeholder="Masukkan NIM Mahasiswa" maxlength="15" required
                     class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 p-3 outline-none transition-all">
             </div>
             <div class="mb-5">
                 <label class="block mb-1.5 text-[11px] font-bold text-gray-600 uppercase tracking-wider">Nama
                     Mahasiswa:</label>
-                <input type="text" name="name" placeholder="Nama Lengkap Mahasiswa" required
+                <input type="text" name="name" placeholder="Nama Lengkap Mahasiswa" maxlength="100" required
                     class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 p-3 outline-none transition-all">
             </div>
             <div class="mb-5">

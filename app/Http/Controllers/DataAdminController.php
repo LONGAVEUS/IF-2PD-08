@@ -28,7 +28,7 @@ class DataAdminController extends Controller
     public function tambahAdmin(Request $request)
     {
         $request->validate([
-            'nip' => 'required|unique:users,username',
+            'nip' => 'required|unique:users,username|max:20',
             'name' => 'required',
             'password' => 'required|min:5',
             'status' => 'required|in:aktif,tidak_aktif'
@@ -50,7 +50,7 @@ class DataAdminController extends Controller
         $user = User::findOrFail($id);
 
         $request->validate([
-            'nip' => 'required|unique:users,username,' . $id,
+            'nip' => 'required|unique:users,username,' . $id . '|max:20',
             'name' => 'required',
             'status' => 'required|in:aktif,tidak_aktif'
         ]);

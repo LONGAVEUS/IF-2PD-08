@@ -16,7 +16,7 @@
         <span class="font-bold">Gagal!</span> {{ session('error') }}
     </div>
     @endif
-    
+
     {{-- Search Bar --}}
     <form action="{{ route('data_dosen') }}" method="GET"
         class="bg-white border-2 border-indigo-50 rounded-2xl p-4 shadow-sm flex items-center justify-between">
@@ -92,7 +92,7 @@
                         <div class="mb-5">
                             <label
                                 class="block mb-1.5 text-[11px] font-bold text-indigo-900 uppercase tracking-wider">NIDN/NIP:</label>
-                            <input type="text" name="nidn" value="{{ $d->dosen->nidn }}" required
+                            <input type="text" name="nidn" value="{{ $d->dosen->nidn }}" maxlength="20" required
                                 class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 p-3 outline-none transition-all">
                         </div>
 
@@ -100,7 +100,7 @@
                             <label
                                 class="block mb-1.5 text-[11px] font-bold text-indigo-900 uppercase tracking-wider">Nama
                                 Dosen:</label>
-                            <input type="text" name="name" value="{{ $d->name }}" required
+                            <input type="text" name="name" value="{{ $d->name }}" maxlength="100" required
                                 class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 p-3 outline-none transition-all">
                         </div>
 
@@ -157,12 +157,12 @@
         @csrf
         <div>
             <label class="block mb-1.5 text-[11px] font-bold text-indigo-900 uppercase">NIDN/NIP:</label>
-            <input type="text" name="nidn" placeholder="Tambah NIDN Dosen" required
+            <input type="text" name="nidn" placeholder="Tambah NIDN Dosen" maxlength="20" required
                 class="w-full border border-gray-200 rounded-xl p-3 text-sm">
         </div>
         <div>
             <label class="block mb-1.5 text-[11px] font-bold text-indigo-900 uppercase">Nama Dosen:</label>
-            <input type="text" name="name" placeholder="Tambah Nama Dosen" required
+            <input type="text" name="name" placeholder="Tambah Nama Dosen" maxlength="100" required
                 class="w-full border border-gray-200 rounded-xl p-3 text-sm">
         </div>
         <div>

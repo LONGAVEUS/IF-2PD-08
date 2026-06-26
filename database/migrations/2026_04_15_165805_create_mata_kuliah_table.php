@@ -15,7 +15,7 @@ return new class extends Migration
             $table->integer('sks');
             $table->integer('semester');
             $table->string('dosen_nidn');
-            $table->foreign('dosen_nidn')->references('nidn')->on('dosen')->onDelete('cascade');
+            $table->foreign('dosen_nidn')->references('nidn')->on('dosen')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

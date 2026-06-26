@@ -29,7 +29,7 @@ class DataDosenController extends Controller
     public function tambahDosen(Request $request)
     {
         $request->validate([
-            'nidn' => 'required|unique:dosen,nidn',
+            'nidn' => 'required|unique:dosen,nidn|max:20',
             'name' => 'required',
             'jurusan' => 'required',
             'password' => 'required|min:5',
@@ -57,13 +57,17 @@ class DataDosenController extends Controller
     {
         $user = User::findOrFail($id);
         $request->validate([
-            'nidn' => 'required|unique:dosen,nidn,' . $user->dosen->user_id . ',user_id',
+            'nidn' => 'required|unique:dosen,nidn,' . $user->dosen->user_id . ',user_id|max:20',
             'name' => 'required',
             'jurusan' => 'required',
             'status' => 'required|in:aktif,tidak_aktif'
         ]);
 
-        $user->update(['name' => $request->name, 'status' => $request->status]);
+        $user->update([
+            'name' => $request->name,
+            'username' => $request->nidn,
+            'status' => $request->status
+            ]);
 
         if ($request->password) {
             $user->update(['password' => Hash::make($request->password)]);

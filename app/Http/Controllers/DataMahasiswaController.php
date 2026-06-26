@@ -38,7 +38,7 @@ class DataMahasiswaController extends Controller
     public function tambahMahasiswa(Request $request)
     {
         $request->validate([
-            'nim' => 'required|unique:mahasiswa,nim',
+            'nim' => 'required|unique:mahasiswa,nim|max:15',
             'name' => 'required',
             'prodi' => 'required',
             'password' => 'required|min:5',
@@ -68,14 +68,14 @@ class DataMahasiswaController extends Controller
     {
         $user = User::findOrFail($id);
         $request->validate([
-            'nim' => 'required|unique:mahasiswa,nim,' . $user->mahasiswa->user_id . ',user_id',
+            'nim' => 'required|unique:mahasiswa,nim,' . $user->mahasiswa->user_id . ',user_id|max:15',
             'name' => 'required',
             'prodi' => 'required',
             'semester_ke' => 'required',
             'status' => 'required|in:aktif,tidak_aktif'
         ]);
 
-        $user->update(['name' => $request->name, 'status' => $request->status]);
+        $user->update(['name' => $request->name, 'username' => $request->nim, 'status' => $request->status]);
 
         if ($request->password) {
             $user->update(['password' => Hash::make($request->password)]);

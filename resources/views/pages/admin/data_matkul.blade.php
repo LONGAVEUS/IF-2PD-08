@@ -129,8 +129,8 @@
                                 <select name="dosen_nidn" required
                                     class="w-full border border-gray-200 bg-white text-indigo-600 font-bold rounded-xl p-3 text-sm outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition">
                                     @foreach($allDosen as $d)
-                                    <option value="{{ $d->username }}"
-                                        {{ $mk->dosen_nidn == $d->username ? 'selected' : '' }}>
+                                    <option value="{{ $d->dosen->nidn ?? $d->username }}"
+                                        {{ $mk->dosen_nidn == ($d->dosen->nidn ?? $d->username) ? 'selected' : '' }}>
                                         {{ $d->name }}
                                     </option>
                                     @endforeach
@@ -188,7 +188,7 @@
                         class="w-full border border-gray-200 rounded-xl p-3 text-sm font-bold text-indigo-600">
                         <option value="">Pilih Dosen</option>
                         @foreach($allDosen as $d)
-                        <option value="{{ $d->username }}">{{ $d->name }}</option>
+                        <option value="{{ $d->dosen->nidn ?? $d->username }}">{{ $d->name }}</option>
                         @endforeach
                     </select>
                 </div>
