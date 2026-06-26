@@ -29,7 +29,7 @@
 
     @if(session('error'))
         <div class="p-4 text-sm text-red-800 rounded-xl bg-red-50 font-medium border border-red-100 shadow-sm animate-[fadeUp_0.3s_ease_both]" role="alert">
-            <span class="font-bold">Peringatan Batas SKS!</span> {{ session('error') }}
+            <span class="font-bold">Peringatan!</span> {{ session('error') }}
         </div>
     @endif
 
@@ -66,7 +66,7 @@
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
                 <line x1="12" y1="5" x2="12" y2="19" />
                 <line x1="5" y1="12" x2="19" y2="12" /></svg>
-            Pilih Mata Kuliah
+            Tambah Mata Kuliah
         </button>
     </div>
 
