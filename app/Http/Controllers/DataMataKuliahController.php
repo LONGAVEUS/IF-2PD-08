@@ -6,28 +6,22 @@ use App\Models\MataKuliah;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Database\QueryException;
 
 class DataMataKuliahController extends Controller
 {
+    // Menampilkan daftar mata kuliah
     public function tampilMatkul(Request $request)
     {
         $search = $request->query('search');
         $selectedSemester = $request->query('semester');
 
-        $query = MataKuliah::with('dosen.user');
+        // Mengambil data kueri dari model mata kuliah
+        $matkul = MataKuliah::searchMataKuliah($search, $selectedSemester)
+            ->orderBy('semester', 'asc')
+            ->paginate(5)
+            ->withQueryString();
 
-        if ($selectedSemester) {
-            $query->where('semester', $selectedSemester);
-        }
-
-        if ($search) {
-            $query->where(function($q) use ($search) {
-                $q->where('nama_mk', 'like', '%' . $search . '%')
-                ->orWhere('kode_mk', 'like', '%' . $search . '%');
-            });
-        }
-
-        $matkul = $query->orderBy('semester', 'asc')->paginate(5)->withQueryString();
         $allDosen = User::where('role', 'dosen')->where('status', 'aktif')->get();
 
         return view('pages.admin.data_matkul', compact(
@@ -38,6 +32,7 @@ class DataMataKuliahController extends Controller
         ));
     }
 
+    // Menambahkan data mata kuliah baru
     public function tambahMatkul(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -48,23 +43,24 @@ class DataMataKuliahController extends Controller
             'dosen_nidn' => 'required'
         ]);
         if ($validator->fails()) {
-        if ($validator->errors()->has('kode_mk')) {
-            return back()->withInput()->with('error', 'Gagal! Kode Mata kuliah sudah terdaftar.');
+            if ($validator->errors()->has('kode_mk')) {
+                return back()->withInput()->with('error', 'Kode Mata kuliah sudah terdaftar.');
+            }
+            return back()->withInput()->withErrors($validator);
         }
-
-        return back()->withInput()->withErrors($validator);
-    }
 
         $validatorAkademik = new AturanKurikulumNasional($request->kode_mk, $request->sks);
         if (!$validatorAkademik->validasiKelayakan()) {
-            return back()->with('error', 'Gagal: Kode Mata Kuliah wajib diawali huruf atau SKS bernilai negatif!');
+            return back()->with('error', 'Kode Mata Kuliah wajib diawali huruf atau SKS bernilai negatif!');
         }
 
-        MataKuliah::create($request->all());
+        // Simpan data lewat model mata kuliah
+        MataKuliah::simpanMataKuliah($request->all());
 
         return back()->with('success', 'Mata kuliah berhasil ditambahkan!');
     }
 
+    // Mengubah data mata kuliah
     public function ubahMatkul(Request $request, $kode_mk)
     {
         $mk = MataKuliah::where('kode_mk', $kode_mk)->firstOrFail();
@@ -80,14 +76,15 @@ class DataMataKuliahController extends Controller
         try {
             $validatorAkademik = new AturanKurikulumNasional($request->kode_mk, $request->sks);
             if (!$validatorAkademik->validasiKelayakan()) {
-                return back()->with('error', 'Gagal: Kode Mata Kuliah wajib diawali huruf atau SKS bernilai negatif!');
+                return back()->with('error', 'Kode Mata Kuliah wajib diawali huruf atau SKS bernilai negatif!');
             }
 
-            $mk->update($request->all());
+            // Update data lewat model mata kuliah
+            $mk->updateMataKuliah($request->all());
 
             return back()->with('success', 'Data mata kuliah berhasil diperbarui!');
 
-        } catch (\Illuminate\Database\QueryException $e) {
+        } catch (QueryException $e) {
             if ($e->getCode() == '23000') {
                 return back()->with('error', 'Mata kuliah sedang berjalan di KRS mahasiswa! Tidak dapat diubah.');
             }
@@ -95,11 +92,12 @@ class DataMataKuliahController extends Controller
         }
     }
 
+    // Menghapus data mata kuliah
     public function hapusMatkul($kode_mk)
     {
         MataKuliah::where('kode_mk', $kode_mk)->delete();
 
-        return back()->with('success', 'Mata kuliah berhasil dihapus!');
+        return back()->with('success', 'Mata kuliah berhasil deleted!');
     }
 }
 

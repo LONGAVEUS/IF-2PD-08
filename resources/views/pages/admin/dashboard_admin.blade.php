@@ -35,6 +35,7 @@
                 class="border-none bg-transparent focus:ring-0 text-sm font-bold text-slate-700 py-1 pl-1 pr-8 cursor-pointer outline-none">
                 <option value="1" {{ $selectedSemester == 1 ? 'selected' : '' }}>Semester 1</option>
                 <option value="2" {{ $selectedSemester == 2 ? 'selected' : '' }}>Semester 2</option>
+                <option value="3" {{ $selectedSemester == 3 ? 'selected' : '' }}>Semester 3</option>
             </select>
         </form>
     </div>
@@ -146,8 +147,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
-                        <p class="text-xs font-semibold text-slate-500">Luar biasa! Semua mahasiswa di semester ini
-                            sudah mengisi KRS.</p>
+                        <p class="text-xs font-semibold text-slate-500">Tidak ada mahasiswa yang belum mengisi KRS.</p>
                     </div>
                     @endif
                 </div>

@@ -27,7 +27,7 @@
 
     @if(session('error'))
     <div class="p-4 text-sm text-red-800 rounded-xl bg-red-50 font-medium border border-red-100 shadow-sm" role="alert">
-        <span class="font-bold"></span> {{ session('error') }}
+        <span class="font-bold">Gagal!</span> {{ session('error') }}
     </div>
     @endif
 
@@ -56,7 +56,7 @@
                     <td class="px-6 py-4 text-gray-700">{{ $mk->dosen->user->name ?? 'NIDN: '.$mk->dosen_nidn }}</td>
                     <td class="px-6 py-4">
                         <div class="flex items-center justify-center gap-2">
-                            {{-- Gunakan kode_mk sebagai parameter --}}
+
                             <button data-modal-target="modalEditMK-{{ $mk->kode_mk }}"
                                 data-modal-toggle="modalEditMK-{{ $mk->kode_mk }}"
                                 class="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center hover:bg-indigo-600 hover:text-white transition-all shadow-sm">

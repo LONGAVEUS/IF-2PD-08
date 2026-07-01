@@ -62,6 +62,56 @@ class User extends Authenticatable
     {
         return $this->hasOne(Admin::class, 'user_id', 'id');
     }
+
+    // Search admin Read
+    public static function searchAdmin($search)
+    {
+        $query = self::where('role', 'admin');
+
+        if ($search) {
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%')
+                ->orWhere('username', 'like', '%' . $search . '%');
+            });
+        }
+
+        return $query;
+
+        }
+
+        // Create Simpan admin
+        public static function simpanAdmin(array $data)
+        {
+            return self::create([
+                'nama'     => $data['name'],
+                'username' => $data['nip'],
+                'password' => $data['password'],
+                'role'     => 'admin',
+                'status'   => $data['status'],
+            ]);
+        }
+
+        // Perbarui Admin update
+        public function updateAdmin(array $data)
+        {
+            $this->update([
+                'nama'     => $data['name'],
+                'username' => $data['nip'],
+                'status'   => $data['status'],
+            ]);
+
+            if (!empty($data['password'])) {
+                $this->update(['password' => $data['password']]);
+            }
+
+            return $this;
+        }
+
+
+
+
+
+
 }
 
 

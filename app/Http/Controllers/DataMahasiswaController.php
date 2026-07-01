@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class DataMahasiswaController extends Controller
@@ -13,25 +12,10 @@ class DataMahasiswaController extends Controller
     {
         $selectedSemester = $request->query('semester');
         $search = $request->query('search');
-
-        $query = User::where('role', 'mahasiswa')->with('mahasiswa');
-
-        if ($selectedSemester) {
-            $query->whereHas('mahasiswa', function($q) use ($selectedSemester) {
-                $q->where('semester_ke', $selectedSemester);
-            });
-        }
-
-        if ($search) {
-            $query->where(function($q) use ($search) {
-                $q->where('name', 'like', '%' . $search . '%')
-                ->orWhereHas('mahasiswa', function($mq) use ($search) {
-                    $mq->where('nim', 'like', '%' . $search . '%');
-                });
-            });
-        }
-
-        $mahasiswa = $query->orderBy('name', 'asc')->paginate(5)->withQueryString();
+        $mahasiswa = Mahasiswa::searchMahasiswa($search, $selectedSemester)
+            ->orderBy('name', 'asc')
+            ->paginate(5)
+            ->withQueryString();
 
         return view('pages.admin.data_mahasiswa', compact('mahasiswa', 'selectedSemester', 'search'));
     }
@@ -48,34 +32,22 @@ class DataMahasiswaController extends Controller
         ]);
 
         if ($validator->fails()) {
-        if ($validator->errors()->has('nim')) {
-            return back()->withInput()->with('error', 'Gagal! NIM mahasiswa sudah terdaftar.');
+
+            if ($validator->errors()->has('nim')) {
+                return back()->withInput()->with('error', 'Gagal! NIM mahasiswa sudah terdaftar.');
+            }
+            return back()->withInput()->withErrors($validator);
         }
 
-        return back()->withInput()->withErrors($validator);
-    }
+        Mahasiswa::simpanMahasiswa($request->all());
 
-        $user = User::create([
-            'name' => $request->name,
-            'username' => $request->nim,
-            'password' => Hash::make($request->password),
-            'role' => 'mahasiswa',
-            'status' => $request->status
-        ]);
-
-        Mahasiswa::create([
-            'user_id' => $user->id,
-            'nim' => $request->nim,
-            'prodi' => $request->prodi,
-            'semester_ke' => $request->semester_ke
-        ]);
-
-        return back()->with('success', 'Mahasiswa berhasil ditambahkan!');
+        return back()->with('success', 'Berhasil! Mahasiswa berhasil ditambahkan!');
     }
 
     public function ubahMahasiswa(Request $request, $id)
     {
         $user = User::findOrFail($id);
+
         $request->validate([
             'nim' => 'required|unique:mahasiswa,nim,' . $user->mahasiswa->user_id . ',user_id|max:15',
             'name' => 'required',
@@ -84,26 +56,21 @@ class DataMahasiswaController extends Controller
             'status' => 'required|in:aktif,tidak_aktif'
         ]);
 
-        $user->update(['name' => $request->name, 'username' => $request->nim, 'status' => $request->status]);
+        $user->mahasiswa->updateMahasiswa($request->all());
 
-        if ($request->password) {
-            $user->update(['password' => Hash::make($request->password)]);
-        }
-
-        $user->mahasiswa->update([
-            'nim' => $request->nim,
-            'prodi' => $request->prodi,
-            'semester_ke' => $request->semester_ke
-        ]);
-
-        return redirect()->route('data_mahasiswa')->with('success', 'Data mahasiswa berhasil diperbarui!');
+        return redirect()->route('data_mahasiswa')->with('success', 'Berhasil! Data mahasiswa berhasil diperbarui!.');
     }
 
     public function hapusMahasiswa($id)
     {
         $user = User::findOrFail($id);
-        if ($user->mahasiswa) { $user->mahasiswa->delete(); }
+
+        // Hapus data profil mahasiswa dulu baru akun user utamanya
+        if ($user->mahasiswa) {
+            $user->mahasiswa->delete();
+        }
         $user->delete();
-        return redirect()->route('data_mahasiswa')->with('success', 'Data mahasiswa berhasil dihapus!');
+
+        return redirect()->route('data_mahasiswa')->with('success', 'Berhasil! Data mahasiswa berhasil dihapus!');
     }
 }

@@ -12,7 +12,7 @@ class KhsMahasiswaController extends Controller
     {
         $user = Auth::user();
         $mahasiswa = $user->mahasiswa;
-        
+
         // Daftar pilihan semester untuk dropdown
         $semesters = [1, 2, 3, 4, 5, 6, 7, 8];
 

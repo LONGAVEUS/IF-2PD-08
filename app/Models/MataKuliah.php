@@ -21,6 +21,48 @@ class MataKuliah extends Model
     {
         return $this->hasMany(Krs::class, 'mk_kode', 'kode_mk');
     }
+
+    // Filter pencarian kode, nama mata kuliah, atau semester
+    public static function searchMataKuliah($search, $selectedSemester)
+    {
+        $query = self::with('dosen.user');
+
+        if ($selectedSemester) {
+            $query->where('semester', $selectedSemester);
+        }
+
+        if ($search) {
+            $query->where(function($q) use ($search) {
+                $q->where('nama_mk', 'like', '%' . $search . '%')
+                ->orWhere('kode_mk', 'like', '%' . $search . '%');
+            });
+        }
+
+        return $query;
+    }
+
+    // Simpan data mata kuliah baru
+    public static function simpanMataKuliah(array $data)
+    {
+        return self::create([
+            'kode_mk' => $data['kode_mk'],
+            'nama_mk' => $data['nama_mk'],
+            'sks' => $data['sks'],
+            'semester' => $data['semester'],
+            'dosen_nidn' => $data['dosen_nidn'],
+        ]);
+    }
+
+    // Update data mata kuliah
+    public function updateMataKuliah(array $data)
+    {
+        return $this->update([
+            'kode_mk' => $data['kode_mk'],
+            'nama_mk' => $data['nama_mk'],
+            'sks' => $data['sks'],
+            'semester' => $data['semester'],
+            'dosen_nidn' => $data['dosen_nidn'],
+        ]);
+    }
+
 }
-
-
