@@ -1,12 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\MataKuliah;
 
 class DosenController extends Controller
 {
+    // Read - dashboard dosen
     public function tampilkan()
     {
         $dosen = Auth::user()->dosen;
@@ -15,49 +15,14 @@ class DosenController extends Controller
             return "Data profil dosen tidak ditemukan.";
         }
 
-        $mataKuliah = MataKuliah::where('dosen_nidn', $dosen->nidn)
-            ->with(['krs.nilai'])
-            ->get()
-            ->map(function($mk) {
-                $totalMhs = $mk->krs->count();
+        $mataKuliah = MataKuliah::dataDashboard($dosen->nidn);
 
+       
+        $statistik = MataKuliah::hitungStatistik($mataKuliah);
 
-                $mhsPunyaNilai = $mk->krs->filter(function($krsItem) {
-                    return isset($krsItem->nilai) &&
-                           !is_null($krsItem->nilai->nilai_huruf) &&
-                           trim($krsItem->nilai->nilai_huruf) !== '';
-                })->count();
-
-                $mk->sudah_input = ($totalMhs > 0 && $totalMhs === $mhsPunyaNilai);
-                $mk->rata_rata = $mk->krs->avg('nilai.bobot') ?? 0;
-
-                return $mk;
-            });
-
-        $jumlahMatkul = $mataKuliah->count();
-
-      
-        $nilaiPending = 0;
-        foreach ($mataKuliah as $mk) {
-            $totalMhs = $mk->krs->count();
-            $mhsPunyaNilai = $mk->krs->filter(function($krsItem) {
-                return isset($krsItem->nilai) &&
-                       !is_null($krsItem->nilai->nilai_huruf) &&
-                       trim($krsItem->nilai->nilai_huruf) !== '';
-            })->count();
-
-            $nilaiPending += ($totalMhs - $mhsPunyaNilai);
-        }
-
-        $totalMahasiswa = $mataKuliah->sum(fn($mk) => $mk->krs->count());
-        $rataRataSemua = $mataKuliah->avg('rata_rata') ?? 0;
-
-        return view('pages.dosen.dashboard_dosen', compact(
-            'mataKuliah',
-            'jumlahMatkul',
-            'nilaiPending',
-            'totalMahasiswa',
-            'rataRataSemua'
+        return view('pages.dosen.dashboard_dosen', array_merge(
+            ['mataKuliah' => $mataKuliah],
+            $statistik
         ));
     }
 }
