@@ -1,6 +1,27 @@
 @extends('layouts.dosen_layout')
 
 @section('content')
+
+@if(session('success'))
+<div id="notifSukses" class="fixed top-5 right-5 z-50 bg-green-50 border-2 border-green-400 text-green-700 px-5 py-4 rounded-xl shadow-lg flex items-center gap-3">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M9 12l2 2 4-4"/>
+    </svg>
+    <span class="text-sm font-medium">{{ session('success') }}</span>
+</div>
+@endif
+
+@if(session('error'))
+<div id="notifError" class="fixed top-5 right-5 z-50 bg-red-50 border-2 border-red-400 text-red-700 px-5 py-4 rounded-xl shadow-lg flex items-center gap-3">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M12 8v4M12 16h.01"/>
+    </svg>
+    <span class="text-sm font-medium">{{ session('error') }}</span>
+</div>
+@endif
+
 <div class="space-y-6">
 
     <div class="flex items-center gap-4 mb-7">
@@ -39,7 +60,7 @@
     </form>
 
     @if($matkulTerpilih && $mahasiswaTerdaftar)
-    <form action="{{ route('simpan_nilai') }}" method="POST" onsubmit="return confirm('Apakah Anda yakin semua nilai angka yang diinput sudah benar? Nilai yang disimpan akan langsung terbit di KHS mahasiswa.')">
+    <form action="{{ route('simpan_nilai') }}" method="POST" onsubmit="return validasiSebelumSubmit()">
         @csrf
         <input type="hidden" name="kode_mk" value="{{ $matkulTerpilih->kode_mk }}">
 
@@ -62,12 +83,12 @@
         <td class="px-5 py-4 font-semibold text-gray-800">{{ $krs->mahasiswa->user->name }}</td>
         <td class="px-5 py-4">
             <input type="hidden" name="krs_id[{{ $index }}]" value="{{ $krs->id_krs }}">
-            <input type="number" name="nilai_angka[{{ $index }}]" min="0" max="100"
+            <input type="number" name="nilai_angka[{{ $index }}]"
                 value=""
                 placeholder="0-100"
                 oninput="recalc(this, {{ $index }})"
-                onkeyup="if(this.value > 100) this.value = 100; if(this.value < 0) this.value = 0;"
                 class="w-24 bg-indigo-50 text-gray-900 border-2 border-indigo-100 rounded-lg px-2 py-1.5 text-center text-sm font-medium focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/20 transition" />
+            <p class="text-xs text-red-500 mt-1 hidden" id="warning-{{ $index }}">Nilai harus 0-100!</p>
         </td>
         <td class="px-5 py-4">
             <span class="text-sm font-bold text-indigo-700" id="huruf-{{ $index }}">
@@ -112,11 +133,40 @@
         if (n >= 40) return "D";
         return "E";
     }
-    
 
     function recalc(input, index) {
-        const huruf = toHuruf(input.value);
-        document.getElementById("huruf-" + index).textContent = huruf;
+        const warning = document.getElementById("warning-" + index);
+        const huruf = document.getElementById("huruf-" + index);
+        const nilai = parseFloat(input.value);
+
+        if (input.value !== "" && (nilai > 100 || nilai < 0)) {
+            warning.classList.remove("hidden");
+            input.classList.add("border-red-500");
+            huruf.textContent = "-";
+        } else {
+            warning.classList.add("hidden");
+            input.classList.remove("border-red-500");
+            huruf.textContent = toHuruf(input.value);
+        }
     }
+
+    function validasiSebelumSubmit() {
+        const inputs = document.querySelectorAll('input[name^="nilai_angka"]');
+        for (let input of inputs) {
+            const nilai = parseFloat(input.value);
+            if (input.value !== "" && (nilai > 100 || nilai < 0)) {
+                alert("Masih ada nilai yang salah (harus 0-100). Cek lagi ya!");
+                return false;
+            }
+        }
+        return confirm('Apakah Anda yakin semua nilai angka yang diinput sudah benar? Nilai yang disimpan akan langsung terbit di KHS mahasiswa.');
+    }
+
+    setTimeout(() => {
+        const sukses = document.getElementById('notifSukses');
+        const error = document.getElementById('notifError');
+        if (sukses) sukses.style.display = 'none';
+        if (error) error.style.display = 'none';
+    }, 3000);
 </script>
 @endsection
