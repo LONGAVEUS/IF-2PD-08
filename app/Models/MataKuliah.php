@@ -22,6 +22,10 @@ class MataKuliah extends Model
         return $this->hasMany(Krs::class, 'mk_kode', 'kode_mk');
     }
 
+
+    // FUNGSI UNTUK ADMIN || DATA MATAKULIAH
+
+
     // Filter pencarian kode, nama mata kuliah, atau semester
     public static function searchMataKuliah($search, $selectedSemester)
     {
@@ -63,6 +67,69 @@ class MataKuliah extends Model
             'semester' => $data['semester'],
             'dosen_nidn' => $data['dosen_nidn'],
         ]);
+    }
+
+
+    // FUNGSI UNTUK DOSEN || DASHBOARD & NILAI
+
+    // Mengambil kueri data dashboard dosen
+    public static function dataDashboard($nidn)
+    {
+        return self::where('dosen_nidn', $nidn)
+            ->with(['krs.nilai'])
+            ->get()
+            ->map(function($mk) {
+                $totalMhs = $mk->krs->count();
+
+                $mhsPunyaNilai = $mk->krs->filter(function($krsItem) {
+                    return isset($krsItem->nilai) &&
+                           !is_null($krsItem->nilai->nilai_huruf) &&
+                           trim($krsItem->nilai->nilai_huruf) !== '';
+                })->count();
+
+                $mk->sudah_input = ($totalMhs > 0 && $totalMhs === $mhsPunyaNilai);
+                $mk->rata_rata = $mk->krs->avg('nilai.bobot') ?? 0;
+
+                return $mk;
+            });
+    }
+
+    // Menghitung statistik dashboard dosen
+    public static function hitungStatistik($mataKuliah)
+    {
+        $jumlahMatkul = $mataKuliah->count();
+        $nilaiPending = 0;
+
+        foreach ($mataKuliah as $mk) {
+            $totalMhs = $mk->krs->count();
+            $mhsPunyaNilai = $mk->krs->filter(function($krsItem) {
+                return isset($krsItem->nilai) &&
+                       !is_null($krsItem->nilai->nilai_huruf) &&
+                       trim($krsItem->nilai->nilai_huruf) !== '';
+            })->count();
+
+            $nilaiPending += ($totalMhs - $mhsPunyaNilai);
+        }
+
+        return [
+            'jumlahMatkul' => $jumlahMatkul,
+            'nilaiPending' => $nilaiPending,
+            'totalMahasiswa' => $mataKuliah->sum(fn($mk) => $mk->krs->count()),
+            'rataRataSemua' => $mataKuliah->avg('rata_rata') ?? 0,
+        ];
+    }
+
+    // Mengambil kueri data mahasiswa terdaftar
+    public static function mhsTerdaftar($kode_mk, $selectedSemester)
+    {
+        $mahasiswaQuery = Krs::with(['mahasiswa.user', 'nilai'])
+            ->where('mk_kode', $kode_mk);
+
+        if ($selectedSemester) {
+            $mahasiswaQuery->where('semester', $selectedSemester);
+        }
+
+        return $mahasiswaQuery->get();
     }
 
 }
