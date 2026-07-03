@@ -88,7 +88,7 @@
                         @csrf
                         @method('PUT')
 
-                        {{--  Kode MK dan SKS Berdampingan --}}
+                        {{-- 1. Kode MK dan SKS (Paling Atas) --}}
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block mb-1.5 text-[11px] font-bold text-indigo-900 uppercase">Kode
@@ -103,15 +103,7 @@
                             </div>
                         </div>
 
-
-                        <div class="mt-5">
-                            <label class="block mb-1.5 text-[11px] font-bold text-indigo-900 uppercase">Nama Mata
-                                Kuliah:</label>
-                            <input type="text" name="nama_mk" value="{{ $mk->nama_mk }}" required
-                                class="w-full border border-gray-200 bg-white rounded-xl p-3 text-sm outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition">
-                        </div>
-
-                        {{-- Semester dan Dosen Pengampu  --}}
+                        {{-- 2. Semester dan Dosen Pengampu  --}}
                         <div class="grid grid-cols-2 gap-4 mt-5">
                             <div>
                                 <label
@@ -138,9 +130,16 @@
                             </div>
                         </div>
 
-                        {{-- Tombol Aksi Simpan  --}}
+                        <div class="mt-5 mb-5">
+                            <label class="block mb-1.5 text-[11px] font-bold text-indigo-900 uppercase">Nama Mata
+                                Kuliah:</label>
+                            <input type="text" name="nama_mk" value="{{ $mk->nama_mk }}" required
+                                class="w-full border border-gray-200 bg-white rounded-xl p-3 text-sm outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition">
+                        </div>
+
+                        {{-- 4. Tombol Aksi Simpan --}}
                         <button type="submit"
-                            class="w-full mt-6 bg-indigo-600 text-white font-bold py-3.5 rounded-2xl shadow-lg active:scale-95 hover:bg-indigo-700 transition-all">
+                            class="w-full bg-indigo-600 text-white font-bold py-3.5 rounded-2xl shadow-lg active:scale-95 hover:bg-indigo-700 transition-all">
                             Simpan Perubahan
                         </button>
                     </form>

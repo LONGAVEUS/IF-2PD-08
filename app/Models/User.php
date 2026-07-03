@@ -12,11 +12,7 @@ class User extends Authenticatable
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
+    // Kolom yang boleh diisi massal
     protected $fillable = [
         'username',
         'name',
@@ -25,21 +21,13 @@ class User extends Authenticatable
         'status',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
+    // Kolom yang disembunyikan
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
+    // Cast tipe data otomatis (Bikin password otomatis di-hash)
     protected function casts(): array
     {
         return [
@@ -48,70 +36,21 @@ class User extends Authenticatable
         ];
     }
 
+    // Relasi ke model Mahasiswa
     public function mahasiswa()
     {
         return $this->hasOne(Mahasiswa::class, 'user_id', 'id');
     }
 
+    // Relasi ke model Dosen
     public function dosen()
     {
         return $this->hasOne(Dosen::class, 'user_id', 'id');
     }
 
+    // Relasi ke model Admin
     public function admin()
     {
         return $this->hasOne(Admin::class, 'user_id', 'id');
     }
-
-    // Search admin Read
-    public static function searchAdmin($search)
-    {
-        $query = self::where('role', 'admin');
-
-        if ($search) {
-            $query->where(function($q) use ($search) {
-                $q->where('name', 'like', '%' . $search . '%')
-                ->orWhere('username', 'like', '%' . $search . '%');
-            });
-        }
-
-        return $query;
-
-        }
-
-        // Create Simpan admin
-        public static function simpanAdmin(array $data)
-        {
-            return self::create([
-                'nama'     => $data['name'],
-                'username' => $data['nip'],
-                'password' => $data['password'],
-                'role'     => 'admin',
-                'status'   => $data['status'],
-            ]);
-        }
-
-        // Perbarui Admin update
-        public function updateAdmin(array $data)
-        {
-            $this->update([
-                'nama'     => $data['name'],
-                'username' => $data['nip'],
-                'status'   => $data['status'],
-            ]);
-
-            if (!empty($data['password'])) {
-                $this->update(['password' => $data['password']]);
-            }
-
-            return $this;
-        }
-
-
-
-
-
-
 }
-
-

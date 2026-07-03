@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 
 class DataMahasiswaController extends Controller
 {
+    // Read - menampilkan daftar mahasiswa
     public function tampilMahasiswa(Request $request)
     {
         $selectedSemester = $request->query('semester');
@@ -20,6 +21,7 @@ class DataMahasiswaController extends Controller
         return view('pages.admin.data_mahasiswa', compact('mahasiswa', 'selectedSemester', 'search'));
     }
 
+    // Create - Menambahkan mahasiswa baru
     public function tambahMahasiswa(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -41,9 +43,10 @@ class DataMahasiswaController extends Controller
 
         Mahasiswa::simpanMahasiswa($request->all());
 
-        return back()->with('success', 'Berhasil! Mahasiswa berhasil ditambahkan!');
+        return back()->with('success', 'Mahasiswa berhasil ditambahkan!');
     }
 
+    // Update - Mengubah data mahasiswa
     public function ubahMahasiswa(Request $request, $id)
     {
         $user = User::findOrFail($id);
@@ -58,9 +61,10 @@ class DataMahasiswaController extends Controller
 
         $user->mahasiswa->updateMahasiswa($request->all());
 
-        return redirect()->route('data_mahasiswa')->with('success', 'Berhasil! Data mahasiswa berhasil diperbarui!.');
+        return redirect()->route('data_mahasiswa')->with('success', 'Data mahasiswa berhasil diperbarui!.');
     }
 
+    // Delete - Menghapus data mahasiswa
     public function hapusMahasiswa($id)
     {
         $user = User::findOrFail($id);
@@ -71,6 +75,6 @@ class DataMahasiswaController extends Controller
         }
         $user->delete();
 
-        return redirect()->route('data_mahasiswa')->with('success', 'Berhasil! Data mahasiswa berhasil dihapus!');
+        return redirect()->route('data_mahasiswa')->with('success', 'Data mahasiswa berhasil dihapus!');
     }
 }

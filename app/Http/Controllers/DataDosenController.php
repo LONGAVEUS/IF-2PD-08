@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 
 class DataDosenController extends Controller
 {
+    // Read - menampilkan daftar dosen
     public function tampilDosen(Request $request)
     {
         $search = $request->query('search');
@@ -17,6 +18,7 @@ class DataDosenController extends Controller
         return view('pages.admin.data_dosen', compact('dosen', 'search'));
     }
 
+    // Create - Menambahkan dosen baru
     public function tambahDosen(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -41,6 +43,7 @@ class DataDosenController extends Controller
         return back()->with('success', 'Dosen berhasil ditambahkan!');
     }
 
+    // Update - Mengubah data dosen
     public function ubahDosen(Request $request, $id)
     {
         $user = User::findOrFail($id);
@@ -56,6 +59,7 @@ class DataDosenController extends Controller
         return redirect()->route('data_dosen')->with('success', 'Data dosen berhasil diperbarui!');
     }
 
+    // Delete - Menghapus data dosen
     public function hapusDosen($id)
     {
         $user = User::findOrFail($id);

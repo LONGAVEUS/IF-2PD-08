@@ -2,59 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Mahasiswa;
-use App\Models\MataKuliah;
+use App\Models\Admin;
 use Illuminate\Http\Request;
-use App\Models\Krs;
 
 class DashboardController extends Controller
 {
+    // Read - menampilkan halaman dashboard utama admin
     public function dashboardAdmin(Request $request)
     {
-
         $selectedSemester = $request->query('semester', 1);
 
+        // Ambil seluruh data ringkasan dashboard lewat model Admin
+        $data = Admin::dataDashboard($selectedSemester);
 
-        $totalMahasiswa = Mahasiswa::where('semester_ke', $selectedSemester)->count();
-
-        $totalDosen = MataKuliah::where('semester', $selectedSemester)
-                                ->distinct('dosen_nidn')
-                                ->count();
-
-
-        $totalMatkulCount = MataKuliah::where('semester', $selectedSemester)->count();
-
-
-        $mataKuliahAktif = MataKuliah::where('semester', $selectedSemester)
-                                    ->with(['dosen.user'])
-                                    ->orderBy('kode_mk', 'asc')
-                                    ->paginate(5)
-                                    ->withQueryString();
-
-        $semuaMhsSemesterIni = Mahasiswa::where('semester_ke', $selectedSemester)->get();
-
-        $mahasiswaBelumKrs = [];
-
-        foreach ($semuaMhsSemesterIni as $mhs) {
-            $sudahIsiKrs = Krs::where('mahasiswa_nim', $mhs->nim)
-                            ->where('semester', $selectedSemester)
-                            ->exists();
-
-            if (!$sudahIsiKrs) {
-                $mahasiswaBelumKrs[] = $mhs;
-            }
-        }
-
-        $jumlahBelumKrs = count($mahasiswaBelumKrs);
-
-        return view('pages.admin.dashboard_admin', compact(
-            'totalMahasiswa',
-            'totalDosen',
-            'totalMatkulCount',
-            'mataKuliahAktif',
-            'selectedSemester',
-            'mahasiswaBelumKrs',
-            'jumlahBelumKrs'
+        return view('pages.admin.dashboard_admin', array_merge(
+            ['selectedSemester' => $selectedSemester],
+            $data
         ));
     }
 }
