@@ -19,6 +19,9 @@ class DosenController extends Controller
         $mataKuliah = MataKuliah::dataDashboard($dosen->nidn);
 
         // Menghitung statistik ringkasan lewat model
+        $mataKuliah = MataKuliah::dataDashboard($dosen->nidn);
+
+
         $statistik = MataKuliah::hitungStatistik($mataKuliah);
 
         return view('pages.dosen.dashboard_dosen', array_merge(

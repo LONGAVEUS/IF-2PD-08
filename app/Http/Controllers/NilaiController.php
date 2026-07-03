@@ -30,6 +30,7 @@ class NilaiController extends Controller
 
             if ($matkulTerpilih) {
                 // Mengambil daftar mahasiswa lewat model matakuliah
+
                 $mahasiswaTerdaftar = MataKuliah::mhsTerdaftar($kode_mk, $selectedSemester);
             }
         }
@@ -56,6 +57,7 @@ class NilaiController extends Controller
         }
 
         // Memproses simpan data massal lewat model nilai
+
         Nilai::simpanBanyakNilai($request->krs_id, $request->nilai_angka);
 
         return redirect()->back()->with('success', 'Nilai berhasil disimpan!');
