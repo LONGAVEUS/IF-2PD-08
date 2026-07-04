@@ -8,7 +8,7 @@ class Nilai extends Model
 {
     protected $table = 'nilai';
     protected $primaryKey = 'id_nilai';
-    protected $fillable = ['krs_id', 'nilai_huruf', 'bobot'];
+    protected $fillable = ['krs_id', 'nilai_angka', 'nilai_huruf', 'bobot'];
 
     public function krs()
     {
@@ -29,6 +29,7 @@ class Nilai extends Model
             self::updateOrCreate(
                 ['krs_id' => $krsId],
                 [
+                    'nilai_angka' => $angka,
                     'nilai_huruf' => $hasilGrading['huruf'],
                     'bobot' => $hasilGrading['bobot']
                 ]
