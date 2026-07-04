@@ -84,7 +84,7 @@
         <td class="px-5 py-4">
             <input type="hidden" name="krs_id[{{ $index }}]" value="{{ $krs->id_krs }}">
             <input type="number" name="nilai_angka[{{ $index }}]"
-                value=""
+                value="{{ $krs->nilai->nilai_angka ?? '' }}"
                 placeholder="0-100"
                 oninput="recalc(this, {{ $index }})"
                 class="w-24 bg-indigo-50 text-gray-900 border-2 border-indigo-100 rounded-lg px-2 py-1.5 text-center text-sm font-medium focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/20 transition" />
