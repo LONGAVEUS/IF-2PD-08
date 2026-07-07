@@ -57,10 +57,11 @@ Berdasarkan matriks skenario pengujian aplikasi, berikut adalah daftar kebutuhan
 
 ---
 
-## 🛠️ Prasyarat Instalasi (Tech Stack)
+## 🛠️ Prasyarat Instalasi
 
 Untuk menjalankan proyek ini di komputer lokal Anda, pastikan telah memasang dependensi berikut:
 * PHP >= 8.2 (Disarankan lokasi folder murni lokal/bukan di bawah sinkronisasi service cloud)
 * Composer >= 2.x
 * MySQL / MariaDB Server
 * Web Browser (Chrome / Edge / Firefox)
+* Gunakan SQL yang sudah di sediakan (db_krs) untuk import tabel dan data 
