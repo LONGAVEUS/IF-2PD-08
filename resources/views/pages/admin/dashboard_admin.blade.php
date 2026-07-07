@@ -40,7 +40,7 @@
         </form>
     </div>
 
-    {{-- STAT CARDS  --}}
+    {{-- ══ TOP SECTION  ══ --}}
     <div class="grid grid-cols-3 gap-2 md:gap-6">
         {{-- Total Mahasiswa --}}
         <div class="bg-white border-2 border-indigo-50 rounded-xl p-3 md:p-6 shadow-sm">
@@ -109,14 +109,13 @@
         {{-- Menu Pengelolaan --}}
         <div class="lg:col-span-5 space-y-6">
             <div class="bg-white border-2 border-indigo-50 rounded-2xl shadow-sm overflow-hidden h-fit">
-                {{-- Bagian Header Kotak --}}
+                {{-- Header Kotak --}}
                 <div class="p-6 border-b border-indigo-50 bg-amber-50/30 flex justify-between items-center">
                     <div>
                         <h2 class="text-lg font-bold text-slate-800">Perhatian Akademik</h2>
                         <p class="text-xs text-slate-500 mt-1">Mahasiswa belum mengisi KRS di Semester
                             {{ $selectedSemester }}</p>
                     </div>
-                    {{-- Badge Angka Berwarna Peringatan --}}
                     <span
                         class="text-xs font-extrabold bg-amber-100 text-amber-800 px-2.5 py-1 rounded-full animate-pulse">
                         {{ $jumlahBelumKrs }} Peringatan
@@ -133,7 +132,6 @@
                             <p class="text-[11px] font-medium text-slate-400 mt-0.5">NIM: {{ $mhs->nim }} · Prodi:
                                 {{ $mhs->prodi }}</p>
                         </div>
-                        {{-- Tombol Tindakan Langsung Menuju Halaman Kelola --}}
                         <a href="{{ route('data_mahasiswa') }}?search={{ $mhs->nim }}"
                             class="text-[11px] font-bold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-2.5 py-1.5 rounded-lg transition">
                             Hubungi

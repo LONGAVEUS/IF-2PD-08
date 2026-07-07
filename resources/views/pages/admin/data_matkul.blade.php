@@ -150,33 +150,33 @@
     </div>
     <div class="mt-5">
         {{ $matkul->links('components.pagination') }}
+
     </div>
-
-
+    {{-- Modal Tambah MK --}}
     <x-modal id="modalTambahMatkul" title="Tambah Mata Kuliah">
         <form action="{{ route('matkul.store') }}" method="POST" class="p-1 space-y-4">
             @csrf
+
+            {{--  MK & SKS  --}}
             <div class="grid grid-cols-2 gap-4">
                 <div>
                     <label class="block mb-1.5 text-[11px] font-bold text-indigo-900 uppercase">Kode MK:</label>
                     <input type="text" name="kode_mk" placeholder="Contoh: IF101" required
-                        class="w-full border border-gray-200 rounded-xl p-3 text-sm">
+                        class="w-full border border-gray-200 rounded-xl p-3 text-sm outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition">
                 </div>
                 <div>
                     <label class="block mb-1.5 text-[11px] font-bold text-indigo-900 uppercase">SKS:</label>
                     <input type="number" name="sks" placeholder="Jml SKS" required
-                        class="w-full border border-gray-200 rounded-xl p-3 text-sm">
+                        class="w-full border border-gray-200 rounded-xl p-3 text-sm outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition">
                 </div>
             </div>
-            <div>
-                <label class="block mb-1.5 text-[11px] font-bold text-indigo-900 uppercase">Nama Mata Kuliah:</label>
-                <input type="text" name="nama_mk" placeholder="Masukkan Nama Mata Kuliah" required
-                    class="w-full border border-gray-200 rounded-xl p-3 text-sm">
-            </div>
+
+            {{-- 2. SEMESTER & DOSEN PENGAMPU (DINAIKKAN KE TENGAH) --}}
             <div class="grid grid-cols-2 gap-4">
                 <div>
                     <label class="block mb-1.5 text-[11px] font-bold text-indigo-900 uppercase">Semester:</label>
-                    <select name="semester" class="w-full border border-gray-200 rounded-xl p-3 text-sm">
+                    <select name="semester"
+                        class="w-full border border-gray-200 rounded-xl p-3 text-sm outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition text-gray-700">
                         @for($i=1; $i<=8; $i++) <option value="{{ $i }}">Semester {{ $i }}</option>
                             @endfor
                     </select>
@@ -184,7 +184,7 @@
                 <div>
                     <label class="block mb-1.5 text-[11px] font-bold text-indigo-900 uppercase">Dosen Pengampu:</label>
                     <select name="dosen_nidn" required
-                        class="w-full border border-gray-200 rounded-xl p-3 text-sm font-bold text-indigo-600">
+                        class="w-full border border-gray-200 rounded-xl p-3 text-sm font-bold text-indigo-600 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition">
                         <option value="">Pilih Dosen</option>
                         @foreach($allDosen as $d)
                         <option value="{{ $d->dosen->nidn ?? $d->username }}">{{ $d->name }}</option>
@@ -192,8 +192,17 @@
                     </select>
                 </div>
             </div>
+
+            {{-- 3. NAMA MATA KULIAH --}}
+            <div>
+                <label class="block mb-1.5 text-[11px] font-bold text-indigo-900 uppercase">Nama Mata Kuliah:</label>
+                <input type="text" name="nama_mk" placeholder="Masukkan Nama Mata Kuliah" required
+                    class="w-full border border-gray-200 rounded-xl p-3 text-sm outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition">
+            </div>
+
+            {{-- 4. TOMBOL SIMPAN --}}
             <button type="submit"
-                class="w-full bg-indigo-600 text-white font-bold py-3.5 rounded-2xl shadow-lg active:scale-95 transition-all">
+                class="w-full bg-indigo-600 text-white font-bold py-3.5 rounded-2xl shadow-lg active:scale-95 hover:bg-indigo-700 transition-all">
                 Simpan Mata Kuliah
             </button>
         </form>
