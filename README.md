@@ -1,5 +1,5 @@
 
-# Proyek Sistem Informasi Pengelolaan KRS dan KHS (IF-2PD-08)
+# Sistem Informasi Pengelolaan KRS dan KHS (IF-2PD-08)
 
 <!-- Badges untuk mempercantik tampilan GitHub -->
 ![Laravel](https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
@@ -7,7 +7,7 @@
 ![MySQL](https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white)
 
 ---
-<center><img width="1587" height="2245" alt="Teal Light Blue Modern Professional Academic Research Poster" src="https://github.com/user-attachments/assets/afe51104-fce5-42c9-8129-7de58c763d57" />
+<center><img width="550" alt="Teal Light Blue Modern Professional Academic Research Poster" src="https://github.com/user-attachments/assets/afe51104-fce5-42c9-8129-7de58c763d57" /></center>
 ## 📌 Mengenal Sistem KRS & KHS
 
 Sistem Informasi Pengelolaan Rencana Studi (KRS) dan Kartu Hasil Studi (KHS) merupakan platform berbasis web yang dirancang untuk mendigitalisasi, mempercepat, dan mengamankan siklus akademik mahasiswa setiap semesternya. 
