@@ -56,7 +56,7 @@ Berdasarkan matriks skenario pengujian aplikasi, berikut adalah daftar kebutuhan
 ### 4. Modul Evaluasi Akademik (Sisi Dosen)
 | ID | Komponen | Deskripsi Fitur / Skenario Pengujian |
 | :--- | :--- | :--- |
-| **FR-09** | **Dashboard Dosen** | Dosen dapat masuk ke halaman utama yang menyajikan daftar kelas mahasiswa terdaftar. |
+| **FR-09** | **Dashboard Dosen** | Dosen dapat masuk ke halaman utama yang menyajikan daftar mahasiswa. |
 | **FR-10** | **Input & Update Nilai** | Dosen memilih mata kuliah untuk melihat list mahasiswa, serta dapat memfilter berdasarkan semester. Dosen menginput `nilai_angka` (skala 0-100) yang otomatis mengonversi `nilai_huruf` dan `bobot` secara instan pada KHS mahasiswa. Sistem otomatis membatasi input di luar jangkauan 0-100. |
 
 ---
