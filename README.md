@@ -1,59 +1,71 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
+# Sistem Informasi Pengelolaan KRS dan KHS (IF-2PD-08)
+
+<!-- Badges untuk mempercantik tampilan GitHub -->
+![Laravel](https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white)
+
+---
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <img width="550" alt="Teal Light Blue Modern Professional Academic Research Poster" src="https://github.com/user-attachments/assets/afe51104-fce5-42c9-8129-7de58c763d57" />
 </p>
 
-## About Laravel
+## 📌 Mengenal Sistem KRS & KHS
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Sistem Informasi Pengelolaan Rencana Studi (KRS) dan Kartu Hasil Studi (KHS) merupakan platform berbasis web yang dirancang untuk mendigitalisasi, mempercepat, dan mengamankan siklus akademik mahasiswa setiap semesternya. 
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Aplikasi ini dibangun menggunakan framework **Laravel** dengan arsitektur **MVC (Model-View-Controller)** serta menerapkan pilar-pilar penting **Object-Oriented Programming (OOP)** seperti *Abstraction*, *Inheritance*, dan *Encapsulation* untuk memisahkan logika bisnis database dari lapisan antarmuka. Sistem ini memastikan pengelolaan kuota SKS, pembagian kelas dosen pengampu, hingga otomatisasi konversi nilai huruf berjalan secara *real-time* tanpa perlu manipulasi data manual di database server.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 👥 Pengguna Aplikasi (User Roles)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Sistem ini membagi hak akses ke dalam 3 jenis pengguna dengan batas fungsionalitas yang terenkapsulasi secara ketat:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+* **Administrator (Admin):** Bertindak sebagai pengelola data master pengguna (Mahasiswa, Dosen, Admin) serta konfigurasi kurikulum mata kuliah.
+* **Mahasiswa (Student):** Bertindak sebagai pengguna yang menyusun mata kuliah pilihan, mengunci KRS, dan memantau lembar perkembangan nilai akademik (KHS).
+* **Dosen (Lecturer):** Bertindak sebagai evaluator akademik yang memantau daftar mahasiswa terdaftar dan menginputkan evaluasi nilai akhir mata kuliah.
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 📋 Kebutuhan Fungsional Sistem (Functional Requirements)
 
-### Premium Partners
+Berdasarkan matriks skenario pengujian aplikasi, berikut adalah daftar kebutuhan fungsional yang diimplementasikan ke dalam sistem:
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### 1. Hak Akses Global & Autentikasi
+| ID | Komponen | Deskripsi Fitur / Skenario Pengujian |
+| :--- | :--- | :--- |
+| **FR-01** | **Autentikasi Multi-User** | Sistem mendukung proses masuk log (Login) bagi Admin, Dosen, dan Mahasiswa. Menyediakan penolakan eror jika password salah atau status akun tidak aktif. |
 
-## Contributing
+### 2. Manajemen Data Master (Sisi Administrator)
+| ID | Komponen | Deskripsi Fitur / Skenario Pengujian |
+| :--- | :--- | :--- |
+| **FR-02** | **Kelola Data Mata Kuliah** | Admin dapat menambah mata kuliah baru (Kode MK, SKS, Nama, Semester, Dosen Pengampu). Sistem menolak kode MK duplikat, serta mendukung fitur edit dan hapus data. |
+| **FR-03** | **Kelola Data Mahasiswa** | Admin dapat mendaftarkan mahasiswa baru (NIM, Nama, Prodi, Semester, Status). Sistem menolak NIM duplikat, serta mendukung manipulasi update data dan hapus dari sistem. |
+| **FR-04** | **Kelola Data Dosen** | Admin dapat mendaftarkan dosen baru (NIDN/NIP, Nama, Prodi, Status). Sistem menolak NIDN duplikat, serta mendukung perubahan profil data dan hapus data dosen. |
+| **FR-05** | **Kelola Data Admin** | Admin dapat menambah akun admin operasional baru (NIP, Nama, Status). Sistem mendeteksi NIP duplikat, mendukung edit nama/password, serta penghapusan akun admin. |
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 3. Modul Pengisian Rencana Studi (Sisi Mahasiswa)
+| ID | Komponen | Deskripsi Fitur / Skenario Pengujian |
+| :--- | :--- | :--- |
+| **FR-06** | **Dashboard Mahasiswa** | Sistem menampilkan halaman Dashboard Mahasiswa setelah proses autentikasi berhasil. |
+| **FR-07** | **Isi KRS (Course Registration)** | Mahasiswa dapat menambah mata kuliah pilihan ke rencana studi. Sistem memberikan peringatan jika melebihi batas 24 SKS atau KRS kosong. Mendukung hapus pilihan (pembatalan) serta konfirmasi simpan KRS. |
+| **FR-08** | **Lihat KHS (View Transcript)** | Mahasiswa dapat mengakses lembar KHS untuk melihat hasil studi akhir yang telah diterbitkan setelah KRS disimpan. |
 
-## Code of Conduct
+### 4. Modul Evaluasi Akademik (Sisi Dosen)
+| ID | Komponen | Deskripsi Fitur / Skenario Pengujian |
+| :--- | :--- | :--- |
+| **FR-09** | **Dashboard Dosen** | Dosen dapat masuk ke halaman utama yang menyajikan daftar kelas mahasiswa terdaftar. |
+| **FR-10** | **Input & Update Nilai** | Dosen memilih mata kuliah untuk melihat list mahasiswa, serta dapat memfilter berdasarkan semester. Dosen menginput `nilai_angka` (skala 0-100) yang otomatis mengonversi `nilai_huruf` dan `bobot` secara instan pada KHS mahasiswa. Sistem otomatis membatasi input di luar jangkauan 0-100. |
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+## 🛠️ Prasyarat Instalasi
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Untuk menjalankan proyek ini di komputer lokal Anda, pastikan telah memasang dependensi berikut:
+* PHP >= 8.2 (Disarankan lokasi folder murni lokal/bukan di bawah sinkronisasi service cloud)
+* Composer >= 2.x
+* MySQL / MariaDB Server
+* Web Browser (Chrome / Edge / Firefox)
+* Gunakan SQL yang sudah di sediakan (db_krs) untuk import tabel dan data 
