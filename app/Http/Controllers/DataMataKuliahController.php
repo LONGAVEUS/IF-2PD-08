@@ -97,7 +97,7 @@ class DataMataKuliahController extends Controller
     {
         MataKuliah::where('kode_mk', $kode_mk)->delete();
 
-        return back()->with('success', 'Mata kuliah berhasil deleted!');
+        return back()->with('success', 'Mata kuliah berhasil dihapus!');
     }
 }
 

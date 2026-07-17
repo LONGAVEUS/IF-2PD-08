@@ -9,7 +9,7 @@ use App\Models\Nilai;
 
 class NilaiController extends Controller
 {
-    // Read - Menampilkan halaman input nilai mahasiswa
+    // Create - Menampilkan halaman input nilai mahasiswa
     public function inputNilai(Request $request, $kode_mk = null)
     {
         $dosen = Auth::user()->dosen;
